@@ -1,0 +1,222 @@
+StartFontMetrics 4.1
+Notice Converted by PHP-font-lib
+Comment https://github.com/PhenX/php-font-lib
+EncodingScheme FontSpecific
+FontName dripicons-v2
+FontSubfamily v2
+UniqueID FontForge 2.0 : dripicons-v2 : 20-3-2016
+FullName dripicons-v2
+Version Version 1.0
+PostScriptName dripicons-v2
+Weight Medium
+ItalicAngle 0
+IsFixedPitch true
+UnderlineThickness 0
+UnderlinePosition 0
+FontHeightOffset 90
+Ascender 1002
+Descender -2
+FontBBox -2 -2 1002 1002
+StartCharMetrics 203
+U 33 ; WX 1000 ; N crosshair ; G 65
+U 34 ; WX 1000 ; N cutlery ; G 66
+U 35 ; WX 1000 ; N device-desktop ; G 67
+U 36 ; WX 1000 ; N device-mobile ; G 68
+U 37 ; WX 1000 ; N device-tablet ; G 69
+U 38 ; WX 1000 ; N direction ; G 70
+U 39 ; WX 1000 ; N disc ; G 71
+U 40 ; WX 1000 ; N document ; G 72
+U 41 ; WX 1000 ; N document-delete ; G 73
+U 42 ; WX 1000 ; N document-edit ; G 74
+U 43 ; WX 1000 ; N document-new ; G 75
+U 44 ; WX 1000 ; N document-remove ; G 76
+U 45 ; WX 1000 ; N dot ; G 77
+U 46 ; WX 1000 ; N dots-2 ; G 78
+U 47 ; WX 1000 ; N dots-3 ; G 79
+U 48 ; WX 1000 ; N cloud ; G 55
+U 49 ; WX 1000 ; N cloud-download ; G 56
+U 50 ; WX 1000 ; N cloud-upload ; G 57
+U 51 ; WX 1000 ; N code ; G 58
+U 52 ; WX 1000 ; N contract ; G 59
+U 53 ; WX 1000 ; N contract-2 ; G 60
+U 54 ; WX 1000 ; N conversation ; G 61
+U 55 ; WX 1000 ; N copy ; G 62
+U 56 ; WX 1000 ; N crop ; G 63
+U 57 ; WX 1000 ; N cross ; G 64
+U 58 ; WX 1000 ; N download ; G 80
+U 59 ; WX 1000 ; N duplicate ; G 81
+U 60 ; WX 1000 ; N enter ; G 82
+U 61 ; WX 1000 ; N exit ; G 83
+U 62 ; WX 1000 ; N expand ; G 84
+U 63 ; WX 1000 ; N expand-2 ; G 85
+U 64 ; WX 1000 ; N experiment ; G 86
+U 65 ; WX 1000 ; N bold ; G 29
+U 66 ; WX 1000 ; N bookmark ; G 30
+U 67 ; WX 1000 ; N bookmarks ; G 31
+U 68 ; WX 1000 ; N box ; G 32
+U 69 ; WX 1000 ; N briefcase ; G 33
+U 70 ; WX 1000 ; N brightness-low ; G 34
+U 71 ; WX 1000 ; N brightness-max ; G 35
+U 72 ; WX 1000 ; N brightness-medium ; G 36
+U 73 ; WX 1000 ; N broadcast ; G 37
+U 74 ; WX 1000 ; N browser ; G 38
+U 75 ; WX 1000 ; N browser-upload ; G 39
+U 76 ; WX 1000 ; N brush ; G 40
+U 77 ; WX 1000 ; N calendar ; G 41
+U 78 ; WX 1000 ; N camcorder ; G 42
+U 79 ; WX 1000 ; N camera ; G 43
+U 80 ; WX 1000 ; N card ; G 44
+U 81 ; WX 1000 ; N cart ; G 45
+U 82 ; WX 1000 ; N checklist ; G 46
+U 83 ; WX 1000 ; N checkmark ; G 47
+U 84 ; WX 1000 ; N chevron-down ; G 48
+U 85 ; WX 1000 ; N chevron-left ; G 49
+U 86 ; WX 1000 ; N chevron-right ; G 50
+U 87 ; WX 1000 ; N chevron-up ; G 51
+U 88 ; WX 1000 ; N clipboard ; G 52
+U 89 ; WX 1000 ; N clock ; G 53
+U 90 ; WX 1000 ; N clockwise ; G 54
+U 91 ; WX 1000 ; N export ; G 87
+U 92 ; WX 1000 ; N graduation ; G 96
+U 93 ; WX 1000 ; N feed ; G 88
+U 94 ; WX 1000 ; N flag ; G 89
+U 95 ; WX 1000 ; N flashlight ; G 90
+U 96 ; WX 1000 ; N folder ; G 91
+U 97 ; WX 1000 ; N alarm ; G 3
+U 98 ; WX 1000 ; N align-center ; G 4
+U 99 ; WX 1000 ; N align-justify ; G 5
+U 100 ; WX 1000 ; N align-left ; G 6
+U 101 ; WX 1000 ; N align-right ; G 7
+U 102 ; WX 1000 ; N anchor ; G 8
+U 103 ; WX 1000 ; N archive ; G 9
+U 104 ; WX 1000 ; N arrow-down ; G 10
+U 105 ; WX 1000 ; N arrow-left ; G 11
+U 106 ; WX 1000 ; N arrow-right ; G 12
+U 107 ; WX 1000 ; N arrow-thin-down ; G 13
+U 108 ; WX 1000 ; N arrow-thin-left ; G 14
+U 109 ; WX 1000 ; N arrow-thin-right ; G 15
+U 110 ; WX 1000 ; N arrow-thin-up ; G 16
+U 111 ; WX 1000 ; N arrow-up ; G 17
+U 112 ; WX 1000 ; N article ; G 18
+U 113 ; WX 1000 ; N backspace ; G 19
+U 114 ; WX 1000 ; N basket ; G 20
+U 115 ; WX 1000 ; N basketball ; G 21
+U 116 ; WX 1000 ; N battery-empty ; G 22
+U 117 ; WX 1000 ; N battery-full ; G 23
+U 118 ; WX 1000 ; N battery-low ; G 24
+U 119 ; WX 1000 ; N battery-medium ; G 25
+U 120 ; WX 1000 ; N bell ; G 26
+U 121 ; WX 1000 ; N blog ; G 27
+U 122 ; WX 1000 ; N bluetooth ; G 28
+U 123 ; WX 1000 ; N folder-open ; G 92
+U 124 ; WX 1000 ; N forward ; G 93
+U 125 ; WX 1000 ; N gaming ; G 94
+U 126 ; WX 1000 ; N gear ; G 95
+U 57344 ; WX 1000 ; N graph-bar ; G 97
+U 57345 ; WX 1000 ; N graph-line ; G 98
+U 57346 ; WX 1000 ; N graph-pie ; G 99
+U 57347 ; WX 1000 ; N headset ; G 100
+U 57348 ; WX 1000 ; N heart ; G 101
+U 57349 ; WX 1000 ; N help ; G 102
+U 57350 ; WX 1000 ; N home ; G 103
+U 57351 ; WX 1000 ; N hourglass ; G 104
+U 57352 ; WX 1000 ; N inbox ; G 105
+U 57353 ; WX 1000 ; N information ; G 106
+U 57354 ; WX 1000 ; N italic ; G 107
+U 57355 ; WX 1000 ; N jewel ; G 108
+U 57356 ; WX 1000 ; N lifting ; G 109
+U 57357 ; WX 1000 ; N lightbulb ; G 110
+U 57358 ; WX 1000 ; N link ; G 111
+U 57359 ; WX 1000 ; N link-broken ; G 112
+U 57360 ; WX 1000 ; N list ; G 113
+U 57361 ; WX 1000 ; N loading ; G 114
+U 57362 ; WX 1000 ; N location ; G 115
+U 57363 ; WX 1000 ; N lock ; G 116
+U 57364 ; WX 1000 ; N lock-open ; G 117
+U 57365 ; WX 1000 ; N mail ; G 118
+U 57366 ; WX 1000 ; N map ; G 119
+U 57367 ; WX 1000 ; N media-loop ; G 120
+U 57368 ; WX 1000 ; N media-next ; G 121
+U 57369 ; WX 1000 ; N media-pause ; G 122
+U 57370 ; WX 1000 ; N media-play ; G 123
+U 57371 ; WX 1000 ; N media-previous ; G 124
+U 57372 ; WX 1000 ; N media-record ; G 125
+U 57373 ; WX 1000 ; N media-shuffle ; G 126
+U 57374 ; WX 1000 ; N media-stop ; G 127
+U 57375 ; WX 1000 ; N medical ; G 128
+U 57376 ; WX 1000 ; N menu ; G 129
+U 57377 ; WX 1000 ; N message ; G 130
+U 57378 ; WX 1000 ; N meter ; G 131
+U 57379 ; WX 1000 ; N microphone ; G 132
+U 57380 ; WX 1000 ; N minus ; G 133
+U 57381 ; WX 1000 ; N monitor ; G 134
+U 57382 ; WX 1000 ; N move ; G 135
+U 57383 ; WX 1000 ; N music ; G 136
+U 57384 ; WX 1000 ; N network-1 ; G 137
+U 57385 ; WX 1000 ; N network-2 ; G 138
+U 57386 ; WX 1000 ; N network-3 ; G 139
+U 57387 ; WX 1000 ; N network-4 ; G 140
+U 57388 ; WX 1000 ; N network-5 ; G 141
+U 57389 ; WX 1000 ; N pamphlet ; G 142
+U 57390 ; WX 1000 ; N paperclip ; G 143
+U 57391 ; WX 1000 ; N pencil ; G 144
+U 57392 ; WX 1000 ; N phone ; G 145
+U 57393 ; WX 1000 ; N photo ; G 146
+U 57394 ; WX 1000 ; N photo-group ; G 147
+U 57395 ; WX 1000 ; N pill ; G 148
+U 57396 ; WX 1000 ; N pin ; G 149
+U 57397 ; WX 1000 ; N plus ; G 150
+U 57398 ; WX 1000 ; N power ; G 151
+U 57399 ; WX 1000 ; N preview ; G 152
+U 57400 ; WX 1000 ; N print ; G 153
+U 57401 ; WX 1000 ; N pulse ; G 154
+U 57402 ; WX 1000 ; N question ; G 155
+U 57403 ; WX 1000 ; N reply ; G 156
+U 57404 ; WX 1000 ; N reply-all ; G 157
+U 57405 ; WX 1000 ; N return ; G 158
+U 57406 ; WX 1000 ; N retweet ; G 159
+U 57407 ; WX 1000 ; N rocket ; G 160
+U 57408 ; WX 1000 ; N scale ; G 161
+U 57409 ; WX 1000 ; N search ; G 162
+U 57410 ; WX 1000 ; N shopping-bag ; G 163
+U 57411 ; WX 1000 ; N skip ; G 164
+U 57412 ; WX 1000 ; N stack ; G 165
+U 57413 ; WX 1000 ; N star ; G 166
+U 57414 ; WX 1000 ; N stopwatch ; G 167
+U 57415 ; WX 1000 ; N store ; G 168
+U 57416 ; WX 1000 ; N suitcase ; G 169
+U 57417 ; WX 1000 ; N swap ; G 170
+U 57418 ; WX 1000 ; N tag ; G 171
+U 57419 ; WX 1000 ; N tag-delete ; G 172
+U 57420 ; WX 1000 ; N tags ; G 173
+U 57421 ; WX 1000 ; N thumbs-down ; G 174
+U 57422 ; WX 1000 ; N thumbs-up ; G 175
+U 57423 ; WX 1000 ; N ticket ; G 176
+U 57424 ; WX 1000 ; N time-reverse ; G 177
+U 57425 ; WX 1000 ; N to-do ; G 178
+U 57426 ; WX 1000 ; N toggles ; G 179
+U 57427 ; WX 1000 ; N trash ; G 180
+U 57428 ; WX 1000 ; N trophy ; G 181
+U 57429 ; WX 1000 ; N upload ; G 182
+U 57430 ; WX 1000 ; N user ; G 183
+U 57431 ; WX 1000 ; N user-group ; G 184
+U 57432 ; WX 1000 ; N user-id ; G 185
+U 57433 ; WX 1000 ; N vibrate ; G 186
+U 57434 ; WX 1000 ; N view-apps ; G 187
+U 57435 ; WX 1000 ; N view-list ; G 188
+U 57436 ; WX 1000 ; N view-list-large ; G 189
+U 57437 ; WX 1000 ; N view-thumb ; G 190
+U 57438 ; WX 1000 ; N volume-full ; G 191
+U 57439 ; WX 1000 ; N volume-low ; G 192
+U 57440 ; WX 1000 ; N volume-medium ; G 193
+U 57441 ; WX 1000 ; N volume-off ; G 194
+U 57442 ; WX 1000 ; N wallet ; G 195
+U 57443 ; WX 1000 ; N warning ; G 196
+U 57444 ; WX 1000 ; N web ; G 197
+U 57445 ; WX 1000 ; N weight ; G 198
+U 57446 ; WX 1000 ; N wifi ; G 199
+U 57447 ; WX 1000 ; N wrong ; G 200
+U 57448 ; WX 1000 ; N zoom-in ; G 201
+U 57449 ; WX 1000 ; N zoom-out ; G 202
+EndCharMetrics
+EndFontMetrics
