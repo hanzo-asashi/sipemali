@@ -74,7 +74,7 @@ Ini harus dilakukan untuk mengatasi beberapa masalah pada layout seperti logo ap
 
 
 ## Documentation
-For setup, usage guidance, and all other docs - please consult the [Project Wiki](https://github.com/hanzo-asashi/pajak-online/wiki).
+For setup, usage guidance, and all other docs - please consult the [Project Wiki](https://github.com/hanzo-asashi/sipemali/wiki).
 
 ## License
 
