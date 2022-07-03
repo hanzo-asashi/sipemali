@@ -129,12 +129,12 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('laporan.bukticetak',['page' => 'skpd', 'bayarid' => $bayar->id]) }}" target="_blank" class="dropdown-item">
+                                                    <a href="{{ route('laporan-pajak.bukticetak',['page' => 'skpd', 'bayarid' => $bayar->id]) }}" target="_blank" class="dropdown-item">
                                                         <i class="bx bx-printer font-size-16 align-middle me-2"></i> Cetak SKPD
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('laporan.bukticetak',['page' => 'sts', 'bayarid' => $bayar->id]) }}" target="_blank" type="button" class="dropdown-item">
+                                                    <a href="{{ route('laporan-pajak.bukticetak',['page' => 'sts', 'bayarid' => $bayar->id]) }}" target="_blank" type="button" class="dropdown-item">
                                                         <i class="bx bx-printer font-size-16 align-middle me-2"></i> Cetak STS
                                                     </a>
                                                 </li>
@@ -185,4 +185,3 @@
         @include('widget.alertify')
     @endpush
 </div>
-

@@ -15,7 +15,7 @@ class Pembayaran extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public $table = 'pembayaran';
+    public $table = 'pembayaran_pajak';
 
     public $casts
         = [
@@ -42,7 +42,7 @@ class Pembayaran extends Model
 
     public function metodebayar()
     {
-        return $this->belongsTo(MetodeBayar::class, 'metode_bayar', 'id');
+        return $this->belongsTo(MetodeBayarPajak::class, 'metode_bayar', 'id');
     }
 
     public function riwayatPembayaran()

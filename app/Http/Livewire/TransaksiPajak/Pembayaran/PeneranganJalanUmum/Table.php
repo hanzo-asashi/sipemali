@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\TransaksiPajak\Pembayaran\PeneranganJalanUmum;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use App\Models\ObjekPajak;
 use App\Models\ObjekPajakPeneranganJalanUmum;
 use App\Models\Pembayaran;
@@ -400,7 +400,7 @@ class Table extends Component
         $listTahun = config('custom.tahun_kontrak');
         $listStatus = config('custom.status_bayar');
         $listTriwulan = config('custom.triwulan');
-        $listMetodeBayar = MetodeBayar::pluck('jenis_metode', 'id');
+        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode', 'id');
 
         return view('livewire.transaksi-pajak.pembayaran.penerangan-jalan-umum.table', compact(
             'listPembayaran', 'listBulan', 'listTahun', 'listStatus', 'listTriwulan', 'listMetodeBayar'

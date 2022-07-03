@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use Illuminate\Database\Seeder;
 
 class JenisMetodePembayaranSeeder extends Seeder
@@ -17,7 +17,7 @@ class JenisMetodePembayaranSeeder extends Seeder
         $data = $this->data();
 
         foreach ($data as $value) {
-            MetodeBayar::create([
+            MetodeBayarPajak::create([
                 'jenis_metode' => $value['name'],
             ]);
         }

@@ -208,7 +208,7 @@ class TunggakanTable extends Component
             ->paginate($this->perPage);
 
 //        $listJenisOp = JenisObjekPajak::pluck('nama_jenis_op', 'id');
-//        $listMetodeBayar = MetodeBayar::pluck('jenis_metode', 'id');
+//        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode', 'id');
 //        $listBulan = config('custom.bulan');
 
         return view('livewire.transaksi-pajak.tunggakan.tunggakan-table', compact('listTunggakan'));

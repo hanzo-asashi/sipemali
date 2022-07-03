@@ -31,7 +31,7 @@ class PermissionSeeder extends Seeder
         $data = [];
         // list of model permission
         $model = [
-            'user', 'role', 'permission','laporan','wajib-pajak',
+            'user', 'role', 'permission','laporan-pajak','wajib-pajak',
             'objek-pajak','transaksi-pajak','transaksi-opd','jenis-wajib-pajak',
             'jenis-objek-pajak','jenis-bahan-baku','jenis-metode-pembayaran','pengaturan',
             'jenis-reklame','tipe-reklame','tipe-satuan','jenis-tarif','kategori-reklame',

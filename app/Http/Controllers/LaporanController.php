@@ -2,475 +2,444 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\LaporanExport;
-use App\Models\AnggaranOpd;
-use App\Models\DaftarOpd;
-use App\Models\MetodeBayar;
-use App\Models\ObjekPajak;
-use App\Models\ObjekPajakTambangMineral;
-use App\Models\Pembayaran;
-use App\Models\Wilayah;
-use App\Utilities\Helper;
+use App\Models\Customers;
+use App\Models\GolonganTarif;
+use App\Models\Payment;
+use App\Models\Zone;
+use App\Utilities\Helpers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Maatwebsite\Excel\Facades\Excel;
+use JetBrains\PhpStorm\ArrayShape;
 
 class LaporanController extends Controller
 {
-    public array $data = [];
-    public mixed $tahun;
+    public int $perPage;
+
+    public array $pageData;
+
+    public function __construct()
+    {
+        $this->perPage = config('custom.perPage', 15);
+        $this->pageData = [];
+    }
 
     public function index()
     {
         return view('laporan.index');
     }
 
-    private function _realisasiData($request, $periode)
+    public function daftarRekeningDitagih(Request $request)
     {
-        $objekPajak = ObjekPajak::with(['wajibpajak', 'pembayaran', 'jenisObjekPajak'])
-            ->when($request->get('tahun'), function ($q) use ($periode) {
-                $q->whereHas('pembayaran', function ($q) use ($periode) {
-                    $q->where('tahun', (int) $periode)
-                        ->where('status_bayar', 1)
-                        ->where('status_transaksi', 1);
+        $filter = $this->getFilterArray($request);
+        $title = 'Daftar Rekening Ditagih';
+        $pageName = Helpers::convertTitle($title);
+        $periode = $request->get('periode', now()->format('Y-m'));
+        $range = $filter['range'];
+        $start = $filter['start'];
+        $end = $filter['end'];
+        $zona = $filter['zona'];
+        $golongan = $filter['golongan'];
+
+        $pembayaran = Payment::query()->with(['customer', 'customer.zona', 'customer.golonganTarif'])
+            ->when($range, function ($query) use ($start, $end) {
+                $query->whereBetween('tgl_bayar', [$start, $end]);
+            })
+            ->when($zona, function ($query) use ($zona) {
+                $query->whereHas('customer.zona', function ($query) use ($zona) {
+                    $query->where('kode', $zona);
                 });
             })
-            ->whereHas('pembayaran', function ($q) use ($periode) {
-                $q->where('tahun', (int) $periode);
+            ->when($golongan, function ($query) use ($golongan) {
+                $query->whereHas('customer.golonganTarif', function ($query) use ($golongan) {
+                    $query->where('kode_golongan', $golongan)->groupBy('kode_golongan');
+                });
             })
-            ->groupBy('id_jenis_op')->get();
+            ->whereHas('customer', function ($query) {
+                $query->where('is_valid', true);
+            })
+            ->whereHas('customer', function ($query) {
+                $query->where('status_pelanggan', 1);
+            })
+            ->where('status_pembayaran', 1)
+            ->groupBy('customer_id')
+            ->get()
+            ->groupBy(function ($item) {
+                return $item->customer->golonganTarif->kode_golongan;
+            });
+//            ->groupBy('customer.zona.id');
+        $pelanggan = collect();
+//        $pembayaran = collect();
+        $filterZona = $request->get('zona', null);
+        $listZona = Zone::pluck('wilayah', 'kode');
+        $listGolongan = GolonganTarif::pluck('nama_golongan', 'kode_golongan');
+        $this->pageData = [
+            'page' => $pageName,
+            'periode' => $periode,
+            'pelanggan' => $pelanggan,
+            'range' => $range,
+            'pembayaran' => $pembayaran,
+            'filterZona' => $filterZona,
+            'listZona' => $listZona,
+            'listGolongan' => $listGolongan,
+        ];
+        return view('laporan.daftar-rekening-ditagih', $this->pageData);
+    }
 
-        $query = Pembayaran::when($request->get('tahun'), function ($q) use ($periode) {
-            $q->where('tahun', (int) $periode);
-        });
-
-        $totalTarget = $query->sum('nilai_pajak');
-        $totalRealisasi = $query->sum('jumlah_bayar');
-        $totalDenda = $query->sum('denda');
-
-        $totalTarget2020 = $query->where('status_bayar', 1)
-            ->where('tahun', (int) $periode - 1)
-            ->sum('nilai_pajak');
-
-        $totalDenda2020 = $query->where('status_bayar', 1)
-            ->where('status_transaksi', 2)
-            ->where('tahun', (int) $periode - 1)
-            ->sum('denda');
-
-        $totalRealisasiNow = $query->where('status_bayar', 1)
-            ->where('status_transaksi', 1)
-            ->where('tahun', (int) $periode)
-            ->sum('jumlah_bayar');
-
-        $totalDendaNow = $query->where('status_bayar', 1)
-            ->where('status_transaksi', 2)
-            ->where('tahun', (int) $periode)
-            ->sum('denda');
-
-        $totalTarget2020 = $totalTarget2020 + $totalDenda2020;
-        $totalRealisasiNow = $totalRealisasiNow + $totalDendaNow;
-        $totalTarget = $totalTarget + $totalDenda;
-        $totalRealisasi = $totalRealisasi + $totalDenda;
-
-        if ($totalTarget > 0 && $totalRealisasiNow > 0) {
-            $totalPersen = ($totalRealisasiNow / $totalTarget) * 100;
-        } else {
-            $totalPersen = 0;
-        }
-
-        $totalSisa = $totalTarget - $totalRealisasi + $totalDenda;
-
+    /**
+     * @param  Request  $request
+     * @return array
+     */
+    private function getFilterArray(Request $request): array
+    {
+        $filter = $request->has('filter') ? $request->get('filter') : [];
+        $periode_range = $filter['periode_range'] ?? null;
+        $range = !is_null($periode_range) ? explode(' - ', $periode_range) : null;
+        $start = !is_null($range) ? $range[0] : null;
+        $end = !is_null($range) ? $range[1] : null;
+        $zona = $filter['z'] ?? null;
+        $tipe = $request->has('t') ? $request->get('t') : null;
+        $golongan = $filter['golongan'] ?? null;
         return [
-            'objekPajak'        => $objekPajak,
-            'totalTarget2020'   => $totalTarget2020,
-            'totalRealisasi'    => $totalRealisasi,
-            'totalRealisasiNow' => $totalRealisasiNow,
-            'totalTarget'       => $totalTarget,
-            'totalPersen'       => $totalPersen,
-            'totalSisa'         => $totalSisa,
-            'totalDenda'        => $totalDenda,
+            'range' => $range,
+            'periode_range' => $periode_range,
+            'start' => $start,
+            'end' => $end,
+            'zona' => $zona,
+            'golongan' => $golongan,
+            'tipe' => $tipe,
         ];
     }
 
-    public function realisasi(Request $request)
+    /**
+     * @param  Request  $request
+     * @return array
+     */
+    private function getFilter(Request $request): array
     {
-        $page = 'realisasi';
-        $periode = $request->has('tahun') ? $request->get('tahun') : setting('tahun_sppt');
-        $data = $this->_realisasiData($request, $periode);
-        $listTahun = config('custom.tahun_kontrak');
+        $filter = $request->all();
+        $range = $request->has('periode_range') ? $filter['periode_range'] : null;
+        $range = !is_null($range) ? explode(' - ', $range) : null;
+        $start = !is_null($range) ? $range[0] : null;
+        $end = !is_null($range) ? $range[1] : null;
 
-        return view('laporan.realisasi', $data + ['listTahun' => $listTahun, 'periode' => $periode, 'page' => $page]);
+        return [
+            'range' => $range,
+            'zona' => $request->get('zona', null),
+            'golongan' => $request->get('golongan', null),
+            'start' => $start,
+            'end' => $end,
+        ];
     }
 
-    public function jenisPajak(Request $request)
+    public function piutangPelanggan(Request $request)
     {
-        $page = 'jenis-pajak';
-        $periode = $request->has('tahun') ? $request->get('tahun') : setting('tahun_sppt');
-        $objekPajak = ObjekPajak::with(['wajibpajak', 'pembayaran', 'jenisObjekPajak'])
-            ->orderBy('id_jenis_op')
-            ->groupBy('id_jenis_op')
+        $filter = $this->getFilter($request);
+        $range = $filter['range'];
+        $start = $filter['start'];
+        $end = $filter['end'];
+
+        $customer = Customers::with(['payment', 'golonganTarif', 'zona'])
+            ->groupBy('golongan_id')
+            ->withSum('payment', 'total_tagihan')
+            ->when($range, function ($query) use ($start, $end) {
+                $query->whereHas('payment', function ($query) use ($start, $end) {
+                    $query->whereBetween('tgl_bayar', [$start, $end]);
+                });
+            })
             ->get();
-        $listTahun = config('custom.tahun_kontrak');
-
-        return view('laporan.jenis-pajak', compact('page', 'objekPajak', 'periode', 'listTahun'));
+        return view('laporan.piutang-pelanggan', compact('customer', 'filter'));
     }
 
-
-    private function _wilayahData(): array
+    public function piutangKelompok()
     {
-        $wilayah = Wilayah::getWilayah(setting('kode_kabupaten'));
-//        $filterKecamatan = !is_null($filterKecamatan) ? $filterKecamatan : setting('kode_kabupaten');
-//        $wil = [
-//            2 => [5, 'Kota/Kabupaten', 'kab'],
-//            5 => [8, 'Kecamatan', 'kec'],
-//            8 => [13, 'Kelurahan', 'kel'],
-//        ];
-//
-//        $n = strlen($filterKecamatan) ?: 2;
-//        $length = in_array($n, $wil) ?: $wil[$n][0];
-//
-//        $wilayah = Wilayah::query()->with(['objekpajak','wajibpajak','objekpajak.pembayaran'])
-//            ->when($filterKecamatan, function ($q) use($n, $filterKecamatan,$length){
-//                $q->whereRaw('LEFT(kode,'.$n.")='{$filterKecamatan}'")
-//                    ->whereRaw('CHAR_LENGTH(kode)='.$length);
-//            })
-//            ->whereRaw('LEFT(kode,'.$n.")='{$filterKecamatan}'")
-//            ->whereRaw('CHAR_LENGTH(kode)='.$length)
-//            ->orderBy('nama')
-//            ->get();
-
-//        $wilayah = Wilayah::getWilayah(setting('kode_kabupaten'));
-
-        return ['wilayah' => $wilayah];
+        return view('laporan.piutang-kelompok');
     }
 
-    public function wilayah(Request $request)
+    public function opnameFisik(Request $request)
     {
-        $page = 'wilayah';
-        $periode = $request->has('tahun') ? $request->get('tahun') : setting('tahun_sppt');
-        $filterKecamatan = $request->has('kecamatan') ? $request->get('kecamatan') : null;
-        $filterBulan = $request->has('bulan') ? $request->get('bulan') : null;
-        $listKecamatan = Helper::getWilayah(setting('kode_kabupaten'));
-        $data = $this->_wilayahData();
-        $listTahun = config('custom.tahun_kontrak');
-        $listBulan = Helper::list_bulan();
+        $title = 'Opname Fisik';
+        $reqFilter = $this->filterCustomer($request);
+        $range = $reqFilter['range'];
+        $start = $reqFilter['start'];
+        $end = $reqFilter['end'];
+        $pageName = 'opname-fisik';
 
-        $data = array_merge($data, [
-            'page'            => $page,
-            'periode'         => $periode,
-            'filterKecamatan' => $filterKecamatan,
-            'filterBulan'     => $filterBulan,
-            'listKecamatan'   => $listKecamatan,
-            'listTahun'       => $listTahun,
-            'listBulan'       => $listBulan,
-        ]);
+//        $customer = $this->customerQuery($request);
+        $customer = Customers::query()
+            ->with(['payment', 'golonganTarif', 'zona'])
+            ->withSum('payment', 'total_tagihan')
+            ->withSum('payment', 'total_bayar')
+            ->withSum('payment', 'denda')
+            ->where('status_pelanggan', 1)
+            ->where('is_valid', 1)
+            ->whereHas('payment', function ($query) {
+                $query->where('status_pembayaran', 1);
+            })
+            ->paginate($this->perPage);
 
-        return view('laporan.berdasarkan-wilayah', $data);
+        $this->pageData = [
+            'customer' => $customer,
+            'title' => $title,
+            'range' => $range ?: '',
+            'start' => $start ?: '',
+            'end' => $end ?: '',
+            'totalData' => $customer->total(),
+            'pageCount' => $customer->perPage(),
+            'page' => $customer->currentPage(),
+            'pageName' => $pageName
+        ];
+//        dd($customer->links());
+        return view('laporan.opname-fisik', $this->pageData);
     }
 
-    public function metodeBayar(Request $request)
+    #[ArrayShape(['filter' => '', 'range' => 'null|string[]', 'start' => 'null|string', 'end' => 'null|string'])] private function filterCustomer($filter): array
     {
-        $page = 'metode-bayar';
-        $periode = $request->has('tahun') ? $request->get('tahun') : null;
-        $metodeBayar = MetodeBayar::when($periode, function ($q) use ($periode) {
-            $q->whereHas('pembayaran', function ($q) use ($periode) {
-                $q->where('tahun', $periode);
-            });
-        })
-            ->with('pembayaran','pembayaran.objekpajak')
-            ->get();
-//        dd($metodeBayar);
-//        if (!is_null($metodeBayar)) {
-//            foreach ($metodeBayar as $item) {
-//                $pembayaran = $item->pembayaran()
-//                    ->where('metode_bayar', $item->id);
-//
-//                $capaian = $item->pembayaran()->sum('nilai_pajak') + $pembayaran->sum('denda');
-//                $rm = $item->pembayaran()->where('objek_pajak_id',1)->sum('nilai_pajak') + $pembayaran->where('objek_pajak_id',1)->sum('denda');
-//                $htl = $pembayaran->where('objek_pajak_id',2)->sum('nilai_pajak') + $pembayaran->where('objek_pajak_id',2)->sum('denda');
-//                $rkl = $pembayaran->where('objek_pajak_id',3)->sum('nilai_pajak') + $pembayaran->where('objek_pajak_id',3)->sum('denda');
-//                $tbm = $pembayaran->where('objek_pajak_id',4)->sum('nilai_pajak') + $pembayaran->where('objek_pajak_id',4)->sum('denda');
-//                $ppj = $pembayaran->where('objek_pajak_id',5)->sum('nilai_pajak') + $pembayaran->where('objek_pajak_id',5)->sum('denda');
-//            }
-//            dd($pembayaran->get());
+        $range = $filter->has('periode_range') ? $filter['periode_range'] : null;
+        $range = !is_null($range) ? \explode(' - ', $range) : null;
+        $start = !is_null($range) ? $range[0] : null;
+        $end = !is_null($range) ? $range[1] : null;
+
+        return [
+            'filter' => $filter,
+            'range' => $range,
+            'start' => $start,
+            'end' => $end,
+        ];
+    }
+
+    private function customerQuery($filter, $tipe = 'pelanggan')
+    {
+        $filter = $this->filterCustomer($filter);
+        $range = $filter['range'];
+        $start = $filter['start'];
+        $end = $filter['end'];
+
+        $customer = Customers::query()
+            ->select([
+                'pelanggan.id',
+                'pelanggan.no_sambungan',
+                'pelanggan.no_pelanggan',
+                'pelanggan.nama_pelanggan',
+                'pelanggan.alamat_pelanggan',
+                'pelanggan.golongan_id',
+                'pelanggan.status_pelanggan',
+                'pelanggan.is_valid',
+                'pembayaran.id as pembayaran_id',
+                'pembayaran.customer_id',
+                'pembayaran.bulan_berjalan',
+                'pembayaran.tahun_berjalan',
+                'pembayaran.tgl_jatuh_tempo',
+                'pembayaran.tgl_bayar',
+                'pembayaran.stand_awal',
+                'pembayaran.stand_akhir',
+                'pembayaran.pemakaian_air_saat_ini',
+                'pembayaran.harga_air',
+                'pembayaran.dana_meter as pembayaran_dana_meter',
+                'pembayaran.biaya_layanan',
+                'pembayaran.total_tagihan',
+                'pembayaran.total_bayar',
+                'pembayaran.denda',
+                'pembayaran.sisa',
+                'pembayaran.status_pembayaran',
+                'pembayaran.metode_bayar',
+                'pembayaran.keterangan',
+                'golongan_tarif.id as golongan_tarif_id',
+                'golongan_tarif.nama_golongan',
+                'golongan_tarif.kode_golongan',
+                'golongan_tarif.blok_1',
+                'golongan_tarif.blok_2',
+                'golongan_tarif.blok_3',
+                'golongan_tarif.blok_4',
+                'golongan_tarif.tarif_blok_1',
+                'golongan_tarif.tarif_blok_2',
+                'golongan_tarif.tarif_blok_3',
+                'golongan_tarif.tarif_blok_4',
+                'golongan_tarif.biaya_administrasi',
+                'golongan_tarif.dana_meter',
+                'golongan_tarif.tarif_pasang_baru',
+                'golongan_tarif.tgl_bayar_akhir',
+            ])->from('pelanggan')
+            ->leftJoin('pembayaran', 'pembayaran.customer_id', '=', 'pelanggan.id')
+            ->leftJoin('golongan_tarif', 'golongan_tarif.id', '=', 'pelanggan.golongan_id')
+            ->when($range, function ($query) use ($start, $end) {
+                $query->whereBetween('pembayaran.tgl_bayar', [$start, $end]);
+            })
+            ->where('pelanggan.is_valid', 1)
+            ->where('pelanggan.status_pelanggan', 1)
+            ->orderBy('pelanggan.id')
+            ->paginate(config('custom.perPage', $this->perPage));
+
+        if ($tipe === 'kelompok') {
+            return $customer->groupBy(['golongan_tarif_id' => function ($item) {
+                return $item->nama_golongan;
+            }]);
+        }
+
+//        if($tipe === 'opname'){
+//            return $customer->groupBy(['pembayaran.bulan_berjalan' => function ($item) {
+//                return $item->bulan_berjalan;
+//            }]);
 //        }
-//        $objekPajak = Pembayaran::with(['wajibpajak', 'objekpajak', 'metodebayar'])
-//            ->when($periode, function ($q) use ($periode) {
-//                $q->where('tahun', $periode);
-//            })
-//            ->groupBy('metode_bayar')
-//            ->get();
-        $listTahun = config('custom.tahun_kontrak');
 
-        return view('laporan.metode-bayar', compact('page', 'periode', 'listTahun', 'metodeBayar'));
+        return $customer;
     }
 
-    public function realisasiOpd(Request $request)
+    public function umurPiutangPelanggan(Request $request)
     {
-        $page = 'realisasi-opd';
-        $periode = $request->has('tahun') ? $request->get('tahun') : setting('tahun_sppt');
-        $filterOpd = $request->has('opd') ? $request->get('opd') : '';
-        $daftarOpd = DaftarOpd::with(['belanjaopd', 'belanjaopd.objekPajak'])
-            ->when($periode, function ($q) use ($periode) {
-                $q->whereHas('belanjaopd', function ($q) use ($periode) {
-                    $q->where('tahun', $periode);
+        $title = 'Umur Piutang Pelanggan';
+        $pageData = $this->getReqFilter($request, $title);
+
+        return view('laporan.umur-piutang-pelanggan', $pageData);
+    }
+
+    public function umurPiutangKelompok(Request $request)
+    {
+        $title = 'Umur Piutang Kelompok';
+        $pageData = $this->getReqFilter($request, $title);
+
+        return view('laporan.umur-piutang-kelompok', $pageData);
+    }
+
+    public function transaksi()
+    {
+        return view('laporan.transaksi');
+    }
+
+    public function pelanggan()
+    {
+        return view('laporan.pelanggan');
+    }
+
+    public function rekeningAir()
+    {
+        return view('laporan.rekening-air');
+    }
+
+    public function perhitungan()
+    {
+        return view('laporan.transaksi');
+    }
+
+    private function getCustomerQuery($range, $start, $end)
+    {
+        $start = $start ?? now()->firstOfMonth()->toDateString();
+        $end = $end ?? now()->endOfMonth();
+        return Customers::query()
+            ->with(['payment', 'golonganTarif', 'zona'])
+            ->withSum('payment', 'total_tagihan')
+            ->withSum('payment', 'pemakaian_air_saat_ini')
+            ->withSum('payment', 'harga_air')
+            ->withSum('payment', 'dana_meter')
+            ->withSum('payment', 'biaya_layanan')
+            ->withSum('payment', 'total_bayar')
+            ->withSum('payment', 'denda')
+            ->when($range, function ($query) use ($start, $end) {
+                $query->whereHas('payment', function ($query) use ($start, $end) {
+                    $query->whereBetween('tgl_bayar', [$start, $end]);
                 });
             })
-            ->when($filterOpd, function ($q) use ($filterOpd) {
-                $q->whereHas('belanjaopd', function ($q) use ($filterOpd) {
-                    $q->where('opd_id', $filterOpd);
-                });
-            })
+            ->groupBy('golongan_id')
+            ->limit(15)
             ->get();
-        $opd = DaftarOpd::pluck('nama_opd', 'id');
-        $anggaran = AnggaranOpd::with('opd', 'belanja')
-            ->withSum('belanja', 'jumlah_transaksi')
-            ->when($periode, function ($q) use ($periode) {
-                $q->where('tahun', $periode);
-            })
-            ->when($filterOpd, function ($q) use ($filterOpd) {
-                $q->where('opd_id', $filterOpd);
-            })
-            ->groupBy('opd_id')->get();
-        $listTahun = config('custom.tahun_kontrak');
-//        $perkiraanMakanMinum = TargetPajak::when($request->has('tahun_pajak'), function ($q) use ($periode) {
-//            $q->where('tahun', $periode);
-//        })
-//            ->where('id_jenis_objek_pajak', 1)->get()->first()->target ?: 0;
-//        $perkiraanHotel = TargetPajak::when($request->has('tahun_pajak'), function ($q) use ($periode) {
-//            $q->where('tahun', $periode);
-//        })
-//            ->where('id_jenis_objek_pajak', 2)->get()->first()->target ?: 0;
-        return view('laporan.realisasi-opd', compact('page', 'opd', 'filterOpd',
-            'anggaran', 'periode', 'listTahun', 'daftarOpd'
-        ));
     }
 
-    public function belanjaOpd(Request $request)
+    private function getPembayaranQuery($range, $start, $end, $filterZona)
     {
-        $page = 'belanja-opd';
-        $periode = $request->has('tahun') ? $request->get('tahun') : setting('tahun_sppt');
-        $filterOpd = $request->has('opd') ? $request->get('opd') : '';
-        $daftarOpd = DaftarOpd::with(['belanjaopd', 'belanjaopd.objekPajak'])
-            ->when($periode, function ($q) use ($periode) {
-                $q->whereHas('belanjaopd', function ($q) use ($periode) {
-                    $q->where('tahun', $periode);
+        return Payment::query()
+            ->with(['customer', 'customer.zona', 'customer.golonganTarif'])
+            ->when($range, function ($query) use ($start, $end) {
+                $query->whereBetween('tgl_bayar', [$start, $end]);
+            })
+            ->when($filterZona, function ($query) use ($filterZona) {
+                $query->whereHas('customer', function ($query) use ($filterZona) {
+                    $query->where('zona_id', $filterZona);
                 });
             })
-            ->when($filterOpd, function ($q) use ($filterOpd) {
-                $q->whereHas('belanjaopd', function ($q) use ($filterOpd) {
-                    $q->where('opd_id', $filterOpd);
-                });
-            })
-            ->get();
-        $opd = DaftarOpd::pluck('nama_opd', 'id');
-        $listTahun = config('custom.tahun_kontrak');
-
-        return view('laporan.belanja-opd', compact('page', 'periode', 'opd', 'filterOpd', 'daftarOpd', 'listTahun'));
+//            ->groupBy('customer_id')
+            ->get()
+            ->groupBy(function ($item) {
+                return $item->customer->zona->wilayah;
+            });
     }
 
-    public function tambangMineral(Request $request)
+    public function penerimaanPenagihan(Request $request)
     {
-        $page = 'tambang-mineral';
-        $periode = $request->has('tahun') ? $request->get('tahun') : setting('tahun_sppt');
-        $tambang = ObjekPajakTambangMineral::with(['objekPajak', 'objekPajak.pembayaran', 'objekPajak.wajibpajak'])->get();
-        $objekPajak = ObjekPajak::with(['wajibpajak', 'objekPajakTambang', 'pembayaran'])
-            ->when($periode, function ($q) use ($periode) {
-                $q->whereHas('pembayaran', function ($q) use ($periode) {
-                    $q->where('tahun', $periode);
-                });
-            })
-            ->where('id_jenis_op', 4)
-            ->get();
-        $listTahun = config('custom.tahun_kontrak');
+        $filter = $this->getFilterArray($request);
+        $range = $filter['range'];
+        $start = !is_null($filter['start']) ? $filter['start'] : now()->firstOfMonth()->toDateString();
+        $end = !is_null($filter['end']) ? $filter['end'] : now()->endOfMonth()->toDateString();
+        $filterZona = $filter['zona'];
 
-        return view('laporan.tambang-mineral', compact('page', 'periode', 'objekPajak', 'listTahun', 'tambang'));
-    }
+        $periode_range = $filter['periode_range'];
+        $tipe = $request->has('t') ? $request->get('t') : null;
+        $customer = $this->getCustomerQuery($range, $start, $end);
+        $pembayaran = $this->getPembayaranQuery($range, $start, $end, $filterZona);
 
-    public function showPrintBukti($page, $op)
-    {
-//        $objekPajak = ObjekPajak::with(['wajibpajak','jenisObjekPajak','pembayaran'])->find($op);
-        $pembayaran = Pembayaran::with(['objekpajak', 'wajibpajak'])->find($op);
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('transaksi-pajak.bukti-cetak.'.$page, ['pembayaran' => $pembayaran]);
-        $pdf->setPaper('a4', setting('print_layout', 'portrait'))->setWarnings(false);
-        $fileName = 'laporan Cetak Bukti '.$page.'.pdf';
+        $listZona = Zone::pluck('wilayah', 'id');
 
-        return $pdf->stream();
-    }
+        $start = Helpers::tanggal($start);
+        $end = Helpers::tanggal($end);
+//        $page = $tipe === 'ikh' ? 'ikhtisar-lpp' : 'penerimaan-penagihan';
 
-    public function showPrintPage(Request $request)
-    {
-        $data = collect();
-        $availablePage = ['realisasi', 'jenis-pajak', 'wilayah', 'metode-bayar', 'realisasi-opd', 'belanja-opd','tambang-mineral'];
-        $page = $request->has('page') ? $request->get('page') : null;
-        $periode = $request->has('periode') ? $request->get('periode') : setting('tahun_sppt');
-        $filterKecamatan = $request->has('kecamatan') ? $request->get('kecamatan') : null;
-        $filterBulan = $request->has('bulan') ? $request->get('bulan') : null;
-        $filterOpd = $request->has('opd') ? $request->get('opd') : '';
-        if (in_array($page, $availablePage)) {
-            if ($page === 'realisasi') {
-                $data = $this->_realisasiData($request, $periode) + ['periode' => $periode, 'page' => $page];
-            }
-
-            if ($page === 'jenis-pajak') {
-                $objekPajak = ObjekPajak::with(['wajibpajak', 'pembayaran', 'jenisObjekPajak'])
-                    ->orderBy('id_jenis_op')
-                    ->groupBy('id_jenis_op')
-                    ->get();
-
-                $data = [
-                    'objekPajak' => $objekPajak,
-                    'periode'    => $periode,
-                ];
-            }
-
-            if ($page === 'wilayah') {
-                $objekPajak = $this->_wilayahData();
-
-                $data = $objekPajak + [
-                        'periode'         => $periode,
-                        'filterKecamatan' => $filterKecamatan,
-                        'filterBulan'     => $filterBulan,
-                    ];
-            }
-
-            if ($page === 'metode-bayar') {
-                $metodeBayar = MetodeBayar::all();
-                $data = [
-                    'metodeBayar' => $metodeBayar,
-                    'periode'     => $periode,
-                ];
-            }
-
-            if ($page === 'realisasi-opd') {
-//                $anggaran = AnggaranOpd::with('opd', 'belanja')
-//                    ->when($request->has('tahun'), function ($q) use ($periode) {
-//                        $q->where('tahun', $periode);
-//                    })
-//                    ->groupBy('opd_id')->get();
-                $daftarOpd = DaftarOpd::with(['belanjaopd', 'belanjaopd.objekPajak'])
-                    ->when($periode, function ($q) use ($periode) {
-                        $q->whereHas('belanjaopd', function ($q) use ($periode) {
-                            $q->where('tahun', $periode);
-                        });
-                    })
-                    ->when($filterOpd, function ($q) use ($filterOpd) {
-                        $q->whereHas('belanjaopd', function ($q) use ($filterOpd) {
-                            $q->where('opd_id', $filterOpd);
-                        });
-                    })
-                    ->get();
-                $opd = DaftarOpd::pluck('nama_opd', 'id');
-                $anggaran = AnggaranOpd::with('opd', 'belanja')
-                    ->when($periode, function ($q) use ($periode) {
-                        $q->where('tahun', $periode);
-                    })
-                    ->when($filterOpd, function ($q) use ($filterOpd) {
-                        $q->where('opd_id', $filterOpd);
-                    })
-                    ->groupBy('opd_id')->get();
-                $listTahun = config('custom.tahun_kontrak');
-                $data = [
-                    'anggaran'  => $anggaran,
-                    'periode'   => $periode,
-                    'opd'       => $opd,
-                    'filterOpd' => $filterOpd,
-                    'listTahun' => $listTahun,
-                ];
-            }
-            if ($page === 'belanja-opd') {
-                $filterOpd = $request->has('opd') ? $request->get('opd') : '';
-                $daftarOpd = DaftarOpd::with(['belanjaopd', 'belanjaopd.objekPajak'])
-                    ->when($periode, function ($q) use ($periode) {
-                        $q->whereHas('belanjaopd', function ($q) use ($periode) {
-                            $q->where('tahun', $periode);
-                        });
-                    })
-                    ->when($filterOpd, function ($q) use ($filterOpd) {
-                        $q->whereHas('belanjaopd', function ($q) use ($filterOpd) {
-                            $q->where('opd_id', $filterOpd);
-                        });
-                    })
-                    ->get();
-                $opd = DaftarOpd::pluck('nama_opd', 'id');
-                $data = [
-                    'filterOpd' => $filterOpd,
-                    'daftarOpd' => $daftarOpd,
-                    'opd'       => $opd,
-                ];
-            }
-
-            if ($page === 'tambang-mineral') {
-                $tambang = ObjekPajakTambangMineral::with(['objekPajak', 'objekPajak.pembayaran', 'objekPajak.wajibpajak'])->get();
-                $objekPajak = ObjekPajak::with(['wajibpajak', 'objekPajakTambang', 'pembayaran'])
-                    ->when($periode, function ($q) use ($periode) {
-                        $q->whereHas('pembayaran', function ($q) use ($periode) {
-                            $q->where('tahun', $periode);
-                        });
-                    })
-                    ->where('id_jenis_op', 4)
-                    ->get();
-                $listTahun = config('custom.tahun_kontrak');
-                $data = [
-                    'tambang' => $tambang,
-                    'objekPajak' => $objekPajak,
-                    'listTahun'       => $listTahun,
-                ];
-            }
-
-            return $this->renderPrint($page, $data, '');
-        }
-    }
-
-    public function exportToExcel(Request $request)
-    {
-        $data = collect();
-        $availablePage = ['realisasi', 'jenis-pajak', 'wilayah', 'metode-bayar', 'realisasi-opd', 'belanja-opd','tambang-mineral'];
-        $page = $request->has('page') ? $request->get('page') : null;
-        $periode = $request->has('periode') ? $request->get('periode') : setting('tahun_sppt');
-        $filterKecamatan = $request->has('kecamatan') ? $request->get('kecamatan') : null;
-        $filterBulan = $request->has('bulan') ? $request->get('bulan') : null;
-        $filterOpd = $request->has('opd') ? $request->get('opd') : '';
-
-        if(in_array($page, $availablePage)){
-            $fileName = 'laporan-'.$page.'.pdf';
+        if($tipe === 'ikh'){
+            $page = 'ikhtisar-lpp';
+        }elseif($tipe === 'lpp'){
+            $page = 'penerimaan-penagihan';
+        }else{
+            $page = 'custom';
         }
 
-        return new LaporanExport();
-    }
+        $this->pageData = [
+            'filter' => $filter,
+            'periode_range' => $periode_range,
+            'customer' => $customer,
+            'pelanggan' => $customer,
+            'pembayaran' => $pembayaran,
+            'listZona' => $listZona,
+            'tipe' => $tipe,
+            'page' => $page,
+            'periode' => $range,
+            'range' => $range,
+            'start' => $start,
+            'end' => $end,
+            'filterZona' => $filterZona,
+        ];
 
-    private function renderDownload($page, array $data, $output)
-    {
-        $fileName = 'laporan-'.$page.'.pdf';
-        $availablePage = ['realisasi', 'jenis-pajak', 'wilayah', 'metode-bayar', 'realisasi-opd', 'belanja-opd','tambang-mineral'];
-        return Excel::download(new LaporanExport, 'laporan-'.$page.'.xlsx');
-    }
-
-    public function downloadPdf($page, $data)
-    {
-        $availablePage = ['realisasi', 'jenis-pajak', 'wilayah', 'metode-bayar', 'skpd', 'sts','tambang-mineral'];
-        if (in_array($page, $availablePage)) {
-            return $this->renderPrint($page, $data, 'pdf');
-        }
-    }
-
-    private function renderPrint($page, array $data, $output)
-    {
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('laporan.preview.'.$page, $data);
-        $fileName = 'laporan-'.$page.'.pdf';
-        $availablePage = ['realisasi', 'jenis-pajak', 'wilayah', 'metode-bayar', 'realisasi-opd', 'belanja-opd','tambang-mineral'];
-        if (in_array($page, $availablePage)) {
-            $pdf->setPaper('a4', 'landscape')->setWarnings(false);
+        if ($tipe === 'ikh') {
+            return view('laporan.ikhtisar-lpp', $this->pageData);
         }
 
-        if (is_string($output) && $output == 'pdf') {
-            return $pdf->download($fileName);
+        if($tipe === 'custom'){
+            return view('laporan.custom', $this->pageData);
         }
 
-        return $pdf->stream();
+        return view('laporan.penerimaan-penagihan', $this->pageData);
     }
 
+    /**
+     * @param  Request  $request
+     * @param  string  $title
+     * @return array
+     */
+    public function getReqFilter(Request $request, string $title): array
+    {
+        $reqFilter = $this->filterCustomer($request);
+        $range = $reqFilter['range'];
+        $start = $reqFilter['start'];
+        $end = $reqFilter['end'];
 
+        $customer = $this->customerQuery($request);
+
+        return [
+            'filter' => $request->all(),
+            'customer' => $customer,
+            'title' => $title,
+            'range' => $range,
+            'start' => $start,
+            'end' => $end,
+            'totalData' => $customer->total(),
+            'pageCount' => $this->perPage ?? $customer->perPage(),
+            'page' => $customer->currentPage(),
+        ];
+    }
 }

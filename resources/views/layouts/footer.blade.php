@@ -7,7 +7,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Dikembangkan Oleh <a href="#" class="text-decoration-underline">Tim IT Kolaka</a>
+                    Dikembangkan Oleh <a href="https://resometoda.com" class="text-decoration-underline">RESOMETODA</a>
                 </div>
             </div>
         </div>

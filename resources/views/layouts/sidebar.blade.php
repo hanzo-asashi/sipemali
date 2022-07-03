@@ -17,7 +17,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('laporan.index') }}">
+                    <a href="{{ route('laporan-pajak.index') }}">
                         <i data-feather="pie-chart"></i>
                         <span data-key="t-laporan">Laporan</span>
                     </a>

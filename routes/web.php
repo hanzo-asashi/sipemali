@@ -5,7 +5,7 @@ use App\Http\Controllers\Account\PenggunaController;
 use App\Http\Controllers\Account\TipeAksesController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\LaporanPajakController;
 use App\Http\Controllers\ObjekPajakController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PrintController;
@@ -32,7 +32,6 @@ use App\Http\Livewire\TransaksiPajak\Pembayaran\TambangMineral\Table as TambangT
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
 // Route Qrcode View
 Route::get('/qrcode/{wpid}', QrviewController::class)->name('qrcode');
@@ -141,23 +140,23 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pengaturan', PengaturanController::class);
 
     // Route Laporan
-    Route::get('laporan', [LaporanController::class, 'index'])->name('laporan.index');
-    Route::get('laporan/realisasi', [LaporanController::class, 'realisasi'])->name('laporan.realisasi');
-    Route::get('laporan/jenis-pajak', [LaporanController::class, 'jenisPajak'])->name('laporan.jenispajak');
-    Route::get('laporan/wilayah', [LaporanController::class, 'wilayah'])->name('laporan.wilayah');
-    Route::get('laporan/metode-pembayaran', [LaporanController::class, 'metodeBayar'])->name('laporan.metodebayar');
-    Route::get('laporan/realisasi-opd', [LaporanController::class, 'realisasiOpd'])->name('laporan.realisasiopd');
-    Route::get('laporan/belanja-opd', [LaporanController::class, 'belanjaOpd'])->name('laporan.belanjaopd');
-    Route::get('laporan/tambang-mineral', [LaporanController::class, 'tambangMineral'])->name('laporan.tambangmineral');
+    Route::get('laporan-pajak', [LaporanPajakController::class, 'index'])->name('laporan-pajak.index');
+    Route::get('laporan-pajak/realisasi', [LaporanPajakController::class, 'realisasi'])->name('laporan-pajak.realisasi');
+    Route::get('laporan-pajak/jenis-pajak', [LaporanPajakController::class, 'jenisPajak'])->name('laporan-pajak.jenispajak');
+    Route::get('laporan-pajak/wilayah', [LaporanPajakController::class, 'wilayah'])->name('laporan-pajak.wilayah');
+    Route::get('laporan-pajak/metode-pembayaran', [LaporanPajakController::class, 'metodeBayar'])->name('laporan-pajak.metodebayar');
+    Route::get('laporan-pajak/realisasi-opd', [LaporanPajakController::class, 'realisasiOpd'])->name('laporan-pajak.realisasiopd');
+    Route::get('laporan-pajak/belanja-opd', [LaporanPajakController::class, 'belanjaOpd'])->name('laporan-pajak.belanjaopd');
+    Route::get('laporan-pajak/tambang-mineral', [LaporanPajakController::class, 'tambangMineral'])->name('laporan-pajak.tambangmineral');
 
     // Route Print Laporan
-    Route::get('laporan/preview', [LaporanController::class, 'showPrintPage'])->name('laporan.preview');
-    Route::get('laporan/export-excel', [LaporanController::class, 'exportToExcel'])->name('laporan.export-excel');
+    Route::get('laporan-pajak/preview', [LaporanPajakController::class, 'showPrintPage'])->name('laporan-pajak.preview');
+    Route::get('laporan-pajak/export-excel', [LaporanPajakController::class, 'exportToExcel'])->name('laporan-pajak.export-excel');
     // Route Cetak Bukti SKPD dan STS
-    Route::get('pembayaran/cetak-bukti/preview/{page}/{bayarid}', [LaporanController::class, 'showPrintBukti'])->name('laporan.bukticetak');
+    Route::get('pembayaran/cetak-bukti/preview/{page}/{bayarid}', [LaporanPajakController::class, 'showPrintBukti'])->name('laporan-pajak.bukticetak');
     // Eksport PDF
-    Route::get('laporan/download/{page}', [LaporanController::class, 'downloadPdf'])
-        ->name('laporan.downloadpdf');
+    Route::get('laporan-pajak/download/{page}', [LaporanPajakController::class, 'downloadPdf'])
+        ->name('laporan-pajak.downloadpdf');
 
     //Update User Details
     Route::post('/update-profile/{id}', [App\Http\Controllers\HomeController::class, 'updateProfile'])
@@ -183,3 +182,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('cetak-pembayaran-penerangan-jalan', [PrintController::class, 'cetakPembayaranPpj'])->name('transaksi-pajak.pembayaran-ppj.print');
     Route::get('print-tunggakan-pajak', [PrintController::class, 'printtunggakan'])->name('transaksi-pajak.tunggakan.print');
 });
+
+require 'sipemali.php';

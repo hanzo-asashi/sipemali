@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\TransaksiPajak\Pembayaran\Reklame;
 
 use App\Models\JenisReklame;
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use App\Models\ObjekPajak;
 use App\Models\Pembayaran;
 use App\Models\WajibPajak;
@@ -382,7 +382,7 @@ class Table extends Component
         $listBulan = config('custom.bulan');
         $listJenisReklame = JenisReklame::pluck('nama_jenis_op','id');
         $statusBayar = config('custom.status_bayar');
-        $listMetodeBayar = MetodeBayar::pluck('jenis_metode','id');
+        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode','id');
 
         return view('livewire.transaksi-pajak.pembayaran.reklame.table',compact('listMetodeBayar',
             'listPembayaran','listJenisReklame','statusBayar','listBulan'

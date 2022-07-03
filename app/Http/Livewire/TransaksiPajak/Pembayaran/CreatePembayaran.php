@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\TransaksiPajak\Pembayaran;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use App\Models\ObjekPajak;
 use App\Models\Pembayaran;
 use App\Models\WajibPajak;
@@ -196,7 +196,7 @@ class CreatePembayaran extends Component
     {
         $listWajibPajak = WajibPajak::pluck('nama_wp', 'id');
 //        $listObjekPajak = ObjekPajak::pluck('nama_objek_pajak','id');
-        $listMetodeBayar = MetodeBayar::pluck('jenis_metode', 'id');
+        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode', 'id');
         $listBulan = config('custom.bulan');
         $listTahun = config('custom.tahun_kontrak');
 

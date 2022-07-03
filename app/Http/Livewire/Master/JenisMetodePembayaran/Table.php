@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Master\JenisMetodePembayaran;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -50,7 +50,7 @@ class Table extends Component
         $this->resetValidation();
     }
 
-    public function edit(MetodeBayar $metodeBayar)
+    public function edit(MetodeBayarPajak $metodeBayar)
     {
         $this->showEditModal = true;
         $this->jenis_metode = $metodeBayar->jenis_metode;
@@ -79,7 +79,7 @@ class Table extends Component
         $data = ['success' => false, 'message' => 'Metode Pembayaran gagal di tambahkan'];
         $validatedData = $this->validate();
 
-        $create = MetodeBayar::create($validatedData);
+        $create = MetodeBayarPajak::create($validatedData);
         if ($create) {
             $this->resetInput();
             $data['success'] = true;
@@ -118,7 +118,7 @@ class Table extends Component
     {
 //    $this->authorize('delete', $this->checked);
         if ($tipe === 'bulk') {
-            $user = MetodeBayar::whereKey($this->checked)->delete();
+            $user = MetodeBayarPajak::whereKey($this->checked)->delete();
             $this->checked = [];
             session()->flash('message', 'Jenis Wajib Pajak berhasil dihapus.');
 
@@ -126,14 +126,14 @@ class Table extends Component
         } else {
             session()->flash('message', 'Jenis Wajib Pajak berhasil dihapus.');
 
-            return MetodeBayar::findOrFail($id)->delete();
+            return MetodeBayarPajak::findOrFail($id)->delete();
         }
     }
 
     public function updatedSelectAll($value)
     {
         if ($value) {
-            $this->checked = MetodeBayar::query()
+            $this->checked = MetodeBayarPajak::query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
                 ->toArray();
@@ -149,7 +149,7 @@ class Table extends Component
 
     public function render()
     {
-        $listMetodeByr = MetodeBayar::search(trim($this->search))
+        $listMetodeByr = MetodeBayarPajak::search(trim($this->search))
             ->orderBy($this->defaultSort)
             ->paginate($this->perPage);
 

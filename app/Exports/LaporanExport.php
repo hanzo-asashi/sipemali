@@ -20,7 +20,7 @@ class LaporanExport implements FromCollection,Responsable, WithMapping,WithHeadi
      * It's required to define the fileName within
      * the export class when making use of Responsable.
      */
-    private string $fileName = 'laporan.xlsx';
+    private string $fileName = 'laporan-pajak.xlsx';
 
     /**
      * Optional Writer Type

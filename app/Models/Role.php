@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Permission\Models\Role as SpatieRole;
+
 /**
  * @mixin IdeHelperRole
  */
-class Role extends \Spatie\Permission\Models\Role
+class Role extends SpatieRole
 {
-    public function scopeSearch($query, $term)
+    public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
         $query->where(function ($q) use ($term) {
@@ -16,5 +19,10 @@ class Role extends \Spatie\Permission\Models\Role
             $query->where('name', 'like', $term);
         });
         });
+    }
+
+    public function user(): HasMany
+    {
+        return $this->hasMany(User::class, 'id', 'id');
     }
 }

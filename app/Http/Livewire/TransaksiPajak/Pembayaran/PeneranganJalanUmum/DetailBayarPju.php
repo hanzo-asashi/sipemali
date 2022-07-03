@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\TransaksiPajak\Pembayaran\PeneranganJalanUmum;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use App\Models\ObjekPajak;
 use App\Models\ObjekPajakPeneranganJalanUmum;
 use App\Models\Pembayaran;
@@ -247,7 +247,7 @@ class DetailBayarPju extends Component
 
     public function render()
     {
-        $listMetodeBayar = MetodeBayar::pluck('jenis_metode', 'id');
+        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode', 'id');
         $listBulan = Helper::list_bulan();
 
         return view('livewire.transaksi-pajak.pembayaran.penerangan-jalan-umum.detail-bayar-pju',

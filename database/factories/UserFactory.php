@@ -24,12 +24,12 @@ class UserFactory extends Factory
     {
         return [
             'avatar'             => 'assets/images/users/default.png',
-            'nik'                => '7471'.$this->faker->unique()->numberBetween(0, 12),
+//            'nik'                => '7471'.$this->faker->unique()->numberBetween(0, 12),
             'name'               => $this->faker->unique()->name,
             'email'              => $this->faker->unique()->safeEmail,
-            'status'             => 1,
-            'is_admin'           => $this->faker->boolean,
-            'last_login'         => now(),
+//            'status'             => 1,
+//            'is_admin'           => $this->faker->boolean,
+//            'last_login'         => now(),
             'email_verified_at'  => now(),
             'password'           => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token'     => Str::random(10),
@@ -41,7 +41,7 @@ class UserFactory extends Factory
      *
      * @return Factory
      */
-    public function unverified()
+    public function unverified(): Factory
     {
         return $this->state(function (array $attributes) {
             return [

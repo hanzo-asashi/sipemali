@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use App\Concerns\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+use Laravel\Scout\Searchable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperMetodeBayar
@@ -11,22 +17,37 @@ use Illuminate\Database\Eloquent\Model;
 class MetodeBayar extends Model
 {
     use HasFactory;
+    use LogsActivity;
+    use Searchable;
+    use HasHashId;
 
-    public $table = 'jenis_metode_pembayaran';
-
-    protected $fillable = ['jenis_metode', 'keterangan'];
+    protected $fillable = ['kode','nama','no_rekening','deskripsi'];
     public $timestamps = false;
+    protected $table = 'metode_bayar';
 
-    public function pembayaran()
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    #[SearchUsingPrefix(['id','kode'])]
+    #[SearchUsingFullText(['nama','deskripsi'])]
+    public function toSearchableArray()
     {
-//        return $this->belongsTo(Pembayaran::class, 'id', 'metode_bayar');
-        return $this->hasMany(Pembayaran::class, 'metode_bayar', 'id');
+        return [
+            'id' => $this->id,
+            'kode' => $this->kode,
+            'nama' => $this->nama,
+            'no_rekening' => $this->no_rekening,
+            'deskripsi' => $this->deskripsi,
+        ];
     }
 
-    public function scopeSearch($query, $term)
+    public function getActivitylogOptions(): LogOptions
     {
-        $term = "%{$term}%";
-        $query->where('jenis_metode', 'like', $term)
-            ->orWhere('keterangan', 'like', $term);
+        return LogOptions::defaults()
+            ->useLogName('metode-bayar')
+            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} data metode bayar {$this->nama}");
+        // Chain fluent methods for configuration options
     }
 }

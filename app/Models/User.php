@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -20,6 +22,18 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use LogsActivity;
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->useLogName('pengguna')
+            ->setDescriptionForEvent(fn($eventName) => "{$eventName} pengguna {$this->name}")
+            ->logFillable()
+            ->logOnlyDirty()
+            ;
+        // Chain fluent methods for configuration options
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -70,6 +84,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return asset('storage/pengguna/avatar.png') ?: asset('assets/images/users/default.png');
     }
 
+    public function loket()
+    {
+        return $this->belongsTo(BranchCounter::class,'loket_id','id');
+    }
+
     /**
      * User relation to info model.
      *
@@ -105,17 +124,32 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('status', '!=', 1);
     }
 
+//    public function scopeSearch($query, $term)
+//    {
+//        $term = "%{$term}%";
+//        $query->where(function ($q) use ($term) {
+//            $q->where('nik', 'like', $term)
+//                ->orWhere('name', 'like', $term)
+//                ->orWhere('email', 'like', $term)
+//                ->orWhere('status', 'like', $term)
+//                ->orWhereHas('roles', function ($query) use ($term) {
+//                    $query->where('name', 'like', $term);
+//                });
+//        });
+//    }
+
     public function scopeSearch($query, $term)
     {
         $term = "%{$term}%";
-        $query->where(function ($q) use ($term) {
-            $q->where('nik', 'like', $term)
-                ->orWhere('name', 'like', $term)
-                ->orWhere('email', 'like', $term)
-                ->orWhere('status', 'like', $term)
-                ->orWhereHas('roles', function ($query) use ($term) {
-                    $query->where('name', 'like', $term);
-                });
-        });
+        $query->where('name', 'like', $term)
+            ->orWhere('email', 'like', $term)
+            ->orWhere('status', '=', $term)
+            ->orWhereHas('roles', function ($query) use ($term) {
+                $query->where('name', 'like', $term);
+            })
+//            ->orWhereHas('loket', function ($query) use ($term) {
+//                $query->where('name', 'like', $term);
+//            })
+        ;
     }
 }

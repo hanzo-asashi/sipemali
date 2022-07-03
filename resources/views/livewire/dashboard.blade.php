@@ -238,7 +238,7 @@
                 </div>
                 <!-- end card -->
             </div>
-            <!--end laporan 10-->
+            <!--end laporan-pajak 10-->
         </div>
 
         <div class="row">

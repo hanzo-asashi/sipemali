@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\TransaksiPajak\Pembayaran\Hotel;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use App\Models\ObjekPajak;
 use App\Models\Pembayaran;
 use App\Models\WajibPajak;
@@ -241,7 +241,7 @@ class DetailBayarHotel extends Component
 
     public function render()
     {
-        $listMetodeBayar = MetodeBayar::pluck('jenis_metode','id');
+        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode','id');
         $listBulan = Helper::list_bulan();
         return view('livewire.transaksi-pajak.pembayaran.hotel.detail-bayar-hotel',compact('listMetodeBayar','listBulan'));
     }

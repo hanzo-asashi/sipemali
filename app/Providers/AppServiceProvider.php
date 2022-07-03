@@ -5,21 +5,11 @@ namespace App\Providers;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Debugbar;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Livewire\LivewireBladeDirectives;
-use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
-use Spatie\Health\Checks\Checks\CacheCheck;
-use Spatie\Health\Checks\Checks\DatabaseCheck;
-use Spatie\Health\Checks\Checks\DebugModeCheck;
-use Spatie\Health\Checks\Checks\EnvironmentCheck;
-use Spatie\Health\Checks\Checks\RedisCheck;
-use Spatie\Health\Checks\Checks\ScheduleCheck;
-use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
-use Spatie\Health\Commands\RunHealthChecksCommand;
-use Spatie\Health\Facades\Health;
-use VictoRD11\SslCertificationHealthCheck\SslCertificationExpiredCheck;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,13 +32,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
+        Paginator::useBootstrapFive();
 
         Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
             $class = get_class($model);
 
             info("Attempted to lazy load [{$relation}] on model [{$class}].");
             Debugbar::info("Attempted to lazy load [{$relation}] on model [{$class}].");
+        });
+
+        /* Seacrh on every model macro */
+        Builder::macro('whereLike', function (string $attribute, string $searchTerm) {
+            return $this->orWhere($attribute,'LIKE',"%{$searchTerm}%");
         });
     }
 }

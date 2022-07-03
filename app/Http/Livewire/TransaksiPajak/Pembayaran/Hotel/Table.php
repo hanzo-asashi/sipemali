@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\TransaksiPajak\Pembayaran\Hotel;
 
-use App\Models\MetodeBayar;
+use App\Models\MetodeBayarPajak;
 use App\Models\ObjekPajak;
 use App\Models\Pembayaran;
 use App\Models\WajibPajak;
@@ -308,7 +308,7 @@ class Table extends Component
             ->orderBy($this->defaultSort)
             ->paginate($this->perPage);
 
-        $listMetodeBayar = MetodeBayar::pluck('jenis_metode', 'id');
+        $listMetodeBayar = MetodeBayarPajak::pluck('jenis_metode', 'id');
 
         $listBulan = config('custom.bulan');
         $listTahun = config('custom.tahun_kontrak');
