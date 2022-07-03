@@ -1,5 +1,5 @@
-![alt text](https://banners.beyondco.de/Pajak%20Online.png?theme=light&packageManager=composer+require&packageName=hanzo-asashi%2Fpajak-online&pattern=floatingCogs&style=style_1&description=Sistem+Informasi+Pajak+Online&md=1&showWatermark=1&fontSize=100px&images=calculator)
-# SISTEM INFORMASI PAJAK ONLINE - ESPPT PBB ONLINE
+![alt text](https://banners.beyondco.de/SIPEMALI.png?theme=dark&packageManager=composer+require&packageName=hanzo-asashi%2Fsipemali&pattern=bubbles&style=style_2&description=Sistem+Pembayaran+Air+Online+PDAM&md=1&showWatermark=1&fontSize=100px&images=cash)
+# SISTEM PEMBAYARAN AIR ONLINE PDAM - SIPEMALI PDAM
 
 ## Installation Quick Start
 
@@ -79,5 +79,3 @@ For setup, usage guidance, and all other docs - please consult the [Project Wiki
 ## License
 
 This boilerplate, much like the Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-
-
