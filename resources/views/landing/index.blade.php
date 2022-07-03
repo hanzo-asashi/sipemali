@@ -11,8 +11,8 @@
                     <div class="col-md-12">
                         <div class="text-center">
                             <img style="width: 80px;height: 80px;" src="{{ asset('assets/images/Lambang-kolut.png') }}" alt=""/>
-                            <h3 class="mt-4">PEMERINTAH KABUPATEN KOLAKA UTARA</h3>
-                            <p>BADAN PENDAPATAN DAN ASET DAERAH</p>
+                            <h3 class="mt-4">PEMERINTAH KABUPATEN SOPPENG</h3>
+                            <p>PERUSAHAAN UMUM DAERAH (PERUMDA) AIR MINUM TIRTA OMPO </p>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         <div class="text-center text-white p-4 pt-5">
                             <img style="width: 120px;height: 100%;" src="{{ asset('assets/images/logo-elapak.png') }}" alt=""/>
                             <p class="mt-3 mb-1">SISTEM ELEKTRONIK</p>
-                            <h5 class="text-white">LAPORAN PAJAK DAERAH KOLAKA UTARA</h5>
+                            <h5 class="text-white">PEMBAYARAN AIR ONLINE DAERAH SOPPENG</h5>
                             <div>
                                 @auth()
                                     <a href="{{ route('dashboard') }}" class="btn btn-success mt-2 me-2 waves-effect waves-light">Dashboard</a>
@@ -43,7 +43,7 @@
                     <div class="col-xl-4 bg-gradient bg-success">
                         <div class="text-center p-5">
                             <h5>TRACKING PEMBAYARAN</h5>
-                            <p class="text-white">Masukkan NOPD, NIB atau nomor kependudukan anda, untuk mengetahui status pembyaran objek pajak</p>
+                            <p class="text-white">Masukkan No Sambungan atau No Pelanggan untuk mengetahui status pembayaran air anda</p>
                             <form action="{{ route('search') }}" class="app-search d-lg-block mt-4">
                                 @csrf
                                 <div class="position-relative">
@@ -65,7 +65,7 @@
                                 <div>
                                     <i class="bx bx-smile widget-box-1-icon text-primary"></i>
                                 </div>
-                                <h5 class="mt-3">WAJIB PAJAK</h5>
+                                <h5 class="mt-3">PELANGGAN</h5>
                                 <h3 class="mt-3 mb-0">{{ $data['totalWajibPajak'] }} <span style="font-size: 13px; font-style: italic;">Orang</span></h3>
                             </div>
                             <!-- end card body -->
@@ -78,7 +78,7 @@
                                 <div>
                                     <i class="bx bx-map-pin widget-box-1-icon text-primary"></i>
                                 </div>
-                                <h5 class="mt-3">OBJEK PAJAK</h5>
+                                <h5 class="mt-3">TOTAL METERAN</h5>
                                 <h3 class="mt-3 mb-0">{{ $data['totalObjekPajak'] }} <span style="font-size: 13px; font-style: italic;">Objek</span></h3>
                             </div>
                             <!-- end card body -->
@@ -91,7 +91,7 @@
                                 <div>
                                     <i class="bx bx-pie-chart-alt widget-box-1-icon text-primary"></i>
                                 </div>
-                                <h5 class="mt-3">TARGET PAJAK</h5>
+                                <h5 class="mt-3">PENDAPATAN</h5>
                                 <h3 class="mt-3 mb-0"><span style="font-size: 13px; font-style: italic;">Rp.</span> {{ number_format($data['totalTargetPajak'],0,',','.') }}</h3>
                             </div>
                             <!-- end card body -->
@@ -104,7 +104,7 @@
                                 <div>
                                     <i class="bx bx-pie-chart widget-box-1-icon text-primary"></i>
                                 </div>
-                                <h5 class="mt-3">REALISASI PAJAK</h5>
+                                <h5 class="mt-3">TERTUNGGAK</h5>
                                 <h3 class="mt-3 mb-0"><span style="font-size: 13px; font-style: italic;">Rp.</span> {{ number_format($data['totalRealisasiPajak'],0,',','.') }}</h3>
                             </div>
                             <!-- end card body -->
@@ -117,7 +117,7 @@
             <!-- end container -->
             <div class="bg-light py-2">
                 <div class="text-center">
-                    2021 <i class="bx bx-copyright"></i> BAPENDA - Pemerintah Kabupaten Kolaka Utara.
+                    {{ now()->year }} <i class="bx bx-copyright"></i> PERUMDA AIR MINUM TIRTA OMPO - Pemerintah Kabupaten Soppeng.
                 </div>
             </div>
         </div>
