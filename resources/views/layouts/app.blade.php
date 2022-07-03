@@ -7,7 +7,7 @@
     <meta content="{{ setting(ucfirst('nama_aplikasi')) }}" name="description"/>
     <meta content="{{ setting('footer') }}" name="{{ setting('nama_kantor') }}"/>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
     @include('layouts.head-css')
     @livewireStyles
     {{--    <script type="text/javascript">--}}

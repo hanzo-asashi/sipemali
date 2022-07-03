@@ -25,9 +25,8 @@ class PengaturanController extends Controller
     {
         $input = $request->except('_token');
         if ($image = $request->file('logo_aplikasi')) {
-            $destinationPath = storage_path().'/app/public/uploads';
             $date = date('YmdHis').'.'.$image->getClientOriginalExtension();
-            $image->move($destinationPath, $date);
+            $image->storeAs('uploads', $date);
             $input['logo_aplikasi'] = $date;
         }
 

@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta content="Sistem Pajak Online BAPENDA Kabupaten Kolaka Utara" name="description" />
-    <meta content="TIM IT Kolaka Utara" name="author" />
+    <meta content="Sistem Pembayaran Air Online PERUMDA TIRTA OMPO Kabupaten Soppeng" name="description" />
+    <meta content="RESOMETODA" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ URL::asset('favicon.png') }}">
     @include('layouts.head-css')
     @livewireStyles
     <style type="text/css">
@@ -33,11 +33,22 @@
         }
 
         .bg-card-img {
-            background-image: url(../../assets/images/bg-kolutkab-dark.jpg) !important;
+            background-image: url("../../assets/images/bg-kolutkab-dark.jpg") !important;
+            /*background-image: url('../../assets/images/bg-kolutkab-dark.jpg') !important;*/
             background-position: 50%;
             background-size: cover;
             background-repeat: no-repeat;
         }
+        .auth-bg {
+            background-image: url("../../assets/images/bg-kolutkab.jpg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat; }
+        .auth-bg .bg-overlay {
+            opacity: 0.9; }
+        @media (min-width: 768px) {
+            .auth-bg {
+                height: 100vh; } }
     </style>
     {!! ReCaptcha::htmlScriptTagJsApi() !!}
 </head>

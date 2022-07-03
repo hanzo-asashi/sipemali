@@ -95,7 +95,7 @@
                                                         <label class="form-label" for="">Logo Aplikasi</label>
                                                         <div class="dropzone col-md-4">
                                                             <div class="fallback">
-                                                                <input value="{{ setting('logo_aplikasi', '') }}" name="logo_aplikasi" type="file">
+                                                                <input value="{{ setting('logo_aplikasi', 'logo_sm.svg') }}" name="logo_aplikasi" type="file">
                                                             </div>
                                                             <div class="dz-message needsclick">
                                                                 <div class="mb-3">
@@ -342,8 +342,3 @@
         <script src="{{ asset('assets/libs/dropzone/dropzone.min.js') }}"></script>
     @endsection
 </x-app-layout>
-
-
-
-
-

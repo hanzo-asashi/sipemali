@@ -16,9 +16,3 @@ yarn-error.log
 .phpstorm.meta.php
 _ide_helper_models.php
 _ide_helper.php
-
-# Project exclude paths
-/storage/app/
-/storage/debugbar/
-/storage/fonts/
-/storage/framework/

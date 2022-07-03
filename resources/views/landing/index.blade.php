@@ -10,7 +10,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="text-center">
-                            <img style="width: 80px;height: 80px;" src="{{ asset('assets/images/Lambang-kolut.png') }}" alt=""/>
+                            <img style="width: 80px;height: 100px;" src="{{ asset('assets/images/logo/logo-soppeng.png') }}" alt=""/>
+                            <img style="width: 80px;height: 80px;" src="{{ asset('assets/images/logo/logo-cutout.png') }}" alt=""/>
                             <h3 class="mt-4">PEMERINTAH KABUPATEN SOPPENG</h3>
                             <p>PERUSAHAAN UMUM DAERAH (PERUMDA) AIR MINUM TIRTA OMPO </p>
                         </div>
@@ -25,7 +26,7 @@
                 <div class="row mt-3">
                     <div class="col-xl-8 bg-gradient bg-soft-light bg-card-img">
                         <div class="text-center text-white p-4 pt-5">
-                            <img style="width: 120px;height: 100%;" src="{{ asset('assets/images/logo-elapak.png') }}" alt=""/>
+                            <img style="width: 300px;height: 100%;" src="{{ asset('assets/images/app-name.png') }}" alt=""/>
                             <p class="mt-3 mb-1">SISTEM ELEKTRONIK</p>
                             <h5 class="text-white">PEMBAYARAN AIR ONLINE DAERAH SOPPENG</h5>
                             <div>
@@ -36,7 +37,7 @@
                                     <a href="{{ route('login') }}" class="btn btn-success mt-2 me-2 waves-effect waves-light">Login Sistem</a>
                                 @endguest
 
-                                <a href="https://bapenda-kolut.com" target="_blank" class="btn btn-light mt-2 waves-effect waves-light">Website</a>
+                                <a href="https://sipemali.com" target="_blank" class="btn btn-light mt-2 waves-effect waves-light">Website</a>
                             </div>
                         </div>
                     </div>
