@@ -97,7 +97,7 @@
                 @php $i = 1 @endphp
                 @forelse($wilayah as $op)
                     @php
-                        $query = \App\Models\Pembayaran::query()->with(['objekpajak'])
+                        $query = \App\Models\PembayaranPajak::query()->with(['objekpajak'])
                             ->when($periode, function ($q) use ($periode) {
                                 $q->where('tahun', (int) $periode);
                             })

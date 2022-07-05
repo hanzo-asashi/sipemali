@@ -56,7 +56,7 @@ class ObjekPajak extends Model
 
     public function pembayaran()
     {
-        return $this->hasMany(Pembayaran::class,'objek_pajak_id','id')->orderByDesc('tahun')->orderByDesc('bulan');
+        return $this->hasMany(PembayaranPajak::class,'objek_pajak_id','id')->orderByDesc('tahun')->orderByDesc('bulan');
     }
 
     public function objekpembayaran()

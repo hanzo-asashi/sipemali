@@ -34,7 +34,7 @@ class ListStatusPembayaran extends Component
     public $paymentStatusId;
     public $deleteTipe;
 
-    public string $title = 'List Status Pembayaran';
+    public string $title = 'List Status PembayaranPajak';
     public bool $show = true;
     public string $modalId = 'modal-statusbayar';
 
@@ -176,9 +176,9 @@ class ListStatusPembayaran extends Component
     private function sendNotifikasi($model): void
     {
         if ($model) {
-            $this->alert('success', 'Status Pembayaran berhasil disimpan atau diperbarui');
+            $this->alert('success', 'Status PembayaranPajak berhasil disimpan atau diperbarui');
         } else {
-            $this->alert('danger', 'Status Pembayaran gagal disimpan atau diperbarui');
+            $this->alert('danger', 'Status PembayaranPajak gagal disimpan atau diperbarui');
         }
     }
 

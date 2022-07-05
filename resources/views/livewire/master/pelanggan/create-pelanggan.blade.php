@@ -1,30 +1,25 @@
 <div>
     @section('title', $title)
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
-        {{-- Page Css files --}}
-        <link rel="stylesheet" href="{{ asset(mix('css/base/pages/page-faq.css')) }}">
+    @push('css')
     @endpush
 <!-- frequently asked questions tabs pills -->
     <section id="faq-tabs">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-md-6">
                 <a href="{{ route('master.pelanggan.list') }}" class=""><i class="fa fa-arrow-alt-circle-left"></i> Kembali ke list pelanggan</a>
             </div>
         </div>
         <!-- vertical tab pill -->
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-                <div class="faq-navigation d-flex justify-content-between flex-column mb-2 mb-md-0">
-                    <img style="width: 700px; height: 700px;"
-                         src="{{asset('images/illustration/create-account.svg')}}"
-                         class="img-fluid d-none d-md-block"
-                         alt="demand img"
-                    />
-                </div>
-            </div>
+{{--            <div class="col-lg-4 col-md-6 col-sm-12">--}}
+{{--                <div class="faq-navigation d-flex justify-content-between flex-column mb-2 mb-md-0">--}}
+{{--                    <img style="width: 700px; height: 700px;"--}}
+{{--                         src="{{asset('images/illustration/create-account.svg')}}"--}}
+{{--                         class="img-fluid d-none d-md-block"--}}
+{{--                         alt="demand img"--}}
+{{--                    />--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="col-lg-7 col-md-8 col-sm-12">
                 <!-- pill tabs tab content -->
                 <div class="card">
@@ -42,7 +37,7 @@
                                                        class="form-control @error('no_sambungan') is-invalid @enderror"
                                                        id="no_sambungan" placeholder="contoh : 123456789" autofocus
                                                 />
-                                                <x-jet-input-error :for="'no_sambungan'"/>
+                                                <x-input-error :for="'no_sambungan'"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-3">
@@ -51,7 +46,7 @@
                                                        class="form-control @error('no_pelanggan') is-invalid @enderror"
                                                        id="no_pelanggan" placeholder="contoh : 7312111020355354"
                                                 />
-                                                <x-jet-input-error :for="'no_pelanggan'"/>
+                                                <x-input-error :for="'no_pelanggan'"/>
                                             </div>
                                             {{--                                            <p><small class="text-muted">Otomatis dari sistem</small></p>--}}
                                         </div>
@@ -67,7 +62,7 @@
                                                 <input wire:dirty.class="is-valid" wire:model.lazy="pelanggan.nama_pelanggan" type="text" id="nama_pelanggan"
                                                        class="form-control @error('nama_pelanggan') is-invalid @enderror" placeholder="contoh: Susi Susanti"
                                                 />
-                                                <x-jet-input-error :for="'nama_pelanggan'"/>
+                                                <x-input-error :for="'nama_pelanggan'"/>
                                             </div>
                                         </div>
                                     </div>
@@ -83,7 +78,7 @@
                                                        class="form-control @error('alamat_pelanggan') is-invalid @enderror"
                                                        placeholder="contoh : Jl. Raya"
                                                 />
-                                                <x-jet-input-error :for="'alamat_pelanggan'"/>
+                                                <x-input-error :for="'alamat_pelanggan'"/>
                                             </div>
                                         </div>
                                     </div>
@@ -102,7 +97,7 @@
                                                         <option value="{{ $key }}">{{ $zona}}</option>
                                                     @endforeach
                                                 </select>
-                                                <x-jet-input-error :for="'zona_id'"/>
+                                                <x-input-error :for="'zona_id'"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -115,7 +110,7 @@
                                                         <option value="{{ $key }}">{{ $golongan}}</option>
                                                     @endforeach
                                                 </select>
-                                                <x-jet-input-error :for="'golongan_id'"/>
+                                                <x-input-error :for="'golongan_id'"/>
                                             </div>
                                         </div>
                                     </div>
@@ -135,7 +130,7 @@
                                                         <option value="{{ $key }}">{{ $bln}}</option>
                                                     @endforeach
                                                 </select>
-                                                <x-jet-input-error :for="'bulan_langganan'"/>
+                                                <x-input-error :for="'bulan_langganan'"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -147,7 +142,7 @@
                                                         <option value="{{ $key }}">{{ $thn}}</option>
                                                     @endforeach
                                                 </select>
-                                                <x-jet-input-error :for="'tahun_langganan'"/>
+                                                <x-input-error :for="'tahun_langganan'"/>
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +162,7 @@
                                                         <option value="{{ $key }}">{{ $status}}</option>
                                                     @endforeach
                                                 </select>
-                                                <x-jet-input-error :for="'status_pelanggan'"/>
+                                                <x-input-error :for="'status_pelanggan'"/>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -178,7 +173,7 @@
                                                     <option value="1">BIASA</option>
                                                     <option value="2">KHUSUS</option>
                                                 </select>
-                                                <x-jet-input-error :for="'penagihan_pelanggan'"/>
+                                                <x-input-error :for="'penagihan_pelanggan'"/>
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +191,7 @@
                                                 >
 
                                                 </textarea>
-                                                <x-jet-input-error :for="'keterangan'"/>
+                                                <x-input-error :for="'keterangan'"/>
                                             </div>
                                         </div>
                                     </div>
@@ -208,7 +203,7 @@
                                                    class="form-check-input @error('is_valid') is-invalid @enderror" id="isValid"
                                             >
                                             <label class="form-check-label" for="isValid">Centang bila pelanggan dianggap valid.</label>
-                                            <x-jet-input-error :for="'is_valid'"/>
+                                            <x-input-error :for="'is_valid'"/>
                                         </div>
                                     </div>
                                 </div>

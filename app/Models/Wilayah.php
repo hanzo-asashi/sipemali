@@ -27,7 +27,7 @@ class Wilayah extends Model
 
     public function pembayaran()
     {
-        return $this->hasManyThrough(ObjekPajak::class,Pembayaran::class,'objek_pajak_id','id');
+        return $this->hasManyThrough(ObjekPajak::class,PembayaranPajak::class,'objek_pajak_id','id');
     }
 
     public function wajibpajak()

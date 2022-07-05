@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Master\Pelanggan;
 use App\Models\Customers;
 use App\Models\Payment;
 use App\Models\PaymentHistory;
-use App\Models\Pembayaran;
+use App\Models\PembayaranPajak;
 use App\Utilities\Helpers;
 use Livewire\Component;
 use Livewire\WithPagination;

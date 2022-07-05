@@ -1,4 +1,4 @@
-<x-modal :id="'modal-bayar'" :title="'Pembayaran'" :maxWidth="'lg'">
+<x-modal :id="'modal-bayar'" :title="'PembayaranPajak'" :maxWidth="'lg'">
     <form wire:submit.prevent="prosesPembayaran" class="pembayaran modal-content pt-0">
         <div class="modal-body">
             <div class="row mb-1">
@@ -187,6 +187,3 @@
         </div>
     </form>
 </x-modal>
-
-
-

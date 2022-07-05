@@ -26,7 +26,7 @@ class EditPembayaran extends Component
 
     public HoneypotData $extraFields;
 
-    public string $title = 'Ubah Pembayaran';
+    public string $title = 'Ubah PembayaranPajak';
     public $golonganTarif;
     public $customers;
     public $payment;
@@ -238,10 +238,10 @@ class EditPembayaran extends Component
         $validated['sisa'] = $this->payment->sisa ?? $this->hitungSisa($validated['total_bayar'], $validated['total_tagihan']);
 
         if ($this->payment->update($validated)) {
-            $this->alert('success', 'Pembayaran berhasil diperbarui');
+            $this->alert('success', 'PembayaranPajak berhasil diperbarui');
 //            $this->resetForms();
         } else {
-            $this->alert('danger', 'Pembayaran gagal diperbarui');
+            $this->alert('danger', 'PembayaranPajak gagal diperbarui');
         }
 //        $this->dispatchBrowserEvent('clearPelanggan');
     }

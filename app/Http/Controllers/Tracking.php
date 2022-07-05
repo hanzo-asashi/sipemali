@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembayaran;
+use App\Models\PembayaranPajak;
 use App\Models\Tunggakan;
 use App\Models\WajibPajak;
 use Illuminate\Http\Request;
@@ -25,7 +25,7 @@ class Tracking extends Controller
                 'objekpajak', 'objekpajakrumahmakan', 'jenisWajibPajak', 'kab', 'kec', 'kel', 'objekpajak.pembayaran', 'pembayaran',
             ])
                 ->find($wajibPajak->id);
-//            $pembayaran = Pembayaran::with(['objekpajak.objekPajakRumahMakan','wajibpajak','tunggakan'])->where('wajib_pajak_id', $wajibPajak->id)->get();
+//            $pembayaran = PembayaranPajak::with(['objekpajak.objekPajakRumahMakan','wajibpajak','tunggakan'])->where('wajib_pajak_id', $wajibPajak->id)->get();
             foreach ($detailWajibPajak->pembayaran()->with(['objekpajak','tunggakan'])->get() as $item) {
                 $pembayaran->add($item);
             }

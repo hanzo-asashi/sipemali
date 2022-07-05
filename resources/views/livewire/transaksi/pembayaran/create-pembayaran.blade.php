@@ -1,3 +1,4 @@
+\
 <div>
     @section('title', $title)
     @push('vendor-style')
@@ -45,16 +46,20 @@
                                     </div>
                                 </div>
                                 <x-tom-select
-                                              id="customer_id"
-                                              name="customer_id"
-                                              wire:model="pembayaran.customer_id"
-                                              :selected-items="$selectedItems"
-                                              :options="$pageData['listPelanggan']"
-                                              placeholder="Pilih Pelanggan"
-                                              class="form-select"
-                                              autocomplete="off"
+                                    id="customer_id"
+                                    name="customer_id"
+                                    wire:model="pembayaran.customer_id"
+                                    :selected-items="$selectedItems"
+                                    :options="$pageData['listPelanggan']"
+                                    placeholder="Pilih Pelanggan"
+                                    class="form-select"
+                                    autocomplete="off"
                                 />
-                                <x-jet-input-error :for="'customer_id'"/>
+                                @error('customer_id')
+                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                @enderror
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label" for="fp-date">Bulan Berjalan</label>
@@ -198,12 +203,11 @@
                                        class="form-control @error('total_tagihan') is-invalid @enderror"
                                        placeholder="Rp. 1.000.000" readonly
                                 />
-                                <x-jet-input-error :for="'total_tagihan'"/>
-                                {{--                                        @error('total_tagihan')--}}
-                                {{--                                        <span class="invalid-feedback" role="alert">--}}
-                                {{--                                            <strong>{{ $message }}</strong>--}}
-                                {{--                                        </span>--}}
-                                {{--                                        @enderror--}}
+                                @error('total_tagihan')
+                                <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="total_bayar">Total Pembayaran</label>
@@ -214,12 +218,11 @@
                                     class="form-control @error('total_bayar') is-invalid @enderror"
                                     placeholder="Rp. 2.000.000"
                                 />
-                                <x-jet-input-error :for="'total_bayar'"/>
-                                {{--                                        @error('total_bayar')--}}
-                                {{--                                        <span class="invalid-feedback" role="alert">--}}
-                                {{--                                            <strong>{{ $message }}</strong>--}}
-                                {{--                                        </span>--}}
-                                {{--                                        @enderror--}}
+                                @error('total_bayar')
+                                <span class="invalid-feedback" role="alert">
+                                                                            <strong>{{ $message }}</strong>
+                                                                        </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="row mb-1">
@@ -232,12 +235,11 @@
                                         <option value="{{ $key }}">{{ $status}}</option>
                                     @endforeach
                                 </select>
-                                <x-jet-input-error :for="'status_pembayaran'"/>
-                                {{--                                        @error('status_pembayaran')--}}
-                                {{--                                        <span class="invalid-feedback" role="alert">--}}
-                                {{--                                                <strong>{{ $message }}</strong>--}}
-                                {{--                                            </span>--}}
-                                {{--                                        @enderror--}}
+                                @error('status_pembayaran')
+                                <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $message }}</strong>
+                                                                            </span>
+                                @enderror
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="status_pembayaran">Metode Pembayaran</label>
@@ -267,36 +269,36 @@
                                 @enderror
                             </div>
                         </div>
-{{--                        <hr>--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col-md-12">--}}
-{{--                                <div class="d-inline-flex gap-1">--}}
-{{--                                    <button wire:loading.attr="disabled" type="submit" class="btn btn-primary waves-effect waves-float waves-light">--}}
-{{--                                                        <span wire:loading.delay.shorter wire:target="storePembayaran" class="spinner-border spinner-border-sm" role="status"--}}
-{{--                                                              aria-hidden="true"></span>--}}
-{{--                                        <i class="far fa-save me-1"></i>Simpan--}}
-{{--                                    </button>--}}
-{{--                                    <button wire:loading.attr="disabled" type="button" wire:click.prevent="buatDanKembali"--}}
-{{--                                            class="btn btn-info waves-effect waves-float waves-light">--}}
-{{--                                                        <span wire:loading.delay.shorter wire:target="buatDanKembali" class="spinner-border spinner-border-sm" role="status"--}}
-{{--                                                              aria-hidden="true"></span>--}}
-{{--                                        <i class="far fa-backspace me-1"></i> Simpan & Kembali--}}
-{{--                                    </button>--}}
-{{--                                    <button wire:loading.attr="disabled" type="button" wire:click.prevent="simpanDanCetak"--}}
-{{--                                            class="btn btn-outline-secondary waves-effect waves-float waves-light">--}}
-{{--                                                        <span wire:loading.delay.shorter wire:target="simpanDanCetak" class="spinner-border spinner-border-sm" role="status"--}}
-{{--                                                              aria-hidden="true"></span>--}}
-{{--                                        <i class="far fa-print me-1"></i>Simpan & Cetak Nota--}}
-{{--                                    </button>--}}
-{{--                                    <button wire:loading.attr="disabled" type="reset" wire:click.prevent="resetForms"--}}
-{{--                                            class="btn btn-outline-danger waves-effect">--}}
-{{--                                                            <span wire:loading.delay.shorter wire:target="resetForms" class="spinner-border spinner-border-sm" role="status"--}}
-{{--                                                                  aria-hidden="true"></span>--}}
-{{--                                        <i class="far fa-ban me-1"></i>Batal--}}
-{{--                                    </button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+                        {{--                        <hr>--}}
+                        {{--                        <div class="row">--}}
+                        {{--                            <div class="col-md-12">--}}
+                        {{--                                <div class="d-inline-flex gap-1">--}}
+                        {{--                                    <button wire:loading.attr="disabled" type="submit" class="btn btn-primary waves-effect waves-float waves-light">--}}
+                        {{--                                                        <span wire:loading.delay.shorter wire:target="storePembayaran" class="spinner-border spinner-border-sm" role="status"--}}
+                        {{--                                                              aria-hidden="true"></span>--}}
+                        {{--                                        <i class="far fa-save me-1"></i>Simpan--}}
+                        {{--                                    </button>--}}
+                        {{--                                    <button wire:loading.attr="disabled" type="button" wire:click.prevent="buatDanKembali"--}}
+                        {{--                                            class="btn btn-info waves-effect waves-float waves-light">--}}
+                        {{--                                                        <span wire:loading.delay.shorter wire:target="buatDanKembali" class="spinner-border spinner-border-sm" role="status"--}}
+                        {{--                                                              aria-hidden="true"></span>--}}
+                        {{--                                        <i class="far fa-backspace me-1"></i> Simpan & Kembali--}}
+                        {{--                                    </button>--}}
+                        {{--                                    <button wire:loading.attr="disabled" type="button" wire:click.prevent="simpanDanCetak"--}}
+                        {{--                                            class="btn btn-outline-secondary waves-effect waves-float waves-light">--}}
+                        {{--                                                        <span wire:loading.delay.shorter wire:target="simpanDanCetak" class="spinner-border spinner-border-sm" role="status"--}}
+                        {{--                                                              aria-hidden="true"></span>--}}
+                        {{--                                        <i class="far fa-print me-1"></i>Simpan & Cetak Nota--}}
+                        {{--                                    </button>--}}
+                        {{--                                    <button wire:loading.attr="disabled" type="reset" wire:click.prevent="resetForms"--}}
+                        {{--                                            class="btn btn-outline-danger waves-effect">--}}
+                        {{--                                                            <span wire:loading.delay.shorter wire:target="resetForms" class="spinner-border spinner-border-sm" role="status"--}}
+                        {{--                                                                  aria-hidden="true"></span>--}}
+                        {{--                                        <i class="far fa-ban me-1"></i>Batal--}}
+                        {{--                                    </button>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        </div>--}}
                     </div>
                     <div class="card-footer py-1 px-1">
                         <div class="d-flex gap-1 justify-content-end align-items-center">
@@ -312,7 +314,7 @@
                                 <i class="far fa-backspace me-1"></i> Simpan & Kembali
                             </button>
                             <a href="" wire:loading.attr="disabled" wire:click.prevent="simpanDanCetak" target="_blank"
-                                    class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                               class="btn btn-outline-secondary waves-effect waves-float waves-light">
                                                         <span wire:loading.delay.shorter wire:target="simpanDanCetak" class="spinner-border spinner-border-sm" role="status"
                                                               aria-hidden="true"></span>
                                 <i class="far fa-print me-1"></i>Simpan & Cetak Nota
@@ -325,7 +327,7 @@
                             </button>
                         </div>
                     </div>
-                    <x-honeypot livewire-model="extraFields" />
+                    <x-honeypot livewire-model="extraFields"/>
                 </form>
             </div>
         </div>

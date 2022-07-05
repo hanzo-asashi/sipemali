@@ -2,240 +2,130 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\ObjekPajak;
-use App\Models\Pembayaran;
-use App\Models\WajibPajak;
-use App\Utilities\Helper;
+use App\Models\Customers;
+use App\Models\Payment;
+use App\Utilities\Helpers;
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;
-use Asantibanez\LivewireCharts\Models\BaseChartModel;
 use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public int $totalWajibPajak = 0;
-    public int $totalObjekPajak = 0;
-    public int $totalTargetPajak = 0;
-    public int $totalRealisasiPajak = 0;
+    public $types = [1, 2, 3];
 
-    public int $maxValue = 100;
-    public int $minValue = 10;
-    public array $data = [];
-    public array $series = [];
-    public array $label = [];
+    public $colors = [
+        1 => '#f6ad55',
+        2 => '#fc8181',
+        3 => '#90cdf4',
+        4 => '#66DA26',
+        5 => '#cbd5e0',
+        6 => '#4fa00d',
+        7 => '#f48648',
+        8 => '#00335d',
+        9 => '#21b6eb',
+        10 => '#931d8f',
+        11 => '#c61848',
+        12 => '#b0d261',
+    ];
 
-    public $objekPajak;
-    public $terbesar;
-    public $tercepat;
-    public array $listBulan = [];
-    protected $listPembayaran;
-    public array $pembayaran = [];
-    public array $target = [];
-    public array $realisasi = [];
-
-    public array $totalPajak = [];
-
-    public $tahun;
-    public $columnChart;
-    public $pieChart;
-
-    public $types = ['food', 'shopping', 'entertainment', 'travel', 'other'];
     public $firstRun = true;
-    public $showDataLabels = false;
-    public $colors
-        = [
-            'RMN' => '#2ab57d',
-            'HTL' => '#5156be',
-            'RKM' => '#fd625e',
-            'TBM' => '#4ba6ef',
-            'PPJ' => '#ffbf53',
-        ];
 
-    protected $listeners
-        = [
-            'onPointClick'  => 'handleOnPointClick',
-            'onSliceClick'  => 'handleOnSliceClick',
-            'onColumnClick' => 'handleOnColumnClick',
-        ];
+    public $showDataLabels = false;
+
+    protected $listeners = [
+        'onPointClick' => 'handleOnPointClick',
+        'onSliceClick' => 'handleOnSliceClick',
+        'onColumnClick' => 'handleOnColumnClick',
+        'onBlockClick' => 'handleOnBlockClick',
+    ];
+
+    public $filterTahun = 'all';
+    public $tahun;
+
+    public array $statistik = [];
+    public $breadcrumbs = [
+        ['name' => 'Home']
+    ];
+
+    public string $title = 'Dashboard';
 
     public function handleOnPointClick($point)
     {
-        dd($point);
+        //dd($point);
     }
 
-    public function handleOnSliceClick($slice)
+    public function handleOnSliceClick($slice): void
     {
-        dd($slice);
+        //dd($slice);
     }
 
-    public function handleOnColumnClick($column)
+    public function handleOnColumnClick($column): void
     {
-        dd($column);
+        //dd($column);
     }
 
-    private function renderDashboard()
+    public function handleOnBlockClick($block): void
     {
-        $this->totalWajibPajak = WajibPajak::count();
-        $this->totalObjekPajak = ObjekPajak::count();
-        $this->totalTargetPajak = Pembayaran::when($this->tahun, function ($q) {
-            $q->where('tahun', $this->tahun);
-        })->sum('nilai_pajak');
-        $this->totalRealisasiPajak = Pembayaran::when($this->tahun, function ($q) {
-            $q->where('tahun', $this->tahun);
-        })->where('status_bayar', 1)->sum('nilai_pajak');
+        //dd($block);
+    }
 
-        $objekPajak = ObjekPajak::with(['wajibpajak', 'pembayaran', 'jenisObjekPajak'])
-            ->when($this->tahun, function ($q) {
-                $q->whereHas('pembayaran', function ($q) {
-                    $q->where('tahun', $this->tahun);
-                });
-            })
-            ->groupBy('id_jenis_op');
+    public function mount(): void
+    {
+        $this->calculateStatistik();
+//        dd($this->title);
+    }
 
-        $this->objekPajak = $objekPajak->get();
-        $this->listBulan = Helper::list_bulan(true);
+    private function calculateStatistik(): void
+    {
+        $this->statistik['utang'] = Payment::where('status_pembayaran', '=', 3)->sum('total_tagihan');
+        $this->statistik['piutang'] = Payment::where('status_pembayaran', '=', 2)->sum('total_tagihan');
+        $this->statistik['pendapatan'] = Payment::where('status_pembayaran', '=', 1)->sum('total_tagihan');
+        $this->statistik['pelanggan'] = Customers::all()->count();
+    }
 
-        foreach ($this->objekPajak as $item) {
-            $this->listPembayaran = $item->pembayaran();
+
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        $columnChartModel = LivewireCharts::columnChartModel();
+        $listBulan = Helpers::list_bulan(true);
+        $pembayaran = Payment::all();
+
+        $pembayaranByCustomerPerMonth = $pembayaran->groupBy('customer_id')->reduce(function (&$carry, $item, $key) use ($listBulan) {
+            foreach ($listBulan as $k => $bulan) {
+                $carry[$key][$bulan] = $item->where('bulan_berjalan', $k)->sum('total_tagihan');
+            }
+            return $carry;
+        }, []);
+
+        foreach ($listBulan as $key => $item) {
+            $bayar = Payment::where('bulan_berjalan', $key)->sum('total_tagihan');
+            $bayar = number_format($bayar, 0, ',', '.');
+            $columnChartModel->addColumn($item, $bayar, $this->colors[$key]);
         }
 
-        $op = Pembayaran::with(['wajibpajak', 'objekpajak', 'objekpajak.jenisObjekPajak'])
-            ->when($this->tahun, function ($q) {
-                $q->where('tahun', $this->tahun);
-            })
-            ->where('status_bayar', 1);
-        $this->terbesar = $op
-            ->orderByDesc('nilai_pajak')
-            ->take(10)->get();
+        $pembayaranByCustomer = $pembayaran->groupBy('customer_id')->reduce(function (&$carry, $item, $key) {
+            $carry[$key] = $item->sum('total_tagihan');
+            return $carry;
+        }, []);
 
-        $this->tercepat = $op
-            ->orderByDesc('created_at')
-            ->take(10)->get();
+//        $pembayaranByBulan = $pembayaran->groupBy('bulan_berjalan')->map(function ($item, $key) use ($listBulan, $columnChartModel) {
+//            $columnChartModel->addColumn($listBulan[$key], $item->sum('total_tagihan'), $this->colors[$key]);
+//            return [
+//                'bulan' => $listBulan[$key],
+//                'total_tagihan' => $item->sum('total_tagihan'),
+//            ];
+//        });
 
-    }
-
-    public function mount()
-    {
-        $this->tahun = setting('tahun_sppt', now()->year);
-        $this->firstRun = true;
-        $this->renderDashboard();
-    }
-
-    public function updatedTahun()
-    {
-        $this->firstRun = true;
-        $this->renderDashboard();
-    }
-
-    private function _renderChartColumn(): ColumnChartModel
-    {
-        $columChartModel = LivewireCharts::multiColumnChartModel();
-        foreach ($this->listBulan as $key => $item) {
-            $query = Pembayaran::with(['wajibpajak', 'objekpajak'])
-                ->when($this->tahun, function ($q) {
-                    $q->where('tahun', $this->tahun);
-                })
-                ->where('bulan', $key);
-
-            $nilaiPajakTarget = $query->get()->sum('nilai_pajak');
-            $dendaTarget = $query->get()->sum('denda');
-
-            $nilaiPajakRealisasi = $query
-                ->where('status_bayar', 1)
-                ->get()->sum('nilai_pajak');
-            $dendaRealisasi = $query
-                ->where('status_bayar', 1)
-                ->get()->sum('denda');
-
-            $this->target[] = $nilaiPajakTarget - $dendaTarget;
-            $this->realisasi[] = $nilaiPajakRealisasi - $dendaRealisasi;
-
-            $target = $nilaiPajakTarget - $dendaTarget;
-            $realisasi = $nilaiPajakRealisasi - $dendaRealisasi;
-
-            $columChartModel->addSeriesColumn('target', $item, $target);
-            $columChartModel->addSeriesColumn('realisasi', $item, $realisasi);
-        }
-
-        return $columChartModel->setTitle('Dalam juta - milyar')
+        $columnChartModel->setTitle('Total Tagihan Per Bulan')
             ->setAnimated($this->firstRun)
-            ->setXAxisCategories(array_values($this->listBulan))
-//            ->withOnColumnClickEventName('onColumnClick')
+            ->withOnColumnClickEventName('onColumnClick')
             ->setLegendVisibility(true)
             ->setDataLabelsEnabled($this->showDataLabels)
-            ->setColumnWidth(40)
-            ->multiColumn();
-    }
+//            ->setOpacity(0.25)
+            ->setColumnWidth(70)
+            ->withDataLabels();
 
-    private function setColors($label): string
-    {
-        if ($label === 'Rumah Makan') {
-            $color = $this->colors['RMN'];
-        } elseif ($label === 'Hotel') {
-            $color = $this->colors['HTL'];
-        } elseif ($label === 'Reklame') {
-            $color = $this->colors['RKM'];
-        } elseif ($label === 'Tambang Mineral') {
-            $color = $this->colors['TBM'];
-        } else {
-            $color = $this->colors['PPJ'];
-        }
-        return $color;
-    }
 
-    private function _renderChartPie(): BaseChartModel
-    {
-
-        $pieChartModel = LivewireCharts::pieChartModel();
-        foreach ($this->objekPajak as $item) {
-            $target = $item->pembayaran()->sum('nilai_pajak');
-            $targetDenda = $item->pembayaran()->sum('denda');
-            $realisasi = $item->pembayaran()->where('status_bayar', 1)->sum('nilai_pajak');
-            $realisasiDenda = $item->pembayaran()->where('status_bayar', 1)->sum('denda');
-
-            $nilaiTarget = $target - $targetDenda;
-            $nilaiRealisasi = $realisasi - $realisasiDenda;
-            $this->data = [
-                ['name' => 'target', 'data' => [(double) $nilaiTarget]],
-                ['name' => 'realisasi', 'data' => [(double) $nilaiRealisasi]],
-            ];
-
-            $this->series[] = (double) $nilaiRealisasi;
-            $this->label[] = $item->jenisObjekPajak->nama_jenis_op;
-
-            $series = (double) $nilaiRealisasi;
-            $label = $item->jenisObjekPajak->nama_jenis_op;
-
-            $color = $this->setColors($label);
-            $pieChartModel->addSlice($label, $series, $color);
-        }
-
-        return $pieChartModel->setAnimated($this->firstRun)
-            ->legendPositionBottom()
-            ->legendHorizontallyAlignedCenter()
-            ->setDataLabelsEnabled($this->showDataLabels);
-    }
-
-    public function render()
-    {
-        $listObjekPajak = ObjekPajak::with(['wajibpajak', 'pembayaran', 'jenisObjekPajak.targetPajak'])
-            ->withSum('pembayaran', 'nilai_pajak')
-            ->when($this->tahun, function ($q) {
-                $q->whereHas('pembayaran', function ($q) {
-                    $q->where('tahun', $this->tahun);
-                });
-            })
-            ->orderBy('created_at', 'DESC')
-            ->get();
-
-        $columnChartModel = $this->_renderChartColumn();
-        $pieChartModel = $this->_renderChartPie();
-
-        $listTahun = config('custom.tahun_kontrak');
-
-        $this->firstRun = false;
-
-        return view('livewire.dashboard', compact('listObjekPajak', 'columnChartModel', 'pieChartModel', 'listTahun'));
-//        return view('livewire.dashboard', compact('listObjekPajak'));
+        return view('livewire.dashboard', compact('columnChartModel'));
     }
 }

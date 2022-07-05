@@ -1,331 +1,159 @@
 <div>
     @section('title') Dashboard @endsection
-
     @push('css')
     @endpush
 
-    <section id="content">
-        <x-breadcrumb>
-            <x-slot name="li_1"> Home</x-slot>
-            <x-slot name="title"> Dashboard</x-slot>
-        </x-breadcrumb>
+{{--    @section('breadcrumbs')--}}
+{{--        @if(@isset($breadcrumbs))--}}
+{{--            <x-breadcrumb :breadcrumbs="$breadcrumbs"/>--}}
+{{--        @endisset--}}
+{{--    @endsection--}}
 
-        <div class="col-filter-ds mb-2 col-md-2">
-{{--            <x-inputs.select2 wire:model="tahun" id="tahun" class="form-select form-select-sm" data-placeholder="Pilih Tahun">--}}
-{{--                @foreach($listTahun as $key => $tahun)--}}
-{{--                    <option value="{{ $key }}">{{ $tahun }}</option>--}}
-{{--                @endforeach--}}
-{{--            </x-inputs.select2>--}}
-            <select wire:model="tahun" class="form-select form-select-sm">
-                <option value="">Pilih Tahun</option>
-                @foreach($listTahun as $key => $tahun)
-                <option value="{{ $key }}">{{ $tahun }}</option>
-                @endforeach
-            </select>
-        </div>
-        <div class="row">
-            <div class="col-xl-3 col-md-6">
-                <!-- card -->
-                <div class="card">
-                    <!-- card body -->
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <span class="text-success mb-4 lh-1 d-block">Wajib Pajak</span>
-                                <h4 class="mb-1">
-                                    <i class="bx bx-user text-success"></i>&nbsp;&nbsp;<span>{{ $totalWajibPajak }}</span> <span class="lead">Orang</span>
-                                </h4>
-                                {{--                                <div class="text-nowrap mt-2">--}}
-                                {{--                                    <span class="badge bg-soft-danger text-danger">-29 Trades</span>--}}
-                                {{--                                    <span class="ms-1 text-muted font-size-13">Since last week</span>--}}
-                                {{--                                </div>--}}
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div><!-- end card -->
-            </div><!-- end col -->
-
-            <div class="col-xl-3 col-md-6">
-                <!-- card -->
-                <div class="card">
-                    <!-- card body -->
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <span class="text-info mb-4 lh-1 d-block">Objek Pajak</span>
-                                <h4 class="mb-1">
-                                    <i class="bx bx-buildings text-info"></i>&nbsp;&nbsp;<span>{{ $totalObjekPajak }}</span> <span class="lead">Objek</span>
-                                </h4>
-                                {{--                                <div class="text-nowrap mt-2">--}}
-                                {{--                                    <span class="badge bg-soft-danger text-danger">-29 Trades</span>--}}
-                                {{--                                    <span class="ms-1 text-muted font-size-13">Since last week</span>--}}
-                                {{--                                </div>--}}
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div><!-- end card -->
-            </div><!-- end col -->
-
-            <div class="col-xl-3 col-md-6">
-                <!-- card -->
-                <div class="card">
-                    <!-- card body -->
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <span class="text-warning mb-4 lh-1 d-block">Target Pajak</span>
-                                <h4 class="mb-1">
-                                    <i class="bx bx-target-lock text-warning"></i>&nbsp;&nbsp;<span class="lead">Rp. </span>
-                                    <span>{{ \App\Utilities\Helper::format_angka($totalTargetPajak) }}</span>
-                                </h4>
-                                {{--                                <div class="text-nowrap mt-2">--}}
-                                {{--                                    <span class="badge bg-soft-danger text-danger">-29 Trades</span>--}}
-                                {{--                                    <span class="ms-1 text-muted font-size-13">Since last week</span>--}}
-                                {{--                                </div>--}}
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div><!-- end card -->
-            </div><!-- end col -->
-
-            <div class="col-xl-3 col-md-6">
-                <!-- card -->
-                <div class="card">
-                    <!-- card body -->
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-12">
-                                <span class="text-danger mb-4 lh-1 d-block">Realisasi Pajak</span>
-                                <h4 class="mb-1">
-                                    <i class="bx bx-pie-chart text-danger"></i>&nbsp;&nbsp;<span class="lead">Rp. </span>
-                                    <span>{{ \App\Utilities\Helper::format_angka($totalRealisasiPajak) }}</span>
-                                </h4>
-                                {{--                                <div class="text-nowrap mt-2">--}}
-                                {{--                                    <span class="badge bg-soft-success text-success">+$29 Trades</span>--}}
-                                {{--                                    <span class="ms-1 text-muted font-size-13">Since last week</span>--}}
-                                {{--                                </div>--}}
-                            </div>
-                        </div>
-                    </div><!-- end card body -->
-                </div><!-- end card -->
-            </div><!-- end col -->
-
-        </div><!-- end row-->
-
-        <div class="row">
-            <!--Grafik Target dan realisasi-->
-            <div class="col-xl-7">
-                <div class="card">
+        {{--                @if(@isset($breadcrumbs))--}}
+        {{--                    <x-breadcrumb :breadcrumbs="$breadcrumbs"/>--}}
+        {{--                @endisset--}}
+        <div class="row match-height">
+            <!-- Statistics Card -->
+            <div class="col-xl-12 col-md-6 col-12">
+                <div class="card card-statistics">
                     <div class="card-header">
-                        <h4 class="card-title mb-0">Grafik Target Dan Realisasi Pendapatan</h4>
+                        <h4 class="card-title">Data Statistik</h4>
+                        <div class="d-flex align-items-center">
+                            <p class="card-text font-small-2 me-25 mb-0">Diupdate 1 bulan yang lalu</p>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div style="height: 25rem;" class="apex-charts" dir="ltr">
-                            <livewire:livewire-column-chart
-                                key="{{ $columnChartModel->reactiveKey() }}"
-                                :column-chart-model="$columnChartModel"
-                            />
+                    <div class="card-body statistics-body">
+                        <div class="row">
+                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-primary me-2">
+                                        <div class="avatar-content">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up avatar-icon">
+                                                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                                                <polyline points="17 6 23 6 23 12"></polyline>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h4 class="fw-bolder mb-0">{{ \App\Utilities\Helpers::number_format_short($statistik['piutang']) }}</h4>
+                                        <p class="card-text font-small-3 mb-0">Piutang</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-info me-2">
+                                        <div class="avatar-content">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-user avatar-icon">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="12" cy="7" r="4"></circle>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h4 class="fw-bolder mb-0">{{ \App\Utilities\Helpers::number_format_short($statistik['pelanggan']) }}</h4>
+                                        <p class="card-text font-small-3 mb-0">Customers</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-danger me-2">
+                                        <div class="avatar-content">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-box avatar-icon">
+                                                <path
+                                                    d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h4 class="fw-bolder mb-0">{{ \App\Utilities\Helpers::number_format_short($statistik['utang'])  }}</h4>
+                                        <p class="card-text font-small-3 mb-0">Utang</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-success me-2">
+                                        <div class="avatar-content">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon">
+                                                <line x1="12" y1="1" x2="12" y2="23"></line>
+                                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h4 class="fw-bolder mb-0">{{ \App\Utilities\Helpers::number_format_short($statistik['pendapatan']) }}</h4>
+                                        <p class="card-text font-small-3 mb-0">Pendapatan</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!--end Grafik Target dan realisasi-->
             </div>
-
-            <!--Laporan 10-->
-            <div class="col-xl-5">
-                <div class="card">
-                    <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Laporan 10</h4>
-                        <div class="flex-shrink-0">
-                            <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-bs-toggle="tab" href="#sepuluh-terbesar" role="tab">
-                                        Terbesar
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#sepuluh-tercepat" role="tab">
-                                        Tercepat
-                                    </a>
-                                </li>
-                            </ul>
-                            <!-- end nav tabs -->
-                        </div>
-                    </div><!-- end card header -->
-
-                    <div class="card-body px-0">
-                        <div class="tab-content">
-                            <!-- start tab 10 terbesar -->
-                            <div class="tab-pane active" id="sepuluh-terbesar" role="tabpanel">
-                                <div class="table-responsive px-3" data-simplebar style="max-height: 347px;">
-                                    <table class="table align-middle table-nowrap table-borderless">
-                                        <tbody>
-                                        @forelse($terbesar as $besar)
-                                            <tr>
-                                                <td style="width: 30px;">
-                                                    <div class="font-size-22 text-{{ \App\Utilities\Helper::switchBadge($besar->objekpajak->id_jenis_op) }}">
-                                                        {!! \App\Utilities\Helper::switchIcon($besar->objekpajak->id_jenis_op) !!}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div>
-                                                        <h5 class="font-size-14 mb-1">{{ $besar->objekpajak->nama_objek_pajak ?? '-' }}</h5>
-                                                        <p class="text-muted mb-0 font-size-12">{{ $besar->objekpajak->jenisObjekPajak->nama_jenis_op ?? '-' }}</p>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="text-end">
-                                                        <h5 class="font-size-14 mb-0">{{ money($besar->nilai_pajak ?: 0,'IDR',true) }}</h5>
-                                                        <p class="text-muted mb-0 font-size-12">Nilai Pajak</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td class="text-center text-muted font-size-14" colspan="4">Maaf, Belum ada data.</td>
-                                            </tr>
-                                        @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- end tab 10 terbesar -->
-
-                            <!-- start tab 10 tercepat -->
-                            <div class="tab-pane" id="sepuluh-tercepat" role="tabpanel">
-                                <div class="table-responsive px-3" data-simplebar style="max-height: 347px;">
-                                    <table class="table align-middle table-nowrap table-borderless">
-                                        <tbody>
-                                        @forelse($tercepat as $cepat)
-                                            <tr>
-                                                <td style="width: 30px;">
-                                                    <div class="font-size-22 text-{{ \App\Utilities\Helper::switchBadge($cepat->objekpajak->id_jenis_op) }}">
-                                                        {!! \App\Utilities\Helper::switchIcon($cepat->objekpajak->id_jenis_op) !!}
-                                                    </div>
-                                                </td>
-
-                                                <td>
-                                                    <div>
-                                                        <h5 class="font-size-14 mb-1">{{ $cepat->objekpajak->nama_objek_pajak ?? '-' }}</h5>
-                                                        <p class="text-muted mb-0 font-size-12">{{ $cepat->objekpajak->jenisObjekPajak->nama_jenis_op ?? '-' }}</p>
-                                                    </div>
-                                                </td>
-                                                <td>
-
-                                                    <div class="text-end">
-                                                        <h5 class="font-size-14 mb-0"><i class="bx bx-calendar-event"></i>
-                                                            {{ \App\Utilities\Helper::convertTglFromString($cepat->created_at) }}
-                                                        </h5>
-                                                        <p class="text-muted mb-0 font-size-12">Tanggal Bayar</p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @empty
-                                            <tr>
-                                                <td class="text-center text-muted font-size-14" colspan="4">Maaf, Belum ada data.</td>
-                                            </tr>
-                                        @endforelse
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- end tab 10 tercepat -->
-                        </div>
-                        <!-- end tab content -->
-                    </div>
-                    <!-- end card body -->
-                </div>
-                <!-- end card -->
-            </div>
-            <!--end laporan-pajak 10-->
+            <!--/ Statistics Card -->
         </div>
-
-        <div class="row">
-            <div class="col-xl-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Tabel Realisasi Pajak</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="">
-                            <table class="table align-middle table-check nowrap"
-                                   style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
-                                <thead>
-                                <tr class="bg-transparent">
-                                    <th>Jenis Pajak</th>
-                                    <th>Target</th>
-                                    <th>Realisasi</th>
-                                    <th>Sisa</th>
-                                    {{--                                    <th width="100px"></th>--}}
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @forelse($objekPajak as $op)
-                                    @php
-                                        $nilaiPajak = $op->pembayaran()->where('status_bayar', 1)->sum('nilai_pajak') ?: 0;
-                                        $totalTarget = $op->pembayaran()->sum('nilai_pajak') ?: 0;
-                                        $denda = $op->pembayaran()->sum('denda') ?: 0;
-                                        $sisa = $totalTarget - $nilaiPajak;
-
-                                        if($nilaiPajak > 0 && $totalTarget > 0){
-                                            $valNow = \App\Utilities\Helper::to_persen(($nilaiPajak - $denda) ?: 0, $totalTarget);
-                                            $valMax = \App\Utilities\Helper::to_persen(($nilaiPajak - $denda) ?: 0, $totalTarget);
-                                        }else{
-                                            $valNow = 0;
-                                            $valMax = 0;
-                                        }
-                                    @endphp
-                                    <tr>
-                                        <td>Pajak {{ $op->jenisObjekPajak->nama_jenis_op }} <br>
-                                            <span class="badge bg-primary">Total : {{ $op->pembayaran()->count() }}</span></td>
-                                        <td>{{ money($totalTarget,'IDR',true) }}</td>
-                                        <td>{{ money($nilaiPajak,'IDR',true) }}</td>
-                                        <td>{{ money($op->pembayaran()->sum('nilai_pajak') - $op->pembayaran()->where('status_bayar', 1)->sum('nilai_pajak'),'IDR',true) }}</td>
-                                        <td>
-                                            <div class="progress mt-2" style="height: 6px;">
-                                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
-                                                     style="width: {{ $valNow }};"
-                                                     aria-valuenow="{{ $valNow }}" aria-valuemin="0"
-                                                     aria-valuemax="{{ $valMax }}"
-                                                >
-                                                </div>
+        <div class="row match-height">
+            <!-- Revenue Report Card -->
+            <div class="col-lg-12 col-12">
+                <div class="card card-revenue-budget">
+                    <div class="row mx-0">
+                        <div class="col-md-12 col-12 revenue-report-wrapper">
+                            <div class="d-sm-flex justify-content-between align-items-center mb-3">
+                                <h4 class="card-title mb-50 mb-sm-0">Total Tagihan Per Bulan</h4>
+                                <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center me-1">
+                                        <div class="btn-group">
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-primary btn-sm dropdown-toggle budget-dropdown"
+                                                data-bs-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false"
+                                            >
+                                                2022
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">2022</a>
+                                                <a class="dropdown-item" href="#">2023</a>
+                                                <a class="dropdown-item" href="#">2024</a>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td class="text-center text-muted font-size-14" colspan="5">Maaf, Belum ada data objek pajak.</td>
-                                    </tr>
-                                @endforelse
-                                </tbody>
-                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center ms-75">
+                                        <div class="dropdown chart-dropdown">
+                                            <i data-feather="more-vertical" class="font-medium-3 cursor-pointer" data-bs-toggle="dropdown"></i>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a class="dropdown-item" href="#">Last 28 Days</a>
+                                                <a class="dropdown-item" href="#">Last Month</a>
+                                                <a class="dropdown-item" href="#">Last Year</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="column-chart-model" style="height: 32rem;">
+                                <livewire:livewire-column-chart
+                                    key="{{ $columnChartModel->reactiveKey() }}"
+                                    :column-chart-model="$columnChartModel"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Grafik Realisasi Berdasarkan Jenis Pajak</h4>
-                    </div>
-                    <div class="card-body">
-                        <div style="height: 25rem;" class="apex-charts" dir="ltr">
-                            <livewire:livewire-pie-chart
-                                key="{{ $pieChartModel->reactiveKey() }}"
-                                :pie-chart-model="$pieChartModel"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end col -->
+            <!--/ Revenue Report Card -->
         </div>
-    </section>
-
     @push('script')
-        <script src="{{ URL::asset('/assets/libs/imask/imask.min.js') }}"></script>
-        <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+        @livewireChartsScripts
+        {{-- vendor files --}}
+        <script src="{{ asset(mix('assets/libs/apexcharts/apexcharts.min.js')) }}"></script>
     @endpush
-    @livewireChartsScripts
 </div>

@@ -1,9 +1,6 @@
 <div>
     @section('title', $title ?? '')
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
+    @push('css')
     @endpush
     <div class="row">
 {{--        <div class="col-md-3">--}}
@@ -388,7 +385,7 @@
     <x-modal :id="$modalId" :title="'Catat Meter'" :maxWidth="''" :update-mode="$updateMode">
         <form wire:submit.prevent="{{ $updateMode ? 'updateCatatMeter' : 'storeCatatMeter' }}" class="needs-validation" novalidate>
             <div class="modal-body">
-                <x-jet-label for="name" :value="'Pelanggan'"/>
+                <x-label for="name" :value="'Pelanggan'"/>
                 <div class="mb-1">
                     <x-tom-select
                         id="selectPelanggan"
@@ -401,17 +398,21 @@
                         class="form-select"
                         autocomplete="off"
                     />
-                    <x-jet-input-error :for="'customer_id'"/>
+                    @error('customer_id')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
                 </div>
                 <input class="form-control" wire:model.defer="state.angka_meter_lama" type="hidden">
-                <x-jet-label for="angka_meter_baru" :value="'Angka Meteran'"/>
+                <x-label for="angka_meter_baru" :value="'Angka Meteran'"/>
                 <div class="mb-1">
                     <input class="form-control @error('angka_meter_baru') is-invalid @enderror"
                            wire:model.defer="state.angka_meter_baru" type="text" placeholder="contoh: 1986">
-                    <x-jet-input-error :for="'angka_meter_baru'"/>
+                    @error('angka_meter_baru')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <x-jet-label for="bulan" :value="'Bulan'"/>
+                <x-label for="bulan" :value="'Bulan'"/>
                 <div class="mb-1">
                     <select class="form-control @error('bulan') is-invalid @enderror"
                            wire:model.defer="state.bulan">
@@ -420,12 +421,16 @@
                             <option value="{{ $key }}">{{ $bulan }}</option>
                         @endforeach
                     </select>
-                    <x-jet-input-error :for="'bulan'"/>
+                    @error('bulan')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
                 </div>
-                <x-jet-label for="keterangan" :value="'Keterangan'"/>
+                <x-label for="keterangan" :value="'Keterangan'"/>
                 <div class="mb-1">
                     <input class="form-control @error('keterangan') is-invalid @enderror" wire:model.defer="state.keterangan" type="text">
-                    <x-jet-input-error :for="'keterangan'"/>
+                    @error('keterangan')
+                    <span class="invalid-feedback">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
             <div class="modal-footer">
@@ -438,7 +443,7 @@
     </x-modal>
 
     <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script>
             window.addEventListener('openModal', event => {
                 {{--$('#{{ $modalId }}').modal('show');--}}
@@ -450,13 +455,13 @@
             })
 
             /* Clear selection pelanggan */
-            window.addEventListener('clearPelanggan', event => {
-                TomSelect('#selectPelanggan').clear();
-                $('#selectPelanggan').clear();
-            });
-            window.addEventListener('customerId', event => {
-                TomSelect('#selectPelanggan').set();
-            });
+            // window.addEventListener('clearPelanggan', event => {
+            //     TomSelect('#selectPelanggan').clear();
+            //     $('#selectPelanggan').clear();
+            // });
+            // window.addEventListener('customerId', event => {
+            //     TomSelect('#selectPelanggan').clear();
+            // });
         </script>
     @endpush
 </div>

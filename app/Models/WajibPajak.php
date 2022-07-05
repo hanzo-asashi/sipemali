@@ -76,7 +76,7 @@ class WajibPajak extends Model
 
     public function pembayaran()
     {
-        return $this->hasManyThrough(Pembayaran::class, ObjekPajak::class,'id', 'objek_pajak_id');
+        return $this->hasManyThrough(PembayaranPajak::class, ObjekPajak::class,'id', 'objek_pajak_id');
     }
 
     public function kab()

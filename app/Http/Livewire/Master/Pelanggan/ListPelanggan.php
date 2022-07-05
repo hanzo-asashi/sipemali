@@ -428,11 +428,11 @@ class ListPelanggan extends Component
                 $this->pembayaranId = $pembayaran->id;
                 $this->reset('pembayaran');
                 $this->closeModal();
-                $this->alert('success', 'Pembayaran berhasil ditambahkan');
+                $this->alert('success', 'PembayaranPajak berhasil ditambahkan');
             } else {
                 $this->resetForms();
                 $this->resetValidation();
-                $this->alert('danger', 'Pembayaran gagal ditambahkan');
+                $this->alert('danger', 'PembayaranPajak gagal ditambahkan');
             }
         } else {
             $this->alert('info', 'Pelanggan tidak ditemukan');
@@ -472,7 +472,7 @@ class ListPelanggan extends Component
                 'pembayaranId' => $this->pembayaranId,
             ]);
         } else {
-            $this->alert('error', 'Pembayaran gagal ditambahkan');
+            $this->alert('error', 'PembayaranPajak gagal ditambahkan');
         }
     }
 
@@ -551,7 +551,6 @@ class ListPelanggan extends Component
             'listTahun' => $listTahun,
         ];
 
-        return view('livewire.master.pelanggan.list-pelanggan', compact('pageData', 'listCustomers'))
-            ->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.pelanggan.list-pelanggan', compact('pageData', 'listCustomers'));
     }
 }

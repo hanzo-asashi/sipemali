@@ -134,7 +134,11 @@ var third_party_assets = {
         { "name": "jquery-validation", "assets": ["./node_modules/jquery-validation/dist/jquery.validate.min.js"] },
         { "name": "spectrum-colorpicker", "assets": ["./node_modules/spectrum-colorpicker2/dist/spectrum.min.js", "./node_modules/spectrum-colorpicker2/dist/spectrum.min.css"] },
         { "name": "jquery-steps", "assets": ["./node_modules/jquery-steps/build/jquery.steps.min.js"] },
-        { "name": "toastr", "assets": ["./node_modules/toastr/toastr.js","./node_modules/toastr/build/toastr.css"] }
+        { "name": "toastr", "assets": ["./node_modules/toastr/toastr.js","./node_modules/toastr/build/toastr.css"] },
+        { "name": "tom-select", "assets": ["./node_modules/tom-select/dist/js/tom-select.complete.min.js",
+                "./node_modules/tom-select/dist/css/tom-select.bootstrap5.min.css",
+                "./node_modules/tom-select/dist/css/tom-select.bootstrap5.min.css.map",
+            ] }
     ]
 };
 

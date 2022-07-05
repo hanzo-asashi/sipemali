@@ -21,7 +21,7 @@ class PaymentStatus extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('Status Pembayaran')
+            ->useLogName('Status PembayaranPajak')
             ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} status pembayaran {$this->name}");
         // Chain fluent methods for configuration options
     }

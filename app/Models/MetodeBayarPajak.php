@@ -19,8 +19,8 @@ class MetodeBayarPajak extends Model
 
     public function pembayaran()
     {
-//        return $this->belongsTo(Pembayaran::class, 'id', 'metode_bayar');
-        return $this->hasMany(Pembayaran::class, 'metode_bayar', 'id');
+//        return $this->belongsTo(PembayaranPajak::class, 'id', 'metode_bayar');
+        return $this->hasMany(PembayaranPajak::class, 'metode_bayar', 'id');
     }
 
     public function scopeSearch($query, $term)

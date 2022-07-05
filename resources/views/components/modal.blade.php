@@ -1,33 +1,36 @@
-@props(['formAction' => false, 'modalFooter' => false, 'modalTitle' => ''])
-<div>
-    <div {{ $attributes->merge(['class' => 'modal fade', 'id' => 'modalDetailBayar']) }} data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1" aria-labelledby="{{ $modalTitle }}">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    @if(isset($modalTitle))
-                        <h5 class="modal-title">
-                            {{ $modalTitle }}
-                        </h5>
-                    @endif
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if($formAction)
-                        <form wire:submit.prevent="{{ $formAction }}">
-                    @endif
-                    {{ $slot }}
-                    @if($formAction)
-                        </form>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                    @if($modalFooter)
-                        {{ $modalFooter }}
-                    @endif
-                </div>
+@props(['id', 'maxWidth', 'modal' => false, 'updateMode' => false,'title' => ''])
+
+@php
+    $id = $id ?? md5($attributes->wire('model'));
+
+    match ($maxWidth ?? ''){
+        'xs' => $maxWidth = 'modal-xs',
+        'sm' => $maxWidth = 'modal-sm',
+        'md' => $maxWidth = 'modal-md',
+        'lg' => $maxWidth = 'modal-lg',
+        'xl' => $maxWidth = 'modal-xl',
+        'full' => $maxWidth = 'modal-fullscreen',
+        '' => $maxWidth = '',
+    };
+    $title = $updateMode ? 'Ubah ' .$title : 'Tambah '.$title
+@endphp
+
+<div
+    class="modal fade text-start"
+    id="{{ $id }}"
+    tabindex="-1"
+    aria-labelledby="{{ $id }}"
+    aria-hidden="true"
+    data-bs-backdrop="static" data-bs-keyboard="false"
+    wire:ignore.self
+>
+    <div class="modal-dialog modal-dialog-centered {{ $maxWidth }}" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="{{ $id .'-title' }}">{{ $title }}</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            {{ $slot }}
         </div>
     </div>
 </div>

@@ -42,9 +42,9 @@ class PaymentSaved
 //        $createHistory = PaymentHistory::create([
 //            'payment_id' => $this->payment->id,
 //            'customer_id' => $this->payment->customer_id,
-//            'description' => 'Pembayaran dengan no. transaksi #'.$this->payment->no_transaksi . ' sebesar Rp. '.
+//            'description' => 'PembayaranPajak dengan no. transaksi #'.$this->payment->no_transaksi . ' sebesar Rp. '.
 //                number_format($this->payment->total_tagihan,0,',','.').' telah dibuat',
-//            'event' => 'Pembayaran',
+//            'event' => 'PembayaranPajak',
 //            'meter_awal' => $this->payment->stand_awal,
 //            'meter_akhir' => $this->payment->stand_akhir,
 //            'pemakaian_air' => $this->payment->pemakaian_air_saat_ini,

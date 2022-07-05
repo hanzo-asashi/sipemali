@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\MetodeBayar;
 use App\Models\MetodeBayarPajak;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,7 +19,7 @@ class MetodeBayarSeeder extends Seeder
         $data = $this->data();
 
         foreach ($data as $value) {
-            MetodeBayarPajak::create([
+            MetodeBayar::create([
                 'nama' => $value['nama_status'],
                 'kode' => $value['shortcode'],
             ]);

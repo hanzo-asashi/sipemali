@@ -341,6 +341,6 @@ class PencatatanMeter extends Component
             'listBulan' => $listBulan,
         ];
 
-        return view('livewire.pencatatan-meter', compact('listCatatMeter', 'listPelanggan'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.pencatatan-meter', compact('listCatatMeter', 'listPelanggan'));
     }
 }

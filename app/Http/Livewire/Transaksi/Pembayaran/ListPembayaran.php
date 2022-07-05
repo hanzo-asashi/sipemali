@@ -250,7 +250,6 @@ class ListPembayaran extends Component
             'listTahun' => $listTahun,
         ];
 
-        return view('livewire.transaksi.pembayaran.list-pembayaran', compact('pageData', 'listPembayaran'))
-            ->extends('layouts.contentLayoutMaster');
+        return view('livewire.transaksi.pembayaran.list-pembayaran', compact('pageData', 'listPembayaran'));
     }
 }

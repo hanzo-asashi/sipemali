@@ -1,6 +1,6 @@
 @extends('layouts.blank')
 
-@section('title', 'Tracking Pembayaran')
+@section('title', 'Tracking PembayaranPajak')
 
 @section('content')
     <div class="content-header row">

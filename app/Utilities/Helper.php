@@ -6,7 +6,7 @@ use Akaunting\Money\Money;
 use App\Models\JenisObjekPajak;
 use App\Models\JenisTarif;
 use App\Models\ObjekPajak;
-use App\Models\Pembayaran;
+use App\Models\PembayaranPajak;
 use App\Models\Wilayah;
 use DateInterval;
 use DatePeriod;
@@ -66,7 +66,7 @@ class Helper
 
     public static function generateNoTransaksi($length = 8, $pad = '0'): string
     {
-        $max = Pembayaran::max('id') + 1;
+        $max = PembayaranPajak::max('id') + 1;
         $pad = Str::padLeft($max, (int) $length, $pad);
 
         $format = setting('format_no_transaksi');
@@ -79,7 +79,7 @@ class Helper
     public static function generateNomorSts($id, $bayarId)
     {
         $bayarId = $bayarId ?? 0;
-        $maxNumber = Pembayaran::max('id') + 1;
+        $maxNumber = PembayaranPajak::max('id') + 1;
         $shortcode = JenisObjekPajak::getShortcodeObjekPajak($id);
         $number = Str::padLeft($maxNumber, 5, '0');
         $tahun = setting('tahun_sppt');
@@ -106,7 +106,7 @@ class Helper
     {
         $bayarId = $bayarId ?? 0;
         $shortcode = JenisObjekPajak::getShortcodeObjekPajak($id);
-        $max = Pembayaran::max('id') + 1;
+        $max = PembayaranPajak::max('id') + 1;
         $pad = Str::padLeft($max, (int) $length, $pad);
 
         $skpd = self::convertToRoman(1);
@@ -369,7 +369,7 @@ class Helper
 
     public static function getCountByWajibPajak($wpid, $opid = null)
     {
-        return Pembayaran::getCountByWajibPajak($wpid, $opid);
+        return PembayaranPajak::getCountByWajibPajak($wpid, $opid);
     }
 
     public static function hitungPajakReklame($jenisTarif, $nilai = 0, $njopr = 0, $format = false)
@@ -1177,7 +1177,7 @@ class Helper
     public static function hitungPersentasePerbandinganPajak($wajibPajak, $objekPajak, $before, $now)
     {
         $nilaiPajak = 0;
-        $pembayaran = Pembayaran::query()->with('objekpajak', 'wajibpajak')
+        $pembayaran = PembayaranPajak::query()->with('objekpajak', 'wajibpajak')
             ->where('wajib_pajak_id', $wajibPajak)
             ->where('objek_pajak_id', $objekPajak);
 

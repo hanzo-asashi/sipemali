@@ -15,7 +15,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class DetailPembayaran extends Component
 {
-    public string $title = 'Detail Pembayaran';
+    public string $title = 'Detail PembayaranPajak';
     public $payment;
     public Customers $customer;
 

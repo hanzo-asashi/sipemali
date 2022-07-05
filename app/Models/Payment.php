@@ -75,7 +75,7 @@ class Payment extends Model
 
     public function metodeBayar(): BelongsTo
     {
-        return $this->belongsTo(MetodeBayarPajak::class, 'metode_bayar', 'id');
+        return $this->belongsTo(MetodeBayar::class, 'metode_bayar', 'id');
     }
 
     public function history(): HasMany

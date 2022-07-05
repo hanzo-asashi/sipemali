@@ -7,6 +7,7 @@ Contact: themesbrand@gmail.com
 File: Main Js File
 */
 
+// const {feather} = require("../../public/assets/libs/feather-icons/feather-icons.min");
 (function ($) {
     'use strict';
     var language = localStorage.getItem('minia-language');
@@ -382,4 +383,5 @@ File: Main Js File
     init();
 })(jQuery)
 
-feather.replace();
+import './bootstrap'
+// feather.replace();

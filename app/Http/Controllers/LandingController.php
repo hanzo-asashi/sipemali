@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ObjekPajak;
-use App\Models\Pembayaran;
+use App\Models\PembayaranPajak;
 use App\Models\WajibPajak;
 use Illuminate\Http\Request;
 
@@ -14,8 +14,8 @@ class LandingController extends Controller
         $totalWajibPajak = WajibPajak::count();
         $totalObjekPajak = ObjekPajak::count();
 //        $totalTargetPajak = TargetPajak::sum('target');
-        $totalTargetPajak = Pembayaran::sum('nilai_pajak');
-        $totalRealisasiPajak = Pembayaran::where('status_bayar',1)->sum('nilai_pajak');
+        $totalTargetPajak = PembayaranPajak::sum('nilai_pajak');
+        $totalRealisasiPajak = PembayaranPajak::where('status_bayar',1)->sum('nilai_pajak');
 
         $data = [
             'totalWajibPajak' => $totalWajibPajak,

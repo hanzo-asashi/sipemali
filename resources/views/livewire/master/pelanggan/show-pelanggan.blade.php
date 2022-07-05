@@ -72,7 +72,7 @@
 
             <!-- User Content -->
             <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
-                <!-- Pembayaran Tabel -->
+                <!-- PembayaranPajak Tabel -->
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Detail Pembayaran</h4>
@@ -128,7 +128,7 @@
                    @endif
                     <!-- Pagination end -->
                 </div>
-                <!-- /Pembayaran table -->
+                <!-- /PembayaranPajak table -->
 
                 <!-- Activity Timeline -->
                 <div class="card">

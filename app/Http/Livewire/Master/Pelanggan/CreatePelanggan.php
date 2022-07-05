@@ -101,6 +101,6 @@ class CreatePelanggan extends Component
             'listTahun' => $listTahun,
         ];
 
-        return view('livewire.master.pelanggan.create-pelanggan', compact('pageData'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.pelanggan.create-pelanggan', compact('pageData'));
     }
 }

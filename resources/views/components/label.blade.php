@@ -1,3 +1,4 @@
-<label {{ $attributes->merge(['class' => 'form-label']) }}>
-  {{ $slot }}
+@props(['value' => '', 'for' => ''])
+<label {{ $attributes->merge(['class' => 'form-label']) }} for="{{ $for }}">
+  {{ $value }}
 </label>

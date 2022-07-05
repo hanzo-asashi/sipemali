@@ -46,11 +46,11 @@ use App\Http\Controllers\LanguageController;
 //    Route::get('/', 'index');
 //});
 
-Route::group(['middleware' => 'auth:web','verified', config('jetstream.auth_session'), \Spatie\Honeypot\ProtectAgainstSpam::class], function () {
-    Route::get('/', Dashboard::class)->name('home');
+Route::group(['middleware' => 'auth:web','verified', \Spatie\Honeypot\ProtectAgainstSpam::class], function () {
+//    Route::get('/', Dashboard::class)->name('home');
 
     // locale Route
-    Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+//    Route::get('lang/{locale}', [LanguageController::class, 'swap']);
 
     // Route Catat Meter
     Route::get('catat-meter', PencatatanMeter::class)->name('catat-meter');

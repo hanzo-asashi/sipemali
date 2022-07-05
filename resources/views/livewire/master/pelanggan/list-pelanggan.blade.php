@@ -2,7 +2,7 @@
     @section('title', $title)
     @section('breadcrumbs')
         @isset($breadcrumbs)
-            <x-breadcrumb :breadcrumbs="$breadcrumbs"/>
+            <x-breadcrumb :breadcrumbs="$breadcrumbs" :title="$title"/>
         @endisset
     @endsection
     <div class="row">
@@ -220,7 +220,7 @@
     </div>
     <!-- Hoverable rows end -->
     @include('widgets.modal-bayar')
-    @push('page-script')
+    @push('script')
         <script>
             window.addEventListener('openModalBayar', event => {
                 $('#modal-bayar').modal('show');

@@ -15,11 +15,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
 //            UserSeeder::class,
-//            JenisMetodePembayaranSeeder::class,
-//            JenisTarifSeeder::class,
-//            JenisWajibPajakSeeder::class,
-//            TipeSatuanSeeder::class,
-//            JenisObjekPajakSeeder::class,
             AddressesTableSeeder::class,
             GolonganTarifTableSeeder::class,
             PelangganTableSeeder::class,

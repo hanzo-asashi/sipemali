@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{ $updateMode ? 'Ubah Status Pembayaran' : 'Buat Status Pembayaran' }}</h4>
+                    <h4 class="card-title">{{ $updateMode ? 'Ubah Status PembayaranPajak' : 'Buat Status PembayaranPajak' }}</h4>
                 </div>
                 <form wire:submit.prevent="{{ $updateMode ? 'updateStatus' : 'storeStatus' }}" class="needs-validation" novalidate>
                     <div class="card-body">
@@ -38,7 +38,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{ $title ?? 'List Status Pembayaran' }}</h4>
+                    <h4 class="card-title">{{ $title ?? 'List Status PembayaranPajak' }}</h4>
                 </div>
 
                 <div class="table-responsive">

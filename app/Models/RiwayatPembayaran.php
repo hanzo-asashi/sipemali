@@ -24,6 +24,6 @@ class RiwayatPembayaran extends Model
 
     public function pembayaran()
     {
-        return $this->belongsTo(Pembayaran::class,'id','pembayaran_id');
+        return $this->belongsTo(PembayaranPajak::class,'id','pembayaran_id');
     }
 }

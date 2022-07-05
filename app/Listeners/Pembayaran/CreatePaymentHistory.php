@@ -28,9 +28,9 @@ class CreatePaymentHistory
         return PaymentHistory::create([
             'payment_id' => $event->payment->id,
             'customer_id' => $event->payment->customer_id,
-            'description' => 'Pembayaran dengan no. transaksi #'.$event->payment->no_transaksi . ' sebesar Rp. '.
+            'description' => 'PembayaranPajak dengan no. transaksi #'.$event->payment->no_transaksi . ' sebesar Rp. '.
                 number_format($event->payment->total_tagihan,0,',','.').' telah dibuat',
-            'event' => 'Buat Pembayaran',
+            'event' => 'Buat PembayaranPajak',
             'meter_awal' => $event->payment->stand_awal,
             'meter_akhir' => $event->payment->stand_akhir,
             'pemakaian_air' => $event->payment->pemakaian_air_saat_ini,

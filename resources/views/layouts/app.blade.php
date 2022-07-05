@@ -10,13 +10,13 @@
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
     @include('layouts.head-css')
     @livewireStyles
-    {{--    <script type="text/javascript">--}}
-    {{--        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};--}}
-    {{--        let base_url = "{{ route('dashboard') }}";--}}
-    {{--        let sessionTimeout = "{!! config('session.lifetime') !!}";--}}
-    {{--        let logoutUrl = "{{ route('logout') }}";--}}
-    {{--        let redirUrl = "{{ route('login') }}";--}}
-    {{--    </script>--}}
+    <script type="text/javascript">
+        window.Laravel = {!! json_encode(['csrfToken' => csrf_token()]) !!};
+        let base_url = "{{ route('dashboard') }}";
+        let sessionTimeout = "{!! config('session.lifetime') !!}";
+        let logoutUrl = "{{ route('logout') }}";
+        let redirUrl = "{{ route('login') }}";
+    </script>
 </head>
 <body class="{{ config('custom.page-loader') }}"
       data-sidebar-size="{{ setting('sidebar_size','') }}"
@@ -57,7 +57,7 @@
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.4.2/cdn.min.js"></script>--}}
 @include('layouts.vendor-scripts')
 @include('layouts.partials.feather-script')
-<x-livewire-alert::scripts />
+<x-livewire-alert::scripts/>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
