@@ -1,9 +1,6 @@
 <div>
     @section('title', $title ?? '')
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
+    @push('style')
     @endpush
     <div class="row">
         <div class="col-md-4">
@@ -17,14 +14,14 @@
                         <div class="mb-1">
                             <input class="form-control @error('nama_status') is-invalid @enderror"
                                    wire:model.defer="state.nama_status" type="text" placeholder="Masukkan nama status" autofocus>
-                            <x-jet-input-error :for="'nama_status'"></x-jet-input-error>
+                            <x-input-error :for="'nama_status'" />
                         </div>
 
                         {{--                        <x-jet-label for="shortcode" :value="'Kode'"/>--}}
                         <div class="mb-1">
                             <input class="form-control @error('shortcode') is-invalid @enderror"
                                    wire:model.defer="state.shortcode" type="text" placeholder="Masukkan kode pendek atau singkatan">
-                            <x-jet-input-error :for="'shortcode'"></x-jet-input-error>
+                            <x-input-error :for="'shortcode'" />
                         </div>
                     </div>
                     <div class="card-footer">
@@ -123,7 +120,7 @@
         </div>
     </div>
     <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script></script>
     @endpush
 </div>

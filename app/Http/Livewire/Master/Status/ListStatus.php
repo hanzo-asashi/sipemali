@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Master\Status;
 
 use App\Models\Status;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -15,7 +18,7 @@ class ListStatus extends Component
 
     public Status $status;
 
-    public int $perPage = 15;
+    public int $perPage;
     public string $orderBy = 'id';
     public string $direction = 'asc';
     public string $defaultSortBy = 'id';
@@ -43,29 +46,30 @@ class ListStatus extends Component
         'confirmedDelete'
     ];
 
-    public function hydrate()
+    public function hydrate(): void
     {
         $this->resetErrorBag();
         $this->resetValidation();
     }
 
-    public function mount(Status $status)
+    public function mount(Status $status): void
     {
+        $this->perPage = config('custom.page_count',15);
         $this->status = $status;
     }
 
     public function isChecked($id): bool
     {
-        return in_array($id, $this->checked);
+        return in_array($id, $this->checked, true);
     }
 
-    public function selectAllData()
+    public function selectAllData(): void
     {
         $this->selectAllStatus = true;
         $this->checked = $this->status->pluck('id')->toArray();
     }
 
-    public function updatedSelectAllCheckbox($value)
+    public function updatedSelectAllCheckbox($value): void
     {
         if ($value) {
             $this->checked = $this->status->query()
@@ -79,31 +83,26 @@ class ListStatus extends Component
         }
     }
 
-    public function resetCheckbox()
+    public function resetCheckbox(): void
     {
         $this->checked = [];
         $this->selectAllStatus = false;
         $this->selectAllCheckbox = false;
     }
 
-    public function resetField()
+    public function resetField(): void
     {
         $this->reset('state', 'checked');
         $this->resetErrorBag();
         $this->updateMode = ! $this->updateMode;
     }
 
-    public function updating()
+    public function updating(): void
     {
         $this->resetPage();
     }
 
-    public function updatedPerPage($value)
-    {
-        $this->setPerPage($value);
-    }
-
-    public function setPerPage($value)
+    public function updatedPerPage($value): void
     {
         $this->perPage = $value;
     }
@@ -136,7 +135,7 @@ class ListStatus extends Component
         $this->resetField();
     }
 
-    public function updateStatus()
+    public function updateStatus(): void
     {
         $validated = Validator::make($this->state, [
             'nama_status' => 'required|max:50',
@@ -151,12 +150,12 @@ class ListStatus extends Component
 //        $this->closeModal();
     }
 
-    public function confirmedDelete()
+    public function confirmedDelete(): void
     {
         $this->delete($this->statusId, $this->deleteTipe);
     }
 
-    public function destroy($id, $tipe)
+    public function destroy($id, $tipe): void
     {
         $this->statusId = $id;
         $this->deleteTipe = $tipe;
@@ -166,7 +165,7 @@ class ListStatus extends Component
         ]);
     }
 
-    public function delete($id, $tipe)
+    public function delete($id, $tipe): void
     {
         if ('bulk' === $tipe) {
             $delete = $this->status->query()->whereKey($this->checked)->delete();
@@ -177,7 +176,7 @@ class ListStatus extends Component
         $this->sendNotifikasi($delete);
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         $listStatus = $this->status
 //            ->search($this->search)
@@ -191,7 +190,7 @@ class ListStatus extends Component
             'totalData' => $listStatus->total(),
         ];
 
-        return view('livewire.master.status.list-status', compact('listStatus'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.status.list-status', compact('listStatus'));
     }
 
     private function sendNotifikasi($model): void

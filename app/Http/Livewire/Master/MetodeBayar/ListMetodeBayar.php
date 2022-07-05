@@ -24,7 +24,7 @@ class ListMetodeBayar extends Component
     public string $deleteTipe = 'single';
 
     public string $search = '';
-    public int $perPage = 15;
+    public int $perPage;
     public string $orderBy = 'id';
     public string $direction = 'asc';
     public string $defaultSortBy = 'id';
@@ -49,6 +49,7 @@ class ListMetodeBayar extends Component
 
     public function mount(MetodeBayar $metodeBayar): void
     {
+        $this->perPage = config('custom.page_count', 15);
         $this->metodeBayar = $metodeBayar;
     }
 
@@ -199,6 +200,6 @@ class ListMetodeBayar extends Component
             'totalData' => $listMetode->total(),
         ];
 
-        return view('livewire.master.metode-bayar.list-metode-bayar', compact('listMetode'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.metode-bayar.list-metode-bayar', compact('listMetode'));
     }
 }

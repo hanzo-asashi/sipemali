@@ -18,7 +18,7 @@ class ListGolongan extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public string $search = '';
-    public int $perPage = 15;
+    public int $perPage;
     public string $orderBy = 'kode_golongan';
     public string $direction = 'desc';
     protected $queryString = [
@@ -80,6 +80,7 @@ class ListGolongan extends Component
 
     public function mount(GolonganTarif $golonganTarif): void
     {
+        $this->perPage = config('custom.page_count', 15);
         $this->golonganTarif = $golonganTarif;
     }
 
@@ -271,6 +272,6 @@ class ListGolongan extends Component
             'totalData' => $listGolongan->total(),
         ];
 
-        return view('livewire.master.golongan.list-golongan', compact('listGolongan'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.golongan.list-golongan', compact('listGolongan'));
     }
 }

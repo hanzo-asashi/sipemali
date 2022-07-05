@@ -1,9 +1,6 @@
 <div>
     @section('title', $title ?: 'List Golongan Tarif')
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
+    @push('style')
     @endpush
     <div class="row">
         <div class="col-12">
@@ -122,78 +119,78 @@
                 <div class="row">
                     <!-- Start Field Kode Golongan  -->
                     <div class="col-md-6">
-                        <x-jet-label for="kode" :value="'Kode Golongan'"/>
+                        <x-label for="kode" :value="'Kode Golongan'"/>
                         <div class="mb-1">
                             <input class="form-control @error('kode_golongan') is-invalid @enderror"
                                    wire:model.defer="golongan.kode_golongan" type="text" placeholder="contoh : 111,121,211" autofocus
                             />
-                            <x-jet-input-error :for="'kode_golongan'"/>
+                            <x-input-error :for="'kode_golongan'"/>
                         </div>
                     </div>
                     <!-- End Field Kode Golongan  -->
 
                     <!-- Field Nama Golongan  -->
                     <div class="col-md-6">
-                        <x-jet-label for="nama_golongan" :value="'Nama Golongan'"/>
+                        <x-label for="nama_golongan" :value="'Nama Golongan'"/>
                         <div class="mb-1">
                             <input class="form-control @error('nama_golongan') is-invalid @enderror"
                                    wire:model.defer="golongan.nama_golongan" type="text" placeholder="contoh: SU, SK, RT-A"/>
-                            <x-jet-input-error :for="'nama_golongan'"/>
+                            <x-input-error :for="'nama_golongan'"/>
                         </div>
                     </div>
                     <!-- End Field Nama Golongan  -->
                 </div>
 
                 <!-- Field Deskripsi  -->
-                <x-jet-label for="deskripsi" :value="'Deskripsi'"/>
+                <x-label for="deskripsi" :value="'Deskripsi'"/>
                 <div class="mb-1">
                     <input class="form-control @error('deskripsi') is-invalid @enderror"
                            wire:model.defer="golongan.deskripsi" type="text" placeholder="contoh : Sosial Umum, Sosial Khusus"/>
-                    <x-jet-input-error :for="'deskripsi'"/>
+                    <x-input-error :for="'deskripsi'"/>
                 </div>
                 <!-- End Field Deskripsi  -->
 
                 <div class="row">
                     <!-- Field Blok 1  -->
                     <div class="col-md-3">
-                        <x-jet-label for="blok_1" :value="'Blok A (0 - 10 M3)'"/>
+                        <x-label for="blok_1" :value="'Blok A (0 - 10 M3)'"/>
                         <div class="mb-1">
                             <input class="form-control @error('blok_1') is-invalid @enderror"
                                    wire:model.defer="golongan.blok_1" type="text" label="0 - 10 m3" placeholder="1, 2, 3,...,10"/>
-                            <x-jet-input-error :for="'blok_1'"/>
+                            <x-input-error :for="'blok_1'"/>
                         </div>
                     </div>
                     <!-- Field Blok 1  -->
 
                     <!-- Field Blok 2  -->
                     <div class="col-md-3">
-                        <x-jet-label for="blok_2" :value="'Blok B (11 - 20 M3)'"/>
+                        <x-label for="blok_2" :value="'Blok B (11 - 20 M3)'"/>
                         <div class="mb-1">
                             <input class="form-control @error('blok_2') is-invalid @enderror"
                                    wire:model.defer="golongan.blok_2" type="text" label="11 - 20 m3" placeholder="11, 12, 13,...,20"/>
-                            <x-jet-input-error :for="'blok_2'"/>
+                            <x-input-error :for="'blok_2'"/>
                         </div>
                     </div>
                     <!-- End Field Blok 2  -->
 
                     <!-- Field Blok 3  -->
                     <div class="col-md-3">
-                        <x-jet-label for="blok_3" :value="'Blok C (21 - 30 M3)'"/>
+                        <x-label for="blok_3" :value="'Blok C (21 - 30 M3)'"/>
                         <div class="mb-1">
                             <input class="form-control @error('blok_3') is-invalid @enderror"
                                    wire:model.defer="golongan.blok_3" type="text" label="21 - 30 m3" placeholder="21, 22, 23,...,30"/>
-                            <x-jet-input-error :for="'blok_3'"/>
+                            <x-input-error :for="'blok_3'"/>
                         </div>
                     </div>
                     <!-- End Field Blok 3  -->
 
                     <!-- Field Blok 4  -->
                     <div class="col-md-3">
-                        <x-jet-label for="blok_4" :value="'Blok D (> 30 M3)'"/>
+                        <x-label for="blok_4" :value="'Blok D (> 30 M3)'"/>
                         <div class="mb-1">
                             <input class="form-control @error('blok_4') is-invalid @enderror"
                                    wire:model.defer="golongan.blok_4" type="text" label="> 30 m3" placeholder="31, 32, 33,..."/>
-                            <x-jet-input-error :for="'blok_4'"/>
+                            <x-input-error :for="'blok_4'"/>
                         </div>
                     </div>
                     <!-- End Field Blok 4  -->
@@ -202,44 +199,44 @@
                 <div class="row">
                     <!-- Field Tarif Blok 1 -->
                     <div class="col-md-3">
-                        <x-jet-label for="tarif_blok_1" :value="'Tarif A'"/>
+                        <x-label for="tarif_blok_1" :value="'Tarif A'"/>
                         <div class="mb-1">
                             <input class="form-control @error('tarif_blok_1') is-invalid @enderror"
                                    wire:model.defer="golongan.tarif_blok_1" type="text" label="Tarif A" placeholder="Rp. 1.750"/>
-                            <x-jet-input-error :for="'tarif_blok_1'"/>
+                            <x-input-error :for="'tarif_blok_1'"/>
                         </div>
                     </div>
                     <!-- End Field Tarif Blok 1 -->
 
                     <!-- Field Tarif Blok 2 -->
                     <div class="col-md-3">
-                        <x-jet-label for="tarif_blok_2" :value="'Tarif B'"/>
+                        <x-label for="tarif_blok_2" :value="'Tarif B'"/>
                         <div class="mb-1">
                             <input class="form-control @error('tarif_blok_2') is-invalid @enderror"
                                    wire:model.defer="golongan.tarif_blok_2" type="text" label="Tarif B" placeholder="Rp. 2.500"/>
-                            <x-jet-input-error :for="'tarif_blok_2'"/>
+                            <x-input-error :for="'tarif_blok_2'"/>
                         </div>
                     </div>
                     <!-- End Field Tarif Blok 2 -->
 
                     <!-- Field Tarif Blok 3 -->
                     <div class="col-md-3">
-                        <x-jet-label for="tarif_blok_3" :value="'Tarif C'"/>
+                        <x-label for="tarif_blok_3" :value="'Tarif C'"/>
                         <div class="mb-1">
                             <input class="form-control @error('tarif_blok_3') is-invalid @enderror"
                                    wire:model.defer="golongan.tarif_blok_3" type="text" label="Tarif C" placeholder="Rp. 2.600"/>
-                            <x-jet-input-error :for="'tarif_blok_3'"/>
+                            <x-input-error :for="'tarif_blok_3'"/>
                         </div>
                     </div>
                     <!-- End Field Tarif Blok 3 -->
 
                     <!-- Field Tarif Blok 4 -->
                     <div class="col-md-3">
-                        <x-jet-label for="tarif_blok_4" :value="'Tarif D'"/>
+                        <x-label for="tarif_blok_4" :value="'Tarif D'"/>
                         <div class="mb-1">
                             <input class="form-control @error('tarif_blok_4') is-invalid @enderror"
                                    wire:model.defer="golongan.tarif_blok_4" type="text" label="Tarif D" placeholder="Rp. 3.500"/>
-                            <x-jet-input-error :for="'tarif_blok_4'"/>
+                            <x-input-error :for="'tarif_blok_4'"/>
                         </div>
                     </div>
                     <!-- End Field Tarif Blok 4 -->
@@ -248,19 +245,19 @@
                 <!-- Field Biaya Administrasi -->
                 <div class="row">
                     <div class="col-md-6">
-                        <x-jet-label for="biaya_administrasi" :value="'Biaya Layanan'"/>
+                        <x-label for="biaya_administrasi" :value="'Biaya Layanan'"/>
                         <div class="mb-1">
                             <input class="form-control @error('biaya_administrasi') is-invalid @enderror"
                                    wire:model.defer="golongan.biaya_administrasi" type="text" label="Biaya Layanan" placeholder="Rp. 2.000"/>
-                            <x-jet-input-error :for="'biaya_administrasi'"/>
+                            <x-input-error :for="'biaya_administrasi'"/>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <x-jet-label for="dana_meter" :value="'Dana Meter'"/>
+                        <x-label for="dana_meter" :value="'Dana Meter'"/>
                         <div class="mb-1">
                             <input class="form-control @error('dana_meter') is-invalid @enderror"
                                    wire:model.defer="golongan.dana_meter" value="2.500" type="text" label="Dana Meter" placeholder="Rp. 2.000"/>
-                            <x-jet-input-error :for="'dana_meter'"/>
+                            <x-input-error :for="'dana_meter'"/>
                         </div>
                     </div>
                 </div>
@@ -274,7 +271,7 @@
         </div>
     </x-modal>
     <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script>
             window.addEventListener('openModal', event => {
                 $('#{{ $modalId }}').modal('show');

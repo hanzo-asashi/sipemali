@@ -1,5 +1,5 @@
 <!-- Bulk Action Start -->
-@if($checked)
+{{--@if($checked)--}}
     <x-dropdown>
         <x-button class="btn btn-outline-secondary waves-effect waves-float waves-light me-1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Pilih Aksi <span class="badge rounded-pill bg-danger">{{ count($checked) }}</span>
@@ -11,5 +11,5 @@
             </x-nav-link>
         </x-dropdown-item>
     </x-dropdown>
-@endif
+{{--@endif--}}
 <!-- Bulk Action End -->

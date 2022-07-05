@@ -18,7 +18,7 @@ class ListStatusPembayaran extends Component
 
     public PaymentStatus $paymentStatus;
 
-    public int $perPage = 15;
+    public int $perPage;
     public string $orderBy = 'id';
     public string $direction = 'asc';
     public string $defaultSortBy = 'id';
@@ -34,7 +34,7 @@ class ListStatusPembayaran extends Component
     public $paymentStatusId;
     public $deleteTipe;
 
-    public string $title = 'List Status PembayaranPajak';
+    public string $title = 'List Status Pembayaran';
     public bool $show = true;
     public string $modalId = 'modal-statusbayar';
 
@@ -54,6 +54,7 @@ class ListStatusPembayaran extends Component
 
     public function mount(PaymentStatus $paymentStatus): void
     {
+        $this->perPage = config('custom.page_count', 15);
         $this->paymentStatus = $paymentStatus;
     }
 
@@ -176,9 +177,9 @@ class ListStatusPembayaran extends Component
     private function sendNotifikasi($model): void
     {
         if ($model) {
-            $this->alert('success', 'Status PembayaranPajak berhasil disimpan atau diperbarui');
+            $this->alert('success', 'Status Pembayaran berhasil disimpan atau diperbarui');
         } else {
-            $this->alert('danger', 'Status PembayaranPajak gagal disimpan atau diperbarui');
+            $this->alert('danger', 'Status Pembayaran gagal disimpan atau diperbarui');
         }
     }
 
@@ -195,6 +196,6 @@ class ListStatusPembayaran extends Component
             'totalData' => $listStatus->total(),
         ];
 
-        return view('livewire.master.status-pembayaran.list-status-pembayaran', compact('listStatus'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.status-pembayaran.list-status-pembayaran', compact('listStatus'));
     }
 }

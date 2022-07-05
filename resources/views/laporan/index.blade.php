@@ -1,4 +1,4 @@
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.app')
 @section('title', 'LAPORAN PERUMDA')
 @section('content')
     <section id="card-text-alignment">

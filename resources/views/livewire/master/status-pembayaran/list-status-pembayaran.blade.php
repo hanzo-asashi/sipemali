@@ -1,29 +1,26 @@
 <div>
     @section('title', $title ?? '')
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
+    @push('css')
     @endpush
     <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{ $updateMode ? 'Ubah Status PembayaranPajak' : 'Buat Status PembayaranPajak' }}</h4>
+                    <h4 class="card-title">{{ $updateMode ? 'Ubah Status Pembayaran' : 'Buat Status Pembayaran' }}</h4>
                 </div>
                 <form wire:submit.prevent="{{ $updateMode ? 'updateStatus' : 'storeStatus' }}" class="needs-validation" novalidate>
                     <div class="card-body">
-                        <x-jet-label for="name" :value="'Nama Status'"/>
+                        <x-label for="name" :value="'Nama Status'"/>
                         <div class="mb-1">
                             <input class="form-control @error('name') is-invalid @enderror"
                                    wire:model.defer="state.name" type="text" placeholder="contoh: aktif">
-                            <x-jet-input-error :for="'name'"></x-jet-input-error>
+                            <x-input-error :for="'name'" />
                         </div>
 
-                        <x-jet-label for="shortcode" :value="'Kode'"/>
+                        <x-label for="shortcode" :value="'Kode'"/>
                         <div class="mb-1">
                             <input class="form-control @error('shortcode') is-invalid @enderror" wire:model.defer="state.shortcode" type="text" placeholder="Kode">
-                            <x-jet-input-error :for="'shortcode'"></x-jet-input-error>
+                            <x-input-error :for="'shortcode'" />
                         </div>
                     </div>
                     <div class="card-footer">
@@ -38,7 +35,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">{{ $title ?? 'List Status PembayaranPajak' }}</h4>
+                    <h4 class="card-title">{{ $title ?? 'List Status Pembayaran' }}</h4>
                 </div>
 
                 <div class="table-responsive">
@@ -92,7 +89,7 @@
         </div>
     </div>
 <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script></script>
     @endpush
 </div>

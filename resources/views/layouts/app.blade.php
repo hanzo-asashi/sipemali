@@ -33,7 +33,11 @@
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
-                {{ $slot }}
+                @isset($slot)
+                    {{ $slot }}
+                @else
+                    @yield('content')
+                @endisset
             </div>
             <!-- container-fluid -->
         </div>

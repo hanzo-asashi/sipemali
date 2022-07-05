@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Master\Zona;
 
 use App\Models\PaymentStatus;
 use App\Models\Zone;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -18,7 +21,7 @@ class ListZona extends Component
 
     public Zone $zone;
 
-    public int $perPage = 15;
+    public int $perPage;
     public string $orderBy = 'id';
     public string $direction = 'asc';
     public string $defaultSortBy = 'id';
@@ -27,8 +30,8 @@ class ListZona extends Component
     public array $checked = [];
     public array $state = [];
     public bool $isChecked = false;
-    public bool $selectAllCheckbox = false;
     public bool $updateMode = false;
+    public bool $selectAllCheckbox = false;
     public bool $selectAllZona = false;
 
     public int $zonaId;
@@ -49,21 +52,22 @@ class ListZona extends Component
 
     public function mount(Zone $zone)
     {
+        $this->perPage = config('custom.page_count',15);
         $this->zone = $zone;
     }
 
     public function isChecked($id): bool
     {
-        return in_array($id, $this->checked);
+        return in_array($id, $this->checked, true);
     }
 
-    public function selectAllData()
+    public function selectAllData(): void
     {
         $this->selectAllZona = true;
         $this->checked = $this->zone->pluck('id')->toArray();
     }
 
-    public function updatedSelectAllCheckbox($value)
+    public function updatedSelectAllCheckbox($value): void
     {
         if ($value) {
             $this->checked = $this->zone->query()
@@ -77,14 +81,14 @@ class ListZona extends Component
         }
     }
 
-    public function resetCheckbox()
+    public function resetCheckbox(): void
     {
         $this->checked = [];
         $this->selectAllZona = false;
         $this->selectAllCheckbox = false;
     }
 
-    public function resetField()
+    public function resetField(): void
     {
         $this->reset('state');
         $this->resetErrorBag();
@@ -176,7 +180,7 @@ class ListZona extends Component
         }
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         $listZona = $this->zone->query()
             ->orderBy($this->orderBy, $this->direction)
@@ -189,6 +193,6 @@ class ListZona extends Component
             'totalData' => $listZona->total(),
         ];
 
-        return view('livewire.master.zona.list-zona', compact('listZona'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.zona.list-zona', compact('listZona'));
     }
 }

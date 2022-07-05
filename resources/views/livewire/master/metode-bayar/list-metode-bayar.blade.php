@@ -13,27 +13,27 @@
                 </div>
                 <form wire:submit.prevent="{{ $updateMode ? 'updateMetode' : 'storeMetode' }}" class="needs-validation" novalidate>
                     <div class="card-body">
-                        <x-jet-label for="kode" :value="'Kode'"/>
+                        <x-label for="kode" :value="'Kode'"/>
                         <div class="mb-1">
                             <input class="form-control @error('kode') is-invalid @enderror"
                                    wire:model.defer="state.kode" type="text" label="Kode" placeholder="PDA, TRF"
                             />
-                            <x-jet-input-error :for="'kode'"/>
+                            <x-input-error :for="'kode'"/>
                         </div>
-                        <x-jet-label for="nama" :value="'Nama'"/>
+                        <x-label for="nama" :value="'Nama'"/>
                         <div class="mb-1">
                             <input class="form-control @error('nama') is-invalid @enderror"
                                    wire:model.defer="state.nama" type="text" label="Nama" placeholder="Transfer Bank"
                             />
-                            <x-jet-input-error :for="'nama'"/>
+                            <x-input-error :for="'nama'"/>
                         </div>
-                        <x-jet-label for="deskripsi" :value="'Deskripsi'"/>
+                        <x-label for="deskripsi" :value="'Deskripsi'"/>
                         <div class="mb-1">
                             <input class="form-control @error('deskripsi') is-invalid @enderror"
                                    wire:model.defer="state.deskripsi" type="text"
                                    placeholder="Deskripsi"
                             />
-                            <x-jet-input-error :for="'deskripsi'"/>
+                            <x-input-error :for="'deskripsi'"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -108,7 +108,7 @@
         </div>
     </div>
     <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script></script>
     @endpush
 </div>

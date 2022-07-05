@@ -1,61 +1,88 @@
 <div>
     @section('title', $title ?? '')
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
+    @push('css')
     @endpush
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
+        <div class="col-xl-4">
+            <x-card>
+                <x-card-header>
                     <h4 class="card-title">{{ $updateMode ? 'Ubah Zona' : 'Buat Zona' }}</h4>
-                </div>
+                </x-card-header>
                 <form wire:submit.prevent="{{ $updateMode ? 'updateZona' : 'storeZona' }}" class="needs-validation" novalidate>
-                    <div class="card-body">
-                        <x-jet-label for="wilayah" :value="'Wilayah'"/>
+                    <x-card-body>
+                        <x-label for="wilayah" :value="'Wilayah'"/>
                         <div class="mb-1">
                             <input class="form-control @error('wilayah') is-invalid @enderror"
                                    wire:model.defer="state.wilayah" type="text" placeholder="contoh: BNA">
-                            <x-jet-input-error :for="'wilayah'" />
+                            <x-input-error :for="'wilayah'"/>
                         </div>
 
-                        <x-jet-label for="kode" :value="'Kode'"/>
+                        <x-label for="kode" :value="'Kode'"/>
                         <div class="mb-1">
                             <input class="form-control @error('kode') is-invalid @enderror" wire:model.defer="state.kode" type="text" placeholder="Kode">
-                            <x-jet-input-error :for="'kode'" />
+                            <x-input-error :for="'kode'"/>
                         </div>
-                    </div>
+                    </x-card-body>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
-                            {{ $updateMode ? 'Update' : 'Simpan' }}
-                        </button>
-                        <button type="button" wire:click.prevent="$emit('resetField')" data-bs-dismiss="modal" class="btn btn-danger">Batal</button>
+                        <x-button type="submit" wire:loading.attr="disabled" class="btn-primary"> {{ $updateMode ? 'Update' : 'Simpan' }}</x-button>
+                        <x-button wire:click.prevent="resetField" class="btn-danger">Batal</x-button>
                     </div>
                 </form>
-            </div>
-
+            </x-card>
         </div>
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
+        <div class="col-xl-8">
+            <x-card>
+                <x-card-header>
                     <h4 class="card-title">{{ $title ?? 'List Zona' }}</h4>
+                </x-card-header>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-content-center align-items-center pt-2 pb-2">
+                            <div class="p-2 flex-shrink-0 flex-grow-0">
+                                <!-- Per Page Start -->
+                                <div class="input-group">
+                                    <div class="input-group-text">Hal :</div>
+                                    @include('widgets.page')
+                                </div>
+                                <!-- Per Page End -->
+                            </div>
+                            @if($checked)
+                                <div class="p-2 flex-shrink-0 flex-grow-0">
+                                    @include('widgets.bulk-action')
+                                </div>
+                            @else
+                                <div class="p-2 flex-shrink-1 flex-grow-1">
+                                    @include('widgets.search-table')
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered table-responsive table-hover">
-                        <thead>
-                        <tr>
-                            <th class="text-center" style="width: 5%;">No</th>
+                    <x-table class="table-bordered table-responsive table-hover table-nowrap align-middle">
+                        <x-table.table-head>
+                        <tr class="text-center text-uppercase">
+                            <th scope="col" style="width: 50px;">
+                                <div class="form-check font-size-16">
+                                    <input type="checkbox" class="form-check-input" id="checkAllZona" wire:model="selectAllCheckbox"/>
+                                    <label class="form-check-label" for="checkAllZona"></label>
+                                </div>
+                            </th>
                             <th class="text-center" style="width: 5%;">Kode</th>
                             <th>Wilayah</th>
-                            <th class="text-center" style="width: 15%;">Aksi</th>
+                            <th class="text-center" style="width: 8%;"></th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        @php $i = 1; @endphp
+                        </x-table.table-head>
+                        <x-table.table-body>
                         @forelse($listZona as $zona)
-                            <tr class="@if($this->isChecked($zona->id)) bg-light @endif text-center">
-                                <td>{{ $i++ }}</td>
+                            <tr class="@if($this->isChecked($zona->id)) text-primary @endif text-center">
+                                <th scope="row">
+                                    <div class="form-check font-size-16">
+                                        <input id="zona-{{ $zona->id }}" value="{{ $zona->id }}"
+                                               type="checkbox" class="form-check-input" wire:model="checked" wire.key="{{$zona->id }}"/>
+                                        <label class="form-check-label" for="zona-{{ $zona->id }}"></label>
+                                    </div>
+                                </th>
                                 <td>
                                     {{ $zona->kode }}
                                 </td>
@@ -82,18 +109,18 @@
                                 <td colspan="9" class="text-danger text-center">Maaf, data tidak ditemukan</td>
                             </tr>
                         @endforelse
-                        </tbody>
-                    </table>
+                        </x-table.table-body>
+                    </x-table>
                 </div>
                 <!-- Pagination Start -->
                 <x-pagination :datalinks="$listZona" :page="$pageData['page']" :total-data="$pageData['totalData']" :page-count="$pageData['pageCount']"/>
                 <!-- Pagination end -->
-            </div>
+            </x-card>
         </div>
     </div>
 
     <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script></script>
     @endpush
 </div>

@@ -3,6 +3,9 @@
 namespace App\Http\Livewire\Master\Alamat;
 
 use App\Models\Address;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -18,7 +21,7 @@ class ListAlamat extends Component
     public Address $address;
 
     public string $search = '';
-    public int $perPage = 15;
+    public int $perPage;
     public string $orderBy = 'id';
     public string $direction = 'asc';
     public string $defaultSortBy = 'id';
@@ -59,23 +62,24 @@ class ListAlamat extends Component
         $this->resetValidation();
     }
 
-    public function mount(Address $address)
+    public function mount(Address $address): void
     {
+        $this->perPage = config('custom.page_count', 15);
         $this->address = $address;
     }
 
     public function isChecked($id): bool
     {
-        return in_array($id, $this->checked);
+        return in_array($id, $this->checked, true);
     }
 
-    public function selectAllData()
+    public function selectAllData(): void
     {
         $this->selectAllAlamat = true;
         $this->checked = $this->address->pluck('id')->toArray();
     }
 
-    public function updatedSelectAll($value)
+    public function updatedSelectAll($value): void
     {
         if ($value) {
             $this->checked = $this->address->query()
@@ -88,36 +92,36 @@ class ListAlamat extends Component
         }
     }
 
-    public function resetCheckbox()
+    public function resetCheckbox(): void
     {
         $this->checked = [];
         $this->selectAllAlamat = false;
         $this->selectAll = false;
     }
 
-    public function resetField()
+    public function resetField(): void
     {
         $this->reset('search', 'alamat', 'checked');
         $this->resetErrorBag();
         $this->updateMode = !$this->updateMode;
     }
 
-    public function updating()
+    public function updating(): void
     {
         $this->resetPage();
     }
 
-    public function updatedPerPage($value)
+    public function updatedPerPage($value): void
     {
         $this->setPerPage($value);
     }
 
-    public function setPerPage($value)
+    public function setPerPage($value): void
     {
         $this->perPage = $value;
     }
 
-    public function editAlamat($id)
+    public function editAlamat($id): void
     {
         $address = $this->address->find($id);
         $this->alamatId = $address->id ?? $id;
@@ -125,13 +129,13 @@ class ListAlamat extends Component
         $this->updateMode = true;
     }
 
-    public function addAlamat()
+    public function addAlamat(): void
     {
         $this->updateMode = false;
         $this->resetField();
     }
 
-    public function storeAlamat()
+    public function storeAlamat(): void
     {
         $validated = $this->validate();
 
@@ -150,12 +154,17 @@ class ListAlamat extends Component
         $this->resetField();
     }
 
-    public function confirmedDelete()
+    public function confirmedDelete(): void
     {
         $this->delete($this->alamatId, $this->deleteTipe);
     }
 
-    public function destroy($id, $tipe)
+    /**
+     * @param $id
+     * @param $tipe
+     * @return void
+     */
+    public function destroy($id, $tipe): void
     {
         $this->alamatId = $id;
         $this->deleteTipe = $tipe;
@@ -165,7 +174,12 @@ class ListAlamat extends Component
         ]);
     }
 
-    public function delete($id, $tipe)
+    /**
+     * @param $id
+     * @param $tipe
+     * @return void
+     */
+    public function delete($id, $tipe): void
     {
         if ('bulk' === $tipe) {
             $delete = $this->address->query()->whereKey($this->checked)->delete();
@@ -176,7 +190,7 @@ class ListAlamat extends Component
         $this->sendNotifikasi($delete, 'sendNotif');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         $listAlamat = $this->address
             ->search($this->search)
@@ -189,10 +203,10 @@ class ListAlamat extends Component
             'totalData' => $listAlamat->total(),
         ];
 
-        return view('livewire.master.alamat.list-alamat', compact('listAlamat'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.alamat.list-alamat', compact('listAlamat'));
     }
 
-    private function sendNotifikasi($model, $event = 'notifikasi')
+    private function sendNotifikasi($model, $event = 'notifikasi'): void
     {
         if ($model) {
             $this->alert('success', 'Alamat berhasil disimpan atau diperbarui');

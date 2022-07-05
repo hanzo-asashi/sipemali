@@ -19,7 +19,7 @@ class LaporanController extends Controller
 
     public function __construct()
     {
-        $this->perPage = config('custom.perPage', 15);
+        $this->perPage = config('custom.page_count', 15);
         $this->pageData = [];
     }
 

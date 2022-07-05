@@ -1,9 +1,6 @@
 <div>
     @section('title', $title ?? '')
-    @push('vendor-style')
-    @endpush
-
-    @push('page-style')
+    @push('css')
     @endpush
     <div class="row">
         {{--        <div class="col-md-12">--}}
@@ -20,7 +17,7 @@
                         <div class="mb-1">
                             <input type="text" class="form-control @error('alamat') is-invalid @enderror" wire:model.defer="alamat" id="alamat" placeholder="Alamat">
                             {{--                    <x-jet-input class="@error('alamat') is-invalid @enderror" wire:model.defer="alamat" type="text" label="Alamat" placeholder="Alamat" />--}}
-                            <x-jet-input-error :for="'alamat'"/>
+                            <x-input-error :for="'alamat'"/>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -158,7 +155,7 @@
     {{--                <div class="mb-1">--}}
     {{--                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" wire:model.defer="alamat" id="alamat" placeholder="Alamat">--}}
     {{--                    --}}{{--                    <x-jet-input class="@error('alamat') is-invalid @enderror" wire:model.defer="alamat" type="text" label="Alamat" placeholder="Alamat" />--}}
-    {{--                    <x-jet-input-error :for="'alamat'"/>--}}
+    {{--                    <x-input-error :for="'alamat'"/>--}}
     {{--                </div>--}}
     {{--                <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">--}}
     {{--                    {{ $updateMode ? 'Ubah' : 'Simpan' }}--}}
@@ -168,7 +165,7 @@
     {{--        </form>--}}
     {{--    </x-modal>--}}
 <!-- Hoverable rows end -->
-    @push('page-script')
+    @push('script')
         <script></script>
     @endpush
 </div>
