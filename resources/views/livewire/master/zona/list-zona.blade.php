@@ -1,7 +1,6 @@
 <div>
     @section('title', $title ?? '')
-    @push('css')
-    @endpush
+    @push('css') @endpush
     <div class="row">
         <div class="col-xl-4">
             <x-card>

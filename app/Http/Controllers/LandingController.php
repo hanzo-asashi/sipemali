@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ObjekPajak;
-use App\Models\PembayaranPajak;
-use App\Models\WajibPajak;
+use App\Models\Customers;
+use App\Models\Payment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
 {
     public function index()
     {
-        $totalWajibPajak = WajibPajak::count();
-        $totalObjekPajak = ObjekPajak::count();
-//        $totalTargetPajak = TargetPajak::sum('target');
-        $totalTargetPajak = PembayaranPajak::sum('nilai_pajak');
-        $totalRealisasiPajak = PembayaranPajak::where('status_bayar',1)->sum('nilai_pajak');
+        $totalWajibPajak = Customers::all()->count();
+        $totalObjekPajak = Customers::where(['is_valid' => 1, 'status_pelanggan' => 1])->count();
+        $totalTargetPajak = Payment::where('status_pembayaran', 1)->sum('total_tagihan');
+        $totalRealisasiPajak = Payment::where('status_pembayaran', 2)->sum('total_bayar');
 
         $data = [
             'totalWajibPajak' => $totalWajibPajak,
@@ -27,7 +26,7 @@ class LandingController extends Controller
         return view('landing.index', compact('data'));
     }
 
-    public function searchTracking(Request $request)
+    public function searchTracking(Request $request): RedirectResponse
     {
         $search = $request->has('search') ? $request->get('search') : null;
         return redirect()->route('tracking', ['q' => $search]);

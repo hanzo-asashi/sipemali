@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Master\Zona;
 
-use App\Models\PaymentStatus;
 use App\Models\Zone;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -44,15 +43,15 @@ class ListZona extends Component
         'confirmedDelete',
     ];
 
-    public function hydrate()
+    public function hydrate(): void
     {
         $this->resetErrorBag();
         $this->resetValidation();
     }
 
-    public function mount(Zone $zone)
+    public function mount(Zone $zone): void
     {
-        $this->perPage = config('custom.page_count',15);
+        $this->perPage = config('custom.page_count', 15);
         $this->zone = $zone;
     }
 

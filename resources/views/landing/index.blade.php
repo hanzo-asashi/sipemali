@@ -66,7 +66,7 @@
                                 <div>
                                     <i class="bx bx-smile widget-box-1-icon text-primary"></i>
                                 </div>
-                                <h5 class="mt-3">PELANGGAN</h5>
+                                <h5 class="mt-3">PELANGGAN AKTIF</h5>
                                 <h3 class="mt-3 mb-0">{{ $data['totalWajibPajak'] }} <span style="font-size: 13px; font-style: italic;">Orang</span></h3>
                             </div>
                             <!-- end card body -->
@@ -79,8 +79,8 @@
                                 <div>
                                     <i class="bx bx-map-pin widget-box-1-icon text-primary"></i>
                                 </div>
-                                <h5 class="mt-3">TOTAL METERAN</h5>
-                                <h3 class="mt-3 mb-0">{{ $data['totalObjekPajak'] }} <span style="font-size: 13px; font-style: italic;">Objek</span></h3>
+                                <h5 class="mt-3">PELANGGAN VALID</h5>
+                                <h3 class="mt-3 mb-0">{{ $data['totalObjekPajak'] }} <span style="font-size: 13px; font-style: italic;">Orang</span></h3>
                             </div>
                             <!-- end card body -->
                         </div>
