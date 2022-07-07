@@ -42,7 +42,7 @@ class ListMetodeBayar extends Component
 
     protected $listeners = [
         'delete',
-        'resetField' => 'resetField',
+//        'resetField' => 'resetField',
         'confirmedDelete'
     ];
 
@@ -95,7 +95,7 @@ class ListMetodeBayar extends Component
     {
         $this->reset('search', 'state', 'checked');
         $this->resetErrorBag();
-        $this->updateMode = ! $this->updateMode;
+//        $this->updateMode = ! $this->updateMode;
     }
 
     public function updating(): void
