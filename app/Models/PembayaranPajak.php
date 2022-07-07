@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\ModelStatus\HasStatuses;
 
 /**
- * @mixin IdeHelperPembayaran
+ * @mixin IdeHelperPembayaranPajak
  */
 class PembayaranPajak extends Model
 {

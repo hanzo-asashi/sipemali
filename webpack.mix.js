@@ -249,6 +249,7 @@ lodash(app_pages_assets).forEach(function (assets, type) {
 });
 
 mix.combine('resources/js/app.js', folder.dist_assets + "js/app.min.js");
+mix.combine('resources/js/script.js', folder.dist_assets + "js/script.min.js");
 
 mix.combine('resources/css/preloader.min.css', folder.dist_assets + "css/preloader.tui-date-picker.css");
 

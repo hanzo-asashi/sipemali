@@ -382,6 +382,4 @@ File: Main Js File
 
     init();
 })(jQuery)
-
-import './bootstrap'
 // feather.replace();

@@ -13,7 +13,9 @@
 <!-- Sweet Alerts js -->
 <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ URL::asset('/assets/libs/choice-js/choice-js.min.js') }}"></script>
+{{--<script src="{{ mix('assets/js/script.min.js') }}"></script>--}}
 {{--<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>--}}
+
 @stack('script')
 <script src="{{ URL::asset('assets/js/app.min.js') }}"></script>
 {{--<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>--}}

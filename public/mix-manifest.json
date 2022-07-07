@@ -338,6 +338,7 @@
     "/assets/css/icons.min.css": "/assets/css/icons.min.css",
     "/assets/css/app.min.css": "/assets/css/app.min.css",
     "/assets/js/app.min.js": "/assets/js/app.min.js",
+    "/assets/js/script.min.js": "/assets/js/script.min.js",
     "/assets/css/preloader.tui-date-picker.css": "/assets/css/preloader.tui-date-picker.css",
     "/assets/css/main.css": "/assets/css/main.css",
     "/assets/js/pages/calendar.init.js": "/assets/js/pages/calendar.init.js",

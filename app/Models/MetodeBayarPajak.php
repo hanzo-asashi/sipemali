@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @mixin IdeHelperMetodeBayar
+ * @mixin IdeHelperMetodeBayarPajak
  */
 class MetodeBayarPajak extends Model
 {

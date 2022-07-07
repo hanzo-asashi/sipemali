@@ -151,9 +151,9 @@
             </div>
             <!--/ Revenue Report Card -->
         </div>
-    @push('script')
-        @livewireChartsScripts
-        {{-- vendor files --}}
-        <script src="{{ asset(mix('assets/libs/apexcharts/apexcharts.min.js')) }}"></script>
-    @endpush
+        @push('script')
+            @livewireChartsScripts
+            {{-- vendor files --}}
+            <script src="{{ mix('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+        @endpush
 </div>

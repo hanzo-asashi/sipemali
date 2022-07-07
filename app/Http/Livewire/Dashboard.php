@@ -6,7 +6,6 @@ use App\Models\Customers;
 use App\Models\Payment;
 use App\Utilities\Helpers;
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;
-use Asantibanez\LivewireCharts\Models\ColumnChartModel;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -98,7 +97,7 @@ class Dashboard extends Component
         }, []);
 
         foreach ($listBulan as $key => $item) {
-            $bayar = Payment::where('bulan_berjalan', $key)->sum('total_tagihan');
+            $bayar = Payment::query()->ray()->where('bulan_berjalan', $key)->sum('total_tagihan');
             $bayar = number_format($bayar, 0, ',', '.');
             $columnChartModel->addColumn($item, $bayar, $this->colors[$key]);
         }

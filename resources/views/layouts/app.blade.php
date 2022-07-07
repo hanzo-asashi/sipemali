@@ -53,12 +53,12 @@
 <!-- /Right-bar -->
 <!-- JAVASCRIPT -->
 @livewireScripts
-<script src="https://unpkg.com/alpinejs@2.8.2/dist/alpine.js"></script>
+{{--<script src="https://unpkg.com/alpinejs@2.8.2/dist/alpine.js"></script>--}}
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine.js"></script>--}}
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine-ie11.min.js"></script>--}}
-{{--<script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js"></script>--}}
+<script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
 {{--<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>--}}
-{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.4.2/cdn.min.js"></script>--}}
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.2/cdn.min.js"></script>--}}
 @include('layouts.vendor-scripts')
 @include('layouts.partials.feather-script')
 <x-livewire-alert::scripts/>

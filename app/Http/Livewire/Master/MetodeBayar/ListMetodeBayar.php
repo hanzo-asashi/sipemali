@@ -9,7 +9,6 @@ use Illuminate\Contracts\View\View;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Torann\Hashids\Facade\Hashids;
 
 class ListMetodeBayar extends Component
 {
@@ -50,6 +49,7 @@ class ListMetodeBayar extends Component
     public function mount(MetodeBayar $metodeBayar): void
     {
         $this->perPage = config('custom.page_count', 15);
+
         $this->metodeBayar = $metodeBayar;
     }
 
