@@ -1,4 +1,4 @@
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.app')
 @section('title', 'Laporan Penerimaan Penagihan')
 @section('breadcrumbs')
     @if(isset($breadcrumbs))

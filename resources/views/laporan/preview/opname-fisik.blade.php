@@ -3,7 +3,9 @@
 @section('title', 'Cetak Ikhtisar LPP')
 
 @push('page-style')
-<style>@page { size: A4 }</style>
+<style>@page {
+        size: A4
+    }</style>
 @endpush
 
 @section('content')
@@ -11,27 +13,27 @@
         <div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th width="10%" style="border-right: 0px;">
-                            <img style="width: 40px;height: auto;" src="{{ asset("images/logo/logo-soppeng.png") }}" alt=""/>
-                        </th>
-                        <th colspan="15" class="p-10" style="border-left: 0px;border-right: 0px">
-                            <h1 class="mt-0 mb-0">PERUSAHAAN UMUM DAERAH TIRTA OMPO <br> PDAM KABUPATEN SOPPENG</h1>
-                            <h1 class="mt-0 mb-0">IKHTISAR LAPORAN PENERIMAAN PENAGIHAN</h1>
-                            <h2 class="mt-0 mb-0">PERIODE : {{ now()->startOfMonth()->format('d M Y') }} - {{ now()->endOfMonth()->format('d M Y') }}</h2>
-                        </th>
-                        <th width="10%" style="border-left: 0px;">
-                            <img style="width: 60px;height: auto;" src="{{ asset("images/logo/logo-pdam.png") }}" alt=""/>
-                        </th>
-                    </tr>
-                    <tr class="text-center">
-                        <th class="text-center" style="width: 1%;">No.</th>
-                        <th class="text-center" style="width: 3%;">No.Sambungan</th>
-                        <th style="width: 10%;">Nama</th>
-                        @foreach(config('custom.list_bulan') as $key => $bulan)
-                            <th style="width: 4%;">{{ $bulan }}</th>
-                        @endforeach
-                        <th style="width: 1%;">Lembar Rek.</th>
+                <tr>
+                    <th width="10%" style="border-right: 0px;">
+                        <img style="width: 40px;height: auto;" src="{{ asset("assets/images/logo/logo-soppeng.png") }}" alt=""/>
+                    </th>
+                    <th colspan="15" class="p-10" style="border-left: 0px;border-right: 0px">
+                        <h1 class="mt-0 mb-0">PERUSAHAAN UMUM DAERAH TIRTA OMPO <br> PDAM KABUPATEN SOPPENG</h1>
+                        <h1 class="mt-0 mb-0">IKHTISAR LAPORAN PENERIMAAN PENAGIHAN</h1>
+                        <h2 class="mt-0 mb-0">PERIODE : {{ now()->startOfMonth()->format('d M Y') }} - {{ now()->endOfMonth()->format('d M Y') }}</h2>
+                    </th>
+                    <th width="10%" style="border-left: 0px;">
+                        <img style="width: 60px;height: auto;" src="{{ asset("assets/images/logo/logo-pdam.png") }}" alt=""/>
+                    </th>
+                </tr>
+                <tr class="text-center">
+                    <th class="text-center" style="width: 1%;">No.</th>
+                    <th class="text-center" style="width: 3%;">No.Sambungan</th>
+                    <th style="width: 10%;">Nama</th>
+                    @foreach(config('custom.list_bulan') as $key => $bulan)
+                        <th style="width: 4%;">{{ $bulan }}</th>
+                    @endforeach
+                    <th style="width: 1%;">Lembar Rek.</th>
                         <th style="width: 5%;">Jumlah</th>
                     </tr>
                     <tr>

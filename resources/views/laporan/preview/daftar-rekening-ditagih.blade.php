@@ -2,7 +2,7 @@
 
 @section('title', 'Cetak Daftar Rekening Ditagih')
 
-@push('page-style')
+@push('css')
     {{--<style>@page { size: A4 }</style>--}}
 @endpush
 @section('content')
@@ -61,7 +61,7 @@
         </div>
     </div>
 @endsection
-@push('page-script')
+@push('script')
     <script>
         window.print();
     </script>

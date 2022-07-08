@@ -2,8 +2,8 @@
 
 @section('title', 'Cetak Ikhtisar LPP')
 
-@push('page-style')
-{{--<style>@page { size: A4 }</style>--}}
+@push('css')
+    {{--<style>@page { size: A4 }</style>--}}
 @endpush
 
 @section('content')
@@ -11,29 +11,29 @@
         <div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th width="10%" style="border-right: 0px;">
-                            <img style="width: 40px;height: auto;" src="{{ asset("images/logo/logo-soppeng.png") }}" alt=""/>
-                        </th>
-                        <th colspan="6" class="p-10" style="border-left: 0px;border-right: 0px">
-                            <h1 class="mt-0 mb-0">PERUSAHAAN UMUM DAERAH TIRTA OMPO <br> PDAM KABUPATEN SOPPENG</h1>
-                            <h1 class="mt-0 mb-0">IKHTISAR LAPORAN PENERIMAAN PENAGIHAN</h1>
-                            <h2 class="mt-0 mb-0">PERIODE : {{ now()->startOfMonth()->format('d M Y') }} - {{ now()->endOfMonth()->format('d M Y') }}</h2>
-                        </th>
-                        <th width="10%" style="border-left: 0px;">
-                            <img style="width: 60px;height: auto;" src="{{ asset("images/logo/logo-pdam.png") }}" alt=""/>
-                        </th>
-                    </tr>
-                    <tr class="text-center">
-                        <th style="width: 3%;">No.</th>
-                        <th width="35%" >Nama Kelompok</th>
-                        <th>Air (m3)</th>
-                        <th>Harga Air</th>
-                        <th>Dana Meter</th>
-                        <th>Biaya Layanan</th>
-                        <th>Denda</th>
-                        <th>Total Penerimaan</th>
-                    </tr>
+                <tr>
+                    <th width="10%" style="border-right: 0px;">
+                        <img style="width: 40px;height: auto;" src="{{ asset("assets/images/logo/logo-soppeng.png") }}" alt=""/>
+                    </th>
+                    <th colspan="6" class="p-10" style="border-left: 0px;border-right: 0px">
+                        <h1 class="mt-0 mb-0">PERUSAHAAN UMUM DAERAH TIRTA OMPO <br> PDAM KABUPATEN SOPPENG</h1>
+                        <h1 class="mt-0 mb-0">IKHTISAR LAPORAN PENERIMAAN PENAGIHAN</h1>
+                        <h2 class="mt-0 mb-0">PERIODE : {{ now()->startOfMonth()->format('d M Y') }} - {{ now()->endOfMonth()->format('d M Y') }}</h2>
+                    </th>
+                    <th width="10%" style="border-left: 0px;">
+                        <img style="width: 60px;height: auto;" src="{{ asset("assets/images/logo/logo-pdam.png") }}" alt=""/>
+                    </th>
+                </tr>
+                <tr class="text-center">
+                    <th style="width: 3%;">No.</th>
+                    <th width="35%">Nama Kelompok</th>
+                    <th>Air (m3)</th>
+                    <th>Harga Air</th>
+                    <th>Dana Meter</th>
+                    <th>Biaya Layanan</th>
+                    <th>Denda</th>
+                    <th>Total Penerimaan</th>
+                </tr>
                 </thead>
                 <tbody>
                 @php
@@ -79,11 +79,10 @@
                 </tr>
                 </tfoot>
             </table>
-        </section>
-    </div>
-@endsection
-@push('page-script')
-    <script>
-        window.print();
-    </script>
-@endpush
+        </div>
+        @endsection
+        @push('script')
+            <script>
+                window.print();
+            </script>
+    @endpush

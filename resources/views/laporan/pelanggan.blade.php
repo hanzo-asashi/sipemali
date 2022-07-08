@@ -1,4 +1,4 @@
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.app')
 @section('title', 'Laporan PelangganResource')
 @section('content')
     <div class="row">

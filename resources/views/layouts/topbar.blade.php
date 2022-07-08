@@ -31,7 +31,7 @@
             <!-- App Search-->
             {{--            <form class="app-search d-none d-lg-block">--}}
             <div class="position-relative mt-4 align-items-center">
-                <span class="text-muted font-size-16">{{ \App\Utilities\Helper::hari_tanggal() }}</span>
+                <span class="text-muted font-size-16">{{ \App\Utilities\Helpers::hari_tanggal() }}</span>
                 {{--                    <input type="text" class="form-control" placeholder="Search...">--}}
                 {{--                    <button class="btn btn-primary" type="button"><i class="bx bx-search-alt align-middle"></i></button>--}}
             </div>
@@ -74,7 +74,7 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item bg-soft-light border-start border-end"
                         id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user" src="{{ \App\Utilities\Helper::getAvatar() }}" alt="Avatar">
+                    <img class="rounded-circle header-profile-user" src="{{ \App\Utilities\Helpers::getAvatar() }}" alt="Avatar">
                     <span class="d-none d-xl-inline-block ms-1 fw-medium">{{ Auth::user()->name }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>

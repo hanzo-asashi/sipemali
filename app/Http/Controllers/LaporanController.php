@@ -7,7 +7,7 @@ use App\Models\GolonganTarif;
 use App\Models\Payment;
 use App\Models\Zone;
 use App\Utilities\Helpers;
-use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -207,7 +207,7 @@ class LaporanController extends Controller
         ];
     }
 
-    private function customerQuery($filter, $tipe = 'pelanggan')
+    private function customerQuery($filter, $tipe = 'pelanggan'): LengthAwarePaginator
     {
         $filter = $this->filterCustomer($filter);
         $range = $filter['range'];

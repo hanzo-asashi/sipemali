@@ -20,9 +20,9 @@ class CetakController extends Controller
         $page = $data['page'] ?? '';
 
         if ($page === 'pembayaran') {
-            $view = 'laporan-pajak.transaksi';
+            $view = 'laporan.transaksi';
         } else {
-            $view = 'laporan-pajak.partials.print-transaksi';
+            $view = 'laporan.partials.print-transaksi';
             $pelanggan = Customers::with(['payment', 'golonganTarif', 'statusPelanggan', 'zona', 'metodeBayar'])->find($id);
             $pembayaran = $pelanggan->payment()->with('metodeBayar')->latest()->find($pembayaranId);
             $pageData['pelanggan'] = $pelanggan;
@@ -49,10 +49,10 @@ class CetakController extends Controller
         $filterZona = $data['filterZona'] ?? '';
         $pageArray = ['transaksi', 'ikhtisar-lpp', 'penerimaan-penagihan', 'rekening-air', 'pembayaran', 'opname-fisik','catat-meter'];
         $tipe = '';
-        $view = 'laporan-pajak.preview.' . $page;
+        $view = 'laporan.preview.'.$page;
         if (in_array($page, $pageArray, true)) {
             if ($page === 'pembayaran') {
-                $view = 'laporan-pajak.transaksi';
+                $view = 'laporan.transaksi';
             }
 
             if ($page === 'opname-fisik') {
@@ -115,7 +115,7 @@ class CetakController extends Controller
             }
 
             if($page === 'rekening-air') {
-                $view = 'laporan-pajak.partials.rekening-air';
+                $view = 'laporan.partials.rekening-air';
                 $pelanggan = Customers::with(['payment', 'golonganTarif', 'statusPelanggan', 'zona', 'metodeBayar'])->find($data['id']);
                 $pembayaran = $pelanggan->payment()->with('metodeBayar')->latest()->find($data['pembayaran_id']);
                 $pageData['pelanggan'] = $pelanggan;
@@ -136,7 +136,7 @@ class CetakController extends Controller
 
     public function showBuktiBayar($page, $pelangganId, $pembayaranId)
     {
-        $filename = isset($page) ? 'laporan-pajak-' . $page . '-' . now()->format('YmdHis') . '.pdf' : 'laporan-pajak-' . now()->format('YmdHis') . '.pdf';
+        $filename = isset($page) ? 'laporan-'.$page.'-'.now()->format('YmdHis').'.pdf' : 'laporan-'.now()->format('YmdHis').'.pdf';
         $pelanggan = Customers::with(['payment', 'golonganTarif', 'statusPelanggan', 'zona', 'metodeBayar'])->find($pelangganId);
         $pembayaran = $pelanggan->payment()->with('metodeBayar')->latest()->find($pembayaranId);
         $pageData['pelanggan'] = $pelanggan;
@@ -144,7 +144,7 @@ class CetakController extends Controller
         $pageData['id'] = $pelangganId ?? 1;
         $pageData['pembayaran_id'] = $pembayaranId;
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('laporan-pajak.bukti-bayar.' . $page, $pageData);
+        $pdf->loadView('laporan.bukti-bayar.'.$page, $pageData);
         $pdf->setPaper('a4', setting('print_layout', 'portrait'))->setWarnings(false);
         return $pdf->stream($filename);
     }
@@ -152,7 +152,7 @@ class CetakController extends Controller
     protected function sendToPrint($data, $tipe, $view, $page)
     {
         $savePath = storage_path('app/public/cetak/');
-        $filename = isset($page) ? 'laporan-pajak-' . $page . '-' . now()->format('YmdHis') . '.pdf' : 'laporan-pajak-' . now()->format('YmdHis') . '.pdf';
+        $filename = isset($page) ? 'laporan-'.$page.'-'.now()->format('YmdHis').'.pdf' : 'laporan-'.now()->format('YmdHis').'.pdf';
         $pdf = App::make('dompdf.wrapper');
         $paper = 'portrait';
         $pdf->loadView($view, $data);

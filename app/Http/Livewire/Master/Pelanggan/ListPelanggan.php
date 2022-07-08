@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Master\Pelanggan;
 
+use App\Concerns\HasStat;
 use App\Events\PaymentCreated;
 use App\Models\Customers;
 use App\Models\GolonganTarif;
 use App\Models\Payment;
 use App\Models\PaymentStatus;
 use App\Models\Zone;
-use App\Concerns\HasStat;
 use App\Utilities\Helpers;
 use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -524,7 +524,8 @@ class ListPelanggan extends Component
                 return $q->where('is_valid', $this->valid);
             })
             ->orderBy('no_sambungan')
-            ->paginate($this->perPage);
+            ->fastPaginate($this->perPage);
+//            ->paginate($this->perPage);
     }
 
     public function render(): Factory|View|Application

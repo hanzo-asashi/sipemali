@@ -1,14 +1,9 @@
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.app')
 @section('title', 'Ikhtisar Laporan Penerimaan Penagihan')
-@section('breadcrumbs')
-    @if(isset($breadcrumbs))
-        <x-breadcrumb :breadcrumbs="[]"/>
-    @endif
-@endsection
-@section('header-right')
-
-@endsection
-@push('vendor-style')
+@if(isset($breadcrumbs))
+    <x-breadcrumb :breadcrumbs="[]"/>
+@endif
+@push('css')
 
 @endpush
 @section('content')
@@ -143,7 +138,7 @@
         </div>
     </div>
 @endsection
-@push('page-script')
+@push('script')
     <script>
         /**
          * Removes URL parameters

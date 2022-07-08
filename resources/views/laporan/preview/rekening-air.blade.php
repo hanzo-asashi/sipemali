@@ -2,7 +2,7 @@
 
 @section('title', 'Cetak Rekening Air')
 
-@push('page-style')
+@push('css')
 {{--    <style type="text/css">--}}
 {{--        @media print{--}}
 {{--            body{ background-color:#FFFFFF; background-image:none; color:#000000 }--}}
@@ -11,7 +11,9 @@
 {{--            #contentarea{ width:100%;}--}}
 {{--        }--}}
 {{--    </style>--}}
-<style>@page { size: A4 }</style>
+<style>@page {
+        size: A4
+    }</style>
 @endpush
 
 @section('content')
@@ -19,19 +21,19 @@
         <div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th width="10%" style="border-right: 0px;">
-                            <img style="width: 30px;height: auto;" src="{{ asset("images/logo/logo-soppeng.png") }}" alt=""/>
-                        </th>
-                        <th colspan="5" class="p-10" style="border-left: 0px;border-right: 0px">
-                            <h2 class="mt-0 mb-0">REKENING AIR</h2>
-                            <h2 class="mt-0 mb-0">{{ strtoupper(setting('nama_kantor')) }}</h2>
-                            <h3 class="mt-0 mb-0">{{ strtoupper(setting('alamat_kantor')) . ' TELP. ' . setting('no_telp_kantor') . ' WATANSOPPENG' }}</h3>
-                        </th>
-                        <th width="10%" style="border-left: 0px;">
-                            <img style="width: 40px;height: auto;" src="{{ asset("images/logo/logo-pdam.png") }}" alt=""/>
-                        </th>
-                    </tr>
+                <tr>
+                    <th width="10%" style="border-right: 0px;">
+                        <img style="width: 30px;height: auto;" src="{{ asset("assets/images/logo/logo-soppeng.png") }}" alt=""/>
+                    </th>
+                    <th colspan="5" class="p-10" style="border-left: 0px;border-right: 0px">
+                        <h2 class="mt-0 mb-0">REKENING AIR</h2>
+                        <h2 class="mt-0 mb-0">{{ strtoupper(setting('nama_kantor')) }}</h2>
+                        <h3 class="mt-0 mb-0">{{ strtoupper(setting('alamat_kantor')) . ' TELP. ' . setting('no_telp_kantor') . ' WATANSOPPENG' }}</h3>
+                    </th>
+                    <th width="10%" style="border-left: 0px;">
+                        <img style="width: 40px;height: auto;" src="{{ asset("assets/images/logo/logo-pdam.png") }}" alt=""/>
+                    </th>
+                </tr>
                 </thead>
             </table>
             <table class="table">
@@ -165,7 +167,7 @@
     </div>
 @endsection
 
-@push('page-script')
+@push('script')
     <script>
         'use strict';
         window.print();

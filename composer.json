@@ -16,6 +16,7 @@
         "doctrine/dbal": "^3.1",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
+        "hammerstone/fast-paginate": "^0.1.1",
         "jantinnerezo/livewire-alert": "^2.2",
         "larabug/larabug": "^2.5",
         "laravel/framework": "^9.2",

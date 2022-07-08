@@ -1,4 +1,4 @@
-@extends('layouts.contentLayoutMaster')
+@extends('layouts.app')
 @section('title', 'Laporan Piutang PelangganResource')
 @push('vendor-style')
     <link rel="stylesheet" href="{{asset('vendors/css/pickers/flatpickr/flatpickr.min.css')}}">
@@ -22,7 +22,6 @@
                                         viewBox="0 0 139 95"
                                         version="1.1"
                                         xmlns="http://www.w3.org/2000/svg"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink"
                                         height="24"
                                     >
                                         <defs>

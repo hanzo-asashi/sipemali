@@ -7,6 +7,7 @@ use App\Models\GolonganTarif;
 use App\Models\MetodeBayarPajak;
 use App\Models\Payment;
 use App\Models\PaymentStatus;
+use App\Models\Wilayah;
 use App\Models\Zone;
 use Config;
 use DateTime;
@@ -16,22 +17,211 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
 use ReflectionClass;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Storage;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class Helpers
 {
 
-    public static function convertTitle(string $title): array|string|null
+    public static function simplify(int|float $value): string
     {
+        $regex = '/^-?\d+(?:\.\d{0,1})?/';
+
+        $format = function (string $value) use ($regex) {
+            preg_match($regex, $value, $matches, PREG_OFFSET_CAPTURE);
+            return str_replace('.0', '', $matches[0][0]);
+        };
+
+        // A Hundred(or less)
+        if ($value < 1000) {
+            return $value;
+        }
+
+        // A Thousand
+        if ($value < 1000000) {
+            return $format($value / 1000).'K';
+        }
+
+        // A Million
+        if ($value < 1000000000) {
+            return $format($value / 1000000).'M';
+        }
+
+        // Billion
+        return $format($value / 1000000000).'B';
+
+    }
+
+    public static function showQrCode($text, $size = 100, $format = 'png'): string
+    {
+        return '<img src="data:image/png;base64,'.base64_encode(self::generateQrCode($text, $size, $format)).'" alt="qrcode">';
+    }
+
+    public static function generateQrCode($text, $size = 100, $format = 'png', $style = 'square', $eyeStyle = 'square', $margin = 0)
+    {
+        return QrCode::format($format)
+            ->size($size)
+            ->style($style)
+            ->eye($eyeStyle)
+            ->margin($margin)
+//            ->merge('../public/storage/uploads/20211009202835.png')
+            ->generate($text);
+    }
+
+    public static function getAvatar(): string
+    {
+        $avatar = auth()->user()->avatar;
+
+        return (isset($avatar) && $avatar !== '') ? $avatar : asset('assets/images/users/default.png');
+    }
+
+    public static function isSuperadmin(): bool
+    {
+        return auth()->user()->getRoleNames()[0] === 'superadmin';
+    }
+
+    public static function isAdmin(): bool
+    {
+        return auth()->user()->getRoleNames()[0] === 'admin';
+    }
+
+    public static function isOperator(): bool
+    {
+        return auth()->user()->getRoleNames()[0] === 'operator';
+    }
+
+    public static function getWilayah($kode)
+    {
+        return Wilayah::getWilayah($kode);
+    }
+
+    public static function getNamaWilayah($kode)
+    {
+        return Wilayah::getWilayahName($kode)->nama;
+    }
+
+//    public static function getNamaStatusBayar($kode): string
+//    {
+//        return match ($kode) {
+//            '0' => 'Belum Lunas',
+//            '1' => 'Lunas',
+//            default => 'N/A',
+//        };
+
+//        return $kode === 0 ? 'Belum Lunas' : 'Lunas';
+//}
+
+    public static function getNamaStatusTransaksi(
+        $kode
+    ): string {
+        return match ($kode) {
+            1 => 'Lancar',
+            2 => 'Menunggak',
+            default => '-',
+        };
+    }
+
+    /**
+     * Convert Number to Roman
+     *
+     * @param  integer  $integer
+     *
+     * @return string
+     */
+    public
+    static function convertToRoman(
+        int $integer
+    ): string {
+        // Convert the integer into an integer (just to make sure)
+        $integer = (int) $integer;
+        $result = '';
+
+        // Create a lookup array that contains all of the Roman numerals.
+        $lookup = [
+            'M' => 1000,
+            'CM' => 900,
+            'D' => 500,
+            'CD' => 400,
+            'C' => 100,
+            'XC' => 90,
+            'L' => 50,
+            'XL' => 40,
+            'X' => 10,
+            'IX' => 9,
+            'V' => 5,
+            'IV' => 4,
+            'I' => 1,
+        ];
+
+        foreach ($lookup as $roman => $value) {
+            // Determine the number of matches
+            $matches = intval($integer / $value);
+
+            // Add the same number of characters to the string
+            $result .= str_repeat($roman, $matches);
+
+            // Set the integer to be the remainder of the integer and the value
+            $integer = $integer % $value;
+        }
+
+        // The Roman numeral should be built, return it
+        return $result;
+    }
+
+    public
+    static function getRomawi(
+        $bln
+    ) {
+        switch ($bln) {
+            case 1:
+                return 'I';
+                break;
+            case 2:
+                return 'II';
+                break;
+            case 3:
+                return 'III';
+                break;
+            case 4:
+                return 'IV';
+                break;
+            case 5:
+                return 'V';
+                break;
+            case 6:
+                return 'VI';
+                break;
+            case 7:
+                return 'VII';
+                break;
+            case 8:
+                return 'VIII';
+                break;
+            case 9:
+                return 'IX';
+                break;
+            case 10:
+                return 'X';
+                break;
+            case 11:
+                return 'XI';
+                break;
+            case 12:
+                return 'XII';
+                break;
+        }
+    }
+
+    public
+    static function convertTitle(
+        string $title
+    ): array|string|null {
         return preg_replace('/[\s-]+/', '-', strtolower($title));
     }
 
-    #[ArrayShape(['zonaKode' => 'int', 'kodeGol' => 'int', 'padNum' => 'string'])] private static function getMaxNumber($golid, $zonaid,$length, $pad): array
+    #[
+        ArrayShape(['zonaKode' => 'int', 'kodeGol' => 'int', 'padNum' => 'string'])] private static function getMaxNumber($golid, $zonaid, $length, $pad): array
     {
         $maxNumber = Customers::max('id');
         $maxNumber = is_null($maxNumber) ? 1 : $maxNumber;
@@ -101,117 +291,110 @@ class Helpers
         return $pembayaran_air + $pembayaran_meter;
     }
 
-    public static function getNamaStatusTransaksi($kode): string
-    {
-        return match ($kode) {
-            1 => 'Lancar',
-            2 => 'Menunggak',
-            default => '-',
-        };
-    }
+//    public static function getNamaStatusTransaksi($kode): string
+//    {
+//        return match ($kode) {
+//            1 => 'Lancar',
+//            2 => 'Menunggak',
+//            default => '-',
+//        };
+//    }
 
-    /**
-     * Convert Number to Roman
-     *
-     * @param  int  $integer
-     *
-     * @return string
-     */
-    public static function convertToRoman(int $integer): string
-    {
-        // Convert the integer into an integer (just to make sure)
-        $integer = intval($integer);
-        $result = '';
+//    public static function convertToRoman(int $integer): string
+//    {
+//        // Convert the integer into an integer (just to make sure)
+//        $integer = intval($integer);
+//        $result = '';
+//
+//        // Create a lookup array that contains all of the Roman numerals.
+//        $lookup = [
+//            'M' => 1000,
+//            'CM' => 900,
+//            'D' => 500,
+//            'CD' => 400,
+//            'C' => 100,
+//            'XC' => 90,
+//            'L' => 50,
+//            'XL' => 40,
+//            'X' => 10,
+//            'IX' => 9,
+//            'V' => 5,
+//            'IV' => 4,
+//            'I' => 1,
+//        ];
+//
+//        foreach ($lookup as $roman => $value) {
+//            // Determine the number of matches
+//            $matches = (int) ($integer / $value);
+//
+//            // Add the same number of characters to the string
+//            $result .= str_repeat($roman, $matches);
+//
+//            // Set the integer to be the remainder of the integer and the value
+//            $integer %= $value;
+//        }
+//
+//        // The Roman numeral should be built, return it
+//        return $result;
+//    }
 
-        // Create a lookup array that contains all of the Roman numerals.
-        $lookup = [
-            'M' => 1000,
-            'CM' => 900,
-            'D' => 500,
-            'CD' => 400,
-            'C' => 100,
-            'XC' => 90,
-            'L' => 50,
-            'XL' => 40,
-            'X' => 10,
-            'IX' => 9,
-            'V' => 5,
-            'IV' => 4,
-            'I' => 1,
-        ];
+//    public static function getRomawi($bln)
+//    {
+//        switch ($bln) {
+//            case 1:
+//                return 'I';
+//                break;
+//            case 2:
+//                return 'II';
+//                break;
+//            case 3:
+//                return 'III';
+//                break;
+//            case 4:
+//                return 'IV';
+//                break;
+//            case 5:
+//                return 'V';
+//                break;
+//            case 6:
+//                return 'VI';
+//                break;
+//            case 7:
+//                return 'VII';
+//                break;
+//            case 8:
+//                return 'VIII';
+//                break;
+//            case 9:
+//                return 'IX';
+//                break;
+//            case 10:
+//                return 'X';
+//                break;
+//            case 11:
+//                return 'XI';
+//                break;
+//            case 12:
+//                return 'XII';
+//                break;
+//        }
+//    }
 
-        foreach ($lookup as $roman => $value) {
-            // Determine the number of matches
-            $matches = (int) ($integer / $value);
+//    public static function showQrCode($text, $size = 100, $format = 'png'): string
+//    {
+//        return '<img src="data:image/png;base64,'.base64_encode(self::generateQrCode($text, $size, $format)).'" alt="qrcode">';
+//    }
 
-            // Add the same number of characters to the string
-            $result .= str_repeat($roman, $matches);
-
-            // Set the integer to be the remainder of the integer and the value
-            $integer %= $value;
-        }
-
-        // The Roman numeral should be built, return it
-        return $result;
-    }
-
-    public static function getRomawi($bln)
-    {
-        switch ($bln) {
-            case 1:
-                return 'I';
-                break;
-            case 2:
-                return 'II';
-                break;
-            case 3:
-                return 'III';
-                break;
-            case 4:
-                return 'IV';
-                break;
-            case 5:
-                return 'V';
-                break;
-            case 6:
-                return 'VI';
-                break;
-            case 7:
-                return 'VII';
-                break;
-            case 8:
-                return 'VIII';
-                break;
-            case 9:
-                return 'IX';
-                break;
-            case 10:
-                return 'X';
-                break;
-            case 11:
-                return 'XI';
-                break;
-            case 12:
-                return 'XII';
-                break;
-        }
-    }
-
-    public static function showQrCode($text, $size = 100, $format = 'png'): string
-    {
-        return '<img src="data:image/png;base64,'.base64_encode(self::generateQrCode($text, $size, $format)).'" alt="qrcode">';
-    }
-
-    public static function generateQrCode($text, $size = 100, $format = 'png', $style = 'square', $eyeStyle = 'square', $margin = 0)
-    {
-        return QrCode::format($format)
-            ->size($size)
-            ->style($style)
-            ->eye($eyeStyle)
-            ->margin($margin)
-//            ->merge('../public/storage/uploads/20211009202835.png')
-            ->generate($text);
-    }
+//    public static function generateQrCode($text, $size = 100, $format = 'png', $style = 'square', $eyeStyle = 'square', $margin = 0)
+//    {
+//        return QrCode::format($format)
+//            ->size($size)
+//            ->style($style)
+//            ->eye($eyeStyle)
+//            ->margin($margin)
+////            ->merge('../public/storage/uploads/20211009202835.png')
+//            ->generate($text);
+//    }
 
     /**
      * Get Available models in app.
@@ -291,16 +474,18 @@ class Helpers
     }
 
 
-    public static function getModels($path){
+    public static function getModels($path): array
+    {
         $out = [];
         $results = scandir($path);
         foreach ($results as $result) {
             if ($result === '.' || $result === '..') {
                 continue;
             }
-            $filename = $path . '/' . $result;
+            $filename = $path.'/'.$result;
             if (is_dir($filename)) {
-                $out = array_merge($out, self::getModels($filename));
+//                $out = array_merge($out, self::getModels($filename));
+                $out = \Arr::add($out, $filename, self::getModels($filename));
             }else{
                 $out[] = substr($filename,0,-4);
             }
