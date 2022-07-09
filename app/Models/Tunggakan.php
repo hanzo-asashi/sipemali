@@ -4,29 +4,45 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @mixin IdeHelperTunggakan
  */
 class Tunggakan extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     public $table = 'tunggakan';
 //    public $timestamps = false;
-    protected $fillable = ['pembayaran_id', 'tgl_bayar','tgl_jatuh_tempo','lama_tunggakan','jumlah_tagihan','jumlah_bayar','denda'
-                           ,'total_tagihan','sisa_bayar','tagihan_ke','status_tunggakan'];
+    protected $fillable = [
+        'pembayaran_id', 'tgl_bayar', 'tgl_jatuh_tempo', 'lama_tunggakan', 'jumlah_tagihan', 'jumlah_bayar', 'denda'
+        , 'total_tagihan', 'sisa_bayar', 'tagihan_ke', 'status_tunggakan'
+    ];
     protected $casts = [
         'tgl_bayar' => 'datetime',
         'tgl_jatuh_tempo' => 'datetime',
     ];
 
-    public function pembayaran()
+    public function getActivitylogOptions(): LogOptions
     {
-        return $this->belongsTo(PembayaranPajak::class,'pembayaran_id','id');
+        return LogOptions::defaults()
+            ->useLogName('Tunggakan')
+            ->setDescriptionForEvent(fn($eventName) => "{$eventName} tunggakan dengan pembayaran ID: {$this->payment_id}, Total Tagihan: Rp. {$this->total_tagihan}, Denda: Rp. {$this->denda}")
+            ->logFillable()
+            ->logOnlyDirty();
+
+        // Chain fluent methods for configuration options
     }
 
-    public function scopeSearch($query, $term)
+    public function pembayaran(): BelongsTo
+    {
+        return $this->belongsTo(Pembayaran::class, 'pembayaran_id', 'id');
+    }
+
+    public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
         $query->where('tgl_bayar', 'like', $term)

@@ -2,8 +2,8 @@
 
 @section('title', 'Cetak Rekening Air')
 
-@push('page-style')
-{{--<style>@page { size: A4 }</style>--}}
+@push('css')
+    {{--<style>@page { size: A4 }</style>--}}
 @endpush
 
 @section('content')
@@ -11,19 +11,19 @@
         <div>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th width="8%" style="border-right: 0px;">
-                            <img style="width: 35px;height: auto;" src="{{ asset("images/logo/logo-soppeng.png") }}" alt="logo-soppeng"/>
-                        </th>
-                        <th colspan="5" class="p-5" style="border-left: 0px;border-right: 0px">
-                            <h1 class="mt-0 mb-0">REKENING AIR</h1>
-                            <h1 class="mt-0 mb-0">{{ strtoupper(setting('nama_kantor')) }}</h1>
-                            <h2 class="mt-0 mb-0">{{ strtoupper(setting('alamat_kantor')) . ' TELP. ' . setting('no_telp_kantor') . ' WATANSOPPENG' }}</h2>
-                        </th>
-                        <th width="10%" style="border-left: 0px;">
-                            <img style="width: 50px;height: auto;" src="{{ asset("images/logo/logo-pdam.png") }}" alt="logo-pdam"/>
-                        </th>
-                    </tr>
+                <tr>
+                    <th width="8%" style="border-right: 0px;">
+                        <img style="width: 35px;height: auto;" src="{{ asset("assets/images/logo/logo-soppeng.png") }}" alt="logo-soppeng"/>
+                    </th>
+                    <th colspan="5" class="p-5" style="border-left: 0px;border-right: 0px">
+                        <h2 class="mt-0 mb-0">REKENING AIR</h2>
+                        <h2 class="mt-0 mb-0">{{ strtoupper(setting('nama_kantor')) }}</h2>
+                        <h5 class="mt-0 mb-0">{{ strtoupper(setting('alamat_kantor')) . ' TELP. ' . setting('telp_kantor') . ' WATANSOPPENG' }}</h5>
+                    </th>
+                    <th width="10%" style="border-left: 0px;">
+                        <img style="width: 50px;height: auto;" src="{{ asset("assets/images/logo/logo-pdam.png") }}" alt="logo-pdam"/>
+                    </th>
+                </tr>
                 </thead>
             </table>
             <table class="table">
@@ -33,29 +33,29 @@
                         <div>
                             <ul class="unstyle" style="padding-top: 5px;">
                                 <li>
-                                    <b style="float: left;width: 60%;">No. Sambungan</b> {{ ': '. $pelanggan->no_sambungan ?: '-' }}
+                                    <b style="float: left;width: 50%;">No. Sambungan</b> {{ ': '. $pelanggan->no_sambungan ?: '-' }}
                                 </li>
                                 <li>
-                                    <b style="float: left;width: 60%;">Nama</b> {{ ': '. $pelanggan->nama_pelanggan ?: '-' }}
+                                    <b style="float: left;width: 50%;">Nama</b> {{ ': '. $pelanggan->nama_pelanggan ?: '-' }}
                                 </li>
                                 <li>
-                                    <b style="float: left;width: 60%;">Alamat</b> {{ ': '. $pelanggan->alamat_pelanggan ?: '-' }}
+                                    <b style="float: left;width: 50%;">Alamat</b> {{ ': '. $pelanggan->alamat_pelanggan ?: '-' }}
                                 </li>
                                 <li>
-                                    <b style="float: left;width: 60%;">Zona</b> {{ ': '. $pelanggan->zona->wilayah ?: '-' }}
+                                    <b style="float: left;width: 50%;">Zona</b> {{ ': '. $pelanggan->zona?->wilayah ?: '-' }} {{ ' ('. $pelanggan->zona?->kode . ')' }}
                                 </li>
 
                                 <li>
-                                    <b style="float: left;width: 60%;">Gol. Tarif</b> {{ ': '. $pelanggan->golonganTarif->nama_golongan ?: '-' }}
+                                    <b style="float: left;width: 50%;">Gol. Tarif</b> {{ ': '. $pelanggan->golonganTarif?->nama_golongan ?: '-' }} {{ ' ('. $pelanggan->golonganTarif?->kode_golongan . ')' }}
                                 </li>
                             </ul>
                         </div>
                     </td>
-                    <td colspan="5" style="border-top: 0px;border-left:0px;padding-left: 40px;">
+                    <td colspan="5" style="border-top: 0px;border-left:0px;padding-left: 9rem;">
                         <div>
                             <ul class="unstyle" style="padding-top: 5px;">
                                 <li>
-                                    <b style="float: left;width: 50%;alignment: right;">No. Rek</b> {{ ': '. $pelanggan->no_sambungan ?: '-' }}
+                                    <b style="float: left;width: 50%;">No. Rek</b> {{ ': '. $pelanggan->no_sambungan ?: '-' }}
                                 </li>
                                 <li>
                                     <b style="float: left;width: 50%;">Periode</b> {{': '. \App\Utilities\Helpers::getNamaBulanIndo($pembayaran->bulan_berjalan) . ' ' .
@@ -87,7 +87,7 @@
                 </tr>
                 @php
                     $i = 1;
-                    $total = $pembayaran->total_tagihan + $pembayaran->denda;
+                    $total = $pembayaran->total_tagihan + $pembayaran->denda
                 @endphp
                 <tr style="text-align: center;">
                     <td>{{ $pembayaran->stand_awal }}</td>
@@ -159,7 +159,7 @@
     </div>
 @endsection
 
-@push('page-script')
+@push('script')
     <script>
         // window.addEventListener('print', event => {
         //     alert(event.detail);

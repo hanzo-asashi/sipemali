@@ -4,6 +4,7 @@ namespace App\Utilities;
 
 use App\Models\Customers;
 use App\Models\GolonganTarif;
+use App\Models\MetodeBayar;
 use App\Models\MetodeBayarPajak;
 use App\Models\Payment;
 use App\Models\PaymentStatus;
@@ -501,7 +502,7 @@ class Helpers
 
     public static function getNamaMetodeBayar($id): string
     {
-        $metode = MetodeBayarPajak::find($id);
+        $metode = MetodeBayar::find($id);
         return !is_null($metode) ? $metode->nama : '';
     }
 

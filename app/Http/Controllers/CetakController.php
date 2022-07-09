@@ -94,7 +94,7 @@ class CetakController extends Controller
                     ->get();
 
                 $pembayaran = Payment::query()
-                    ->with(['customer', 'customer.zona', 'customer.golonganTarif'])
+//                    ->with(['customer', 'customer.zona', 'customer.golonganTarif'])
                     ->when($range, function ($query) use ($start, $end) {
                         $query->whereBetween('tgl_bayar', [$start, $end]);
                     })

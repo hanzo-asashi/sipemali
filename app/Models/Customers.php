@@ -112,7 +112,7 @@ class Customers extends Model
 
     public function metodeBayar(): HasOneThrough
     {
-        return $this->hasOneThrough(MetodeBayarPajak::class, Payment::class,'metode_bayar','id');
+        return $this->hasOneThrough(MetodeBayar::class, Payment::class, 'metode_bayar', 'id');
     }
 
     public static function checkValidPelanggan($id): bool
@@ -140,7 +140,7 @@ class Customers extends Model
         return $query->where('status_pelanggan', $term);
     }
 
-    public function scopeSearch($query, $term)
+    public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
         $query->where('no_sambungan', 'like', $term)

@@ -2,17 +2,6 @@
 
 namespace App\Concerns;
 
-use App\Utilities\Item as Item;
-use App\Utilities\Store as Store;
-use Exception;
-use Mike42\Escpos\CapabilityProfile;
-use Mike42\Escpos\EscposImage;
-use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
-use Mike42\Escpos\PrintConnectors\FilePrintConnector;
-use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
-use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
-use Mike42\Escpos\Printer;
-
 trait HasPayment
 {
     public int $totalPembayaran;
@@ -23,7 +12,7 @@ trait HasPayment
     public int $totalPembayaranBatal;
     public int $totalPembayaranSebagian;
 
-    function __construct()
+    public function __construct()
     {
         $this->totalPembayaran = 0;
         $this->totalPembayaranLunas = 0;

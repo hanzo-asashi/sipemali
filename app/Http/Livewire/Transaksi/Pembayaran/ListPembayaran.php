@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Transaksi\Pembayaran;
 
-use App\Models\Customers;
 use App\Models\GolonganTarif;
 use App\Models\Payment;
 use App\Models\PaymentStatus;
-use App\Models\Status;
 use App\Models\Zone;
-use App\Concerns\HasPayment;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +17,7 @@ class ListPembayaran extends Component
 {
     use LivewireAlert;
     use WithPagination;
+
     protected string $paginationTheme = 'bootstrap';
 
     public Payment $payment;
@@ -63,8 +64,7 @@ class ListPembayaran extends Component
 
     public string $title = 'Pembayaran';
     public string $modalId = 'modal-pembayaran';
-    public array $breadcrumb = [['link' => 'home', 'name' => 'Dashboard'], ['name' => 'Pembayaran']];
-    public array $breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => 'Pembayaran']];
+    public array $breadcrumb = [];
 
     protected $listeners = [
         'delete',
@@ -134,6 +134,7 @@ class ListPembayaran extends Component
     public function mount(Payment $payment): void
     {
         $this->payment = $payment;
+        $this->breadcrumb = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->title]];
     }
 
     private function sumPembayaran($status, $field)
@@ -216,7 +217,7 @@ class ListPembayaran extends Component
     private function renderPembayaran()
     {
         return $this->payment->query()
-            ->with(['customer', 'customer.golonganTarif','customer.zona','statusPembayaran','metodeBayar'])
+//            ->with(['customer', 'customer.golonganTarif','customer.zona','statusPembayaran','metodeBayar'])
             ->search($this->search)
             ->filterZona($this->zona)
             ->filterStatus($this->status)
@@ -226,7 +227,7 @@ class ListPembayaran extends Component
     }
 
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         $listPembayaran = $this->renderPembayaran();
         $listZona = Zone::pluck('wilayah', 'id');

@@ -84,7 +84,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($listPembayaran as $list)
+                        @forelse($listPembayaran->get() as $list)
                             <tr>
                                 <td>
                                     {{ '#' . $list->no_transaksi }} <span class="font-small-3 text-success">({{ $list->pemakaian_air_saat_ini .' m3' }})</span><br>
@@ -97,7 +97,7 @@
                                 <td class="text-center">{{ !is_null($list->tgl_bayar) ? $list->tgl_bayar->format('d/m/Y') : '-' }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('cetak.bukti-pembayaran', ['page' => 'rekening-air', 'pelangganId' => $customer->id,'pembayaranId' => $list->id]) }}"
-                                       class="btn btn-icon btn-secondary btn-sm" target="_blank"><i class="far fa-print"></i></a>
+                                       class="btn btn-icon btn-secondary btn-sm" target="_blank"><i class="bx bx-printer"></i></a>
                                 </td>
                             </tr>
                         @empty

@@ -39,6 +39,7 @@ class CreatePembayaran extends Component
     public int $zonaId;
     public int $pembayaranId;
     public int $pelangganId;
+    public array $breadcrumb = [];
 
     private string $redirectRoute = 'transaksi.pembayaran.list';
 
@@ -47,6 +48,7 @@ class CreatePembayaran extends Component
         $this->payment = $payment;
         $this->defaultFieldValue();
         $this->extraFields = new HoneypotData();
+        $this->breadcrumb = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->title]];
     }
 
     private function defaultFieldValue(): void
@@ -61,8 +63,8 @@ class CreatePembayaran extends Component
     {
         $this->selectedPelanggan = (int) $value;
         $this->customer = Customers::find($this->selectedPelanggan);
-        if(!is_null($this->customer)) {
-            if(!$this->customer->is_valid){
+        if (!is_null($this->customer)) {
+            if (!$this->customer->is_valid) {
                 $this->alert('error', 'Pelanggan tidak valid. Harap validasi pelanggan terlebih dahulu. ');
                 return;
             }
@@ -72,7 +74,7 @@ class CreatePembayaran extends Component
             }
 
             $this->selectedItems[] = [
-                ['id' => $this->customer->id, 'title' => $this->customer->nama_pelanggan,'subtitle' => $this->customer->no_sambungan],
+                ['id' => $this->customer->id, 'title' => $this->customer->nama_pelanggan, 'subtitle' => $this->customer->no_sambungan],
             ];
             $this->pembayaran['stand_awal'] = $this->customer->angka_meter_lama ?? 0;
             $this->pembayaran['stand_akhir'] = $this->customer->angka_meter_baru ?? 0;
@@ -81,6 +83,26 @@ class CreatePembayaran extends Component
             $this->zonaId = $this->customer->zona_id;
             $this->pembayaran['customer_id'] = $this->selectedPelanggan;
             $this->updatedPembayaranStandAkhir($this->customer->angka_meter_baru);
+        }
+    }
+
+    public function updatedPembayaranTotalBayar($value): void
+    {
+        $value = (int) $value;
+        if ($this->pembayaran['total_tagihan'] > 0 && $this->pembayaran['total_tagihan'] <= $value) {
+            $this->pembayaran['status_pembayaran'] = 1;
+        }
+
+        if ($this->pembayaran['total_tagihan'] > 0 && $this->pembayaran['total_tagihan'] > $value) {
+            $this->pembayaran['status_pembayaran'] = 3;
+        }
+
+        if ($this->pembayaran['total_tagihan'] > 0 && $value === 0) {
+            $this->pembayaran['status_pembayaran'] = 2;
+        }
+
+        if ($this->pembayaran['total_tagihan'] <= 0) {
+            $this->pembayaran['status_pembayaran'] = 2;
         }
     }
 
@@ -191,11 +213,11 @@ class CreatePembayaran extends Component
         $bayar = (float) $bayar;
         $tagihan = (float) $tagihan;
 
-        if($bayar > $tagihan){
+        if ($bayar > $tagihan) {
             $sisa = $bayar - $tagihan;
-        }elseif($bayar < $tagihan){
+        } elseif ($bayar < $tagihan) {
             $sisa = $tagihan - $bayar;
-        }else{
+        } else {
             $sisa = 0;
         }
         return $sisa;
@@ -239,7 +261,7 @@ class CreatePembayaran extends Component
 //            ->where('tahun_berjalan', $validated['tahun_berjalan'])
             ->get()->first();
 
-        if($exist && $exist->status_pembayaran !== 1){
+        if ($exist && $exist->status_pembayaran !== 1) {
             $this->alert('error', 'Masih ada pembayaran yang masih tertunggak. Silahkan melunasi pembayaran anda sebelumnya terlebih dahulu.');
             return;
         }
@@ -250,13 +272,13 @@ class CreatePembayaran extends Component
             'tahun_berjalan' => $validated['tahun_berjalan'],
         ], $validated);
 
-        if($create){
+        if ($create) {
 //            PaymentCreated::dispatch($create);
             $this->pembayaranId = $create->id;
             $this->pelangganId = $create->customer_id;
             $this->alert('success', 'Pembayaran berhasil ditambahkan');
             $this->resetForms();
-        }else{
+        } else {
             $this->alert('danger', 'Pembayaran gagal ditambahkan');
         }
         $this->dispatchBrowserEvent('clearPelanggan');
@@ -274,7 +296,7 @@ class CreatePembayaran extends Component
     {
         $listZona = Zone::pluck('wilayah', 'id');
 //        $listPelanggan = Customers::pluck('nama_pelanggan', 'id');
-        $listPelanggan = Customers::select('id','nama_pelanggan', 'no_pelanggan','no_sambungan')
+        $listPelanggan = Customers::select('id', 'nama_pelanggan', 'no_pelanggan', 'no_sambungan')
             ->get()
             ->transform(function ($item) {
                 return [

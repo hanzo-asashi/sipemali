@@ -2,20 +2,16 @@
 
 namespace App\Models;
 
+use App\Concerns\HasHashId;
 use App\Events\PaymentCreated;
 use App\Events\PaymentUpdated;
-use App\Concerns\HasHashId;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\Activitylog\Contracts\Activity;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
@@ -26,8 +22,8 @@ class Payment extends Model
     use HasFactory, LogsActivity, SoftDeletes, HasHashId;
 
     protected $table = 'pembayaran';
-//    protected $with = ['customer', 'customer.golonganTarif','customer.zona','statusPembayaran','metodeBayar'];
-    protected $with = ['customer', 'golonganTarif', 'zona', 'statusPembayaran', 'metodeBayar', 'history'];
+    protected $with = ['customer', 'customer.golonganTarif', 'customer.zona', 'statusPembayaran', 'metodeBayar'];
+//    protected $with = ['customer', 'golonganTarif', 'zona', 'statusPembayaran', 'metodeBayar', 'history'];
     protected $dispatchesEvents = [
         'created' => PaymentCreated::class,
         'updated' => PaymentUpdated::class,

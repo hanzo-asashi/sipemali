@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Events\CatatMeterCreated;
 use App\Models\CatatMeter;
 use App\Models\Customers;
 use App\Models\GolonganTarif;
@@ -54,6 +53,7 @@ class PencatatanMeter extends Component
     public string $title = 'List Pencatatan Meter';
     public bool $show = true;
     public string $modalId = 'modal-catatmeter';
+    public array $breadcrumb = [];
 
     protected $listeners = [
         'delete',
@@ -77,6 +77,7 @@ class PencatatanMeter extends Component
     public function mount(CatatMeter $catatMeter): void
     {
         $this->catatMeter = $catatMeter;
+        $this->breadcrumb = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->title]];
     }
 
     public function updatedStateCustomerId($value): void
@@ -165,7 +166,6 @@ class PencatatanMeter extends Component
     {
         $validated = Validator::make($this->state, [
             'customer_id' => 'required|integer|unique:catat_meter,customer_id',
-//            'angka_meter_lama' => 'integer',
             'angka_meter_baru' => 'required|integer',
             'bulan' => 'required|integer',
             'keterangan' => 'nullable|max:255',

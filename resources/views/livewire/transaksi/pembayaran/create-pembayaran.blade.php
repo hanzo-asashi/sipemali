@@ -3,28 +3,15 @@
     @push('css')
     @endpush
 
-    <div class="row mb-1">
+    @isset($breadcrumb)
+        <x-breadcrumb :title="$title" :breadcrumbs="$breadcrumb"/>
+    @endisset
+
+    <div class="row mb-3">
         <div class="col-md-6">
             <a href="{{ route('transaksi.pembayaran.list') }}" class=""><i class="fa fa-arrow-alt-circle-left"></i> Kembali ke list pembayaran</a>
         </div>
     </div>
-
-    {{--    <div class="row">--}}
-    {{--        <div class="col-md-8">--}}
-    {{--            <div class="card">--}}
-    {{--                <div class="card-body">--}}
-    {{--                    --}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--        <div class="col-md-4">--}}
-    {{--            <div class="card">--}}
-    {{--                <div class="card-body">--}}
-
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
 
     <div class="row">
         <div class="col-md-12">
@@ -142,7 +129,7 @@
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-2">
                                 <label class="form-label" for="total_tagihan">Total Tagihan</label>
                                 <input tabindex="-1"
                                        wire:model.defer="pembayaran.total_tagihan"
@@ -153,10 +140,13 @@
                                 />
                                 <x-input-error :for="'total_tagihan'"/>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-2">
                                 <label class="form-label" for="total_bayar">Total Pembayaran</label>
+                                <div wire:loading.delay.shorter wire:target="pembayaran.total_bayar" class="spinner-border spinner-border-sm float-end" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
                                 <input
-                                    wire:model.defer="pembayaran.total_bayar"
+                                    wire:model.lazy="pembayaran.total_bayar"
                                     type="text"
                                     id="total_bayar"
                                     class="form-control @error('total_bayar') is-invalid @enderror"
@@ -189,7 +179,7 @@
                                 <x-input-error :for="'metode_bayar'"/>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-1">
                             <div class="col-md-12">
                                 <label class="form-label" for="keterangan">Keterangan</label>
                                 <textarea class="form-control @error('keterangan') is-invalid @enderror" wire:model.defer="pembayaran.keterangan" id="keterangan"

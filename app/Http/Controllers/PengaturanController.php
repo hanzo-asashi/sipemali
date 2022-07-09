@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JenisObjekPajak;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Setting;
 
@@ -11,17 +11,17 @@ class PengaturanController extends Controller
     public function index()
     {
         $pengaturan = Setting::all();
-        $listObjekPajak = JenisObjekPajak::pluck('shortcode', 'id');
+//        $listObjekPajak = JenisObjekPajak::pluck('shortcode', 'id');
         $periodePenarikan = config('custom.periode_penarikan_pajak');
 
         return view('pengaturan.index', [
             'pengaturan'      => $pengaturan,
-            'listObjekPajak'  => $listObjekPajak,
+//            'listObjekPajak'  => $listObjekPajak,
             'periode'  => $periodePenarikan,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $input = $request->except('_token');
         if ($image = $request->file('logo_aplikasi')) {

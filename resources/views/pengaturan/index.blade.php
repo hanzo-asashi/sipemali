@@ -12,7 +12,7 @@
     </x-breadcrumb>
     <div class="content-header row">
         <div class="content-body">
-            @include('widget.alert')
+            @include('widgets.alert')
             <div class="row">
                 <div class="col-xl-12">
                     <div class="card">
@@ -77,14 +77,14 @@
                                                     </div>
                                                     <div class="row mb-3">
                                                         <div class="col-md-4">
-                                                            <label class="form-label" for="">Kode Provinsi Sulawesi Tenggara</label>
+                                                            <label class="form-label" for="">Kode Provinsi Sulawesi Selatan</label>
                                                             <div class="col-md-12">
                                                                 <input type="text" name="kode_provinsi" value="{{ setting('kode_provinsi','74') }}"
                                                                        class="form-control" id="">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4">
-                                                            <label class="form-label" for="">Kode Kabupaten Kolaka Utara</label>
+                                                            <label class="form-label" for="">Kode Kabupaten Soppeng</label>
                                                             <div class="col-md-12">
                                                                 <input type="text" name="kode_kabupaten" value="{{ setting('kode_kabupaten', '74.08') }}" class="form-control"
                                                                        id="">
@@ -206,7 +206,7 @@
                                                             <label class="form-label" for="masa_pajak_bulan">Masa Pajak (Bulan)</label>
                                                             <div class="col-md-12">
                                                                 <select name="masa_pajak_bulan" class="form-select form-control" id="masa_pajak_bulan">
-                                                                    @foreach(\App\Utilities\Helper::list_bulan() as $key => $item)
+                                                                    @foreach(\App\Utilities\Helpers::list_bulan() as $key => $item)
                                                                         <option value="{{ $key }}" @if(setting('masa_pajak_bulan') ===(string) $key ) selected @endif>{{ $item
                                                                         }}</option>
                                                                     @endforeach

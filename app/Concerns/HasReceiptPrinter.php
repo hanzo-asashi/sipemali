@@ -11,6 +11,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
+use RuntimeException;
 
 trait HasReceiptPrinter
 {
@@ -18,17 +19,17 @@ trait HasReceiptPrinter
     private $logo;
     private $store;
     private $items;
-    private $currency = 'Rp';
-    private $subtotal = 0;
-    private $tax_percentage = 10;
-    private $tax = 0;
-    private $grandtotal = 0;
-    private $request_amount = 0;
-    private $qr_code = [];
-    private $transaction_id = '';
-    private $jenistiket = 1;
+    private string $currency = 'Rp';
+    private int $subtotal = 0;
+    private int $tax_percentage = 10;
+    private int $tax = 0;
+    private int $grandtotal = 0;
+    private int $request_amount = 0;
+    private array $qr_code = [];
+    private string $transaction_id = '';
+    private int $jenistiket = 1;
 
-    function __construct()
+    public function __construct()
     {
         $this->printer = null;
         $this->items = [];
@@ -37,7 +38,7 @@ trait HasReceiptPrinter
     /**
      * @throws Exception|\Exception
      */
-    public function init($connector_type, $connector_descriptor, $connector_port = 9100)
+    public function init($connector_type, $connector_descriptor, $connector_port = 9100): void
     {
         $connector = match (strtolower($connector_type)) {
             'cups' => new CupsPrintConnector($connector_descriptor),
@@ -52,36 +53,36 @@ trait HasReceiptPrinter
             // Connect to printer
             $this->printer = new Printer($connector, $profile);
         } else {
-            throw new Exception('Invalid printer connector type. Accepted values are: cups');
+            throw new RuntimeException('Invalid printer connector type. Accepted values are: cups');
         }
     }
 
-    public function close()
+    public function close(): void
     {
         $this->printer?->close();
     }
 
-    public function setStore($mid, $name, $address, $phone, $email, $website, $kodePengunjung,$kodeKendaraan)
+    public function setStore($mid, $name, $address, $phone, $email, $website, $kodePengunjung, $kodeKendaraan): void
     {
-        $this->store = new Store($mid, $name, $address, $phone, $email, $website,$kodePengunjung,$kodeKendaraan);
+        $this->store = new Store($mid, $name, $address, $phone, $email, $website, $kodePengunjung, $kodeKendaraan);
     }
 
-    public function setLogo($logo)
+    public function setLogo($logo): void
     {
         $this->logo = $logo;
     }
 
-    public function setJenisTiket($jenisTiket)
+    public function setJenisTiket($jenisTiket): void
     {
         $this->jenistiket = $jenisTiket;
     }
 
-    public function setCurrency($currency)
+    public function setCurrency($currency): void
     {
         $this->currency = $currency;
     }
 
-    public function addItem($name, $qty, $price)
+    public function addItem($name, $qty, $price): void
     {
         $item = new Item($name, $qty, $price);
         $item->setCurrency($this->currency);
@@ -89,23 +90,23 @@ trait HasReceiptPrinter
         $this->items[] = $item;
     }
 
-    public function setRequestAmount($amount)
+    public function setRequestAmount($amount): void
     {
         $this->request_amount = $amount;
     }
 
-    public function setTax($tax)
+    public function setTax($tax): void
     {
         $this->tax_percentage = $tax;
 
-        if ($this->subtotal == 0) {
+        if ($this->subtotal === 0) {
             $this->calculateSubtotal();
         }
 
         $this->tax = (int) $this->tax_percentage / 100 * (int) $this->subtotal;
     }
 
-    public function calculateSubtotal()
+    public function calculateSubtotal(): void
     {
         $this->subtotal = 0;
 
@@ -114,26 +115,26 @@ trait HasReceiptPrinter
         }
     }
 
-    public function calculateGrandTotal()
+    public function calculateGrandTotal(): void
     {
-        if ($this->subtotal == 0) {
+        if ($this->subtotal === 0) {
             $this->calculateSubtotal();
         }
 
         $this->grandtotal = (int) $this->subtotal + (int) $this->tax;
     }
 
-    public function setTransactionID($transaction_id)
+    public function setTransactionID($transaction_id): void
     {
         $this->transaction_id = $transaction_id;
     }
 
-    public function setQRcode($content)
+    public function setQRcode($content): void
     {
         $this->qr_code = $content;
     }
 
-    public function setTextSize($width = 1, $height = 1)
+    public function setTextSize($width = 1, $height = 1): void
     {
         if ($this->printer) {
             $width = ($width >= 1 && $width <= 8) ? (int) $width : 1;
@@ -142,24 +143,24 @@ trait HasReceiptPrinter
         }
     }
 
-    public function getPrintableQRcode()
+    public function getPrintableQRcode(): bool|string
     {
-        return json_encode($this->qr_code);
+        return json_encode($this->qr_code, JSON_THROW_ON_ERROR);
     }
 
-    public function getPrintableHeader($left_text, $right_text, $is_double_width = false)
+    public function getPrintableHeader($left_text, $right_text, $is_double_width = false): string
     {
         $cols_width = $is_double_width ? 8 : 16;
 
         return str_pad($left_text, $cols_width).str_pad($right_text, $cols_width, ' ', STR_PAD_LEFT);
     }
 
-    public function getPrintableSummary($label, $value, $is_double_width = false)
+    public function getPrintableSummary($label, $value, $is_double_width = false): string
     {
         $left_cols = $is_double_width ? 6 : 12;
         $right_cols = $is_double_width ? 10 : 20;
 
-        if($value === 0){
+        if ($value === 0) {
             $value = 0.00;
         }
 
@@ -168,17 +169,17 @@ trait HasReceiptPrinter
         return str_pad($label, $left_cols).str_pad($formatted_value, $right_cols, ' ', STR_PAD_LEFT);
     }
 
-    public function feed($feed = null)
+    public function feed($feed = null): void
     {
         $this->printer->feed($feed);
     }
 
-    public function cut()
+    public function cut(): void
     {
         $this->printer->cut();
     }
 
-    public function printDashedLine()
+    public function printDashedLine(): void
     {
 
         $line = str_repeat('-', 32);
@@ -186,7 +187,7 @@ trait HasReceiptPrinter
         $this->printer->text($line);
     }
 
-    public function printLogo()
+    public function printLogo(): void
     {
         if ($this->logo) {
             $image = EscposImage::load($this->logo, false);
@@ -197,7 +198,7 @@ trait HasReceiptPrinter
         }
     }
 
-    public function printQRcode()
+    public function printQRcode(): void
     {
         if (!empty($this->qr_code)) {
             $this->printer->qrCode($this->getPrintableQRcode(), Printer::QR_ECLEVEL_L, 8);
@@ -207,7 +208,7 @@ trait HasReceiptPrinter
     /**
      * @throws Exception
      */
-    public function printReceipt($with_items = true)
+    public function printReceipt($with_items = true): void
     {
         if ($this->printer) {
             // Get total, subtotal, etc
@@ -215,10 +216,10 @@ trait HasReceiptPrinter
             $tax = $this->getPrintableSummary('Pajak (10%)', $this->tax);
             $total = $this->getPrintableSummary('TOTAL', $this->grandtotal, true);
             $noKarcis = $this->getPrintableSummary('No.Karcis', $this->transaction_id);
-            if($this->jenistiket == 1){
-                $tipe = 'PENGUNJUNG: '.$this->store->getKodeKendaraan() ."\n";
-            }else{
-                $tipe = 'KENDARAAN: '.$this->store->getKodeKendaraan() ."\n";
+            if ($this->jenistiket === 1) {
+                $tipe = 'PENGUNJUNG: '.$this->store->getKodeKendaraan()."\n";
+            } else {
+                $tipe = 'KENDARAAN: '.$this->store->getKodeKendaraan()."\n";
             }
 //            $header = $this->getPrintableHeader(
 //                'No.Karcis: '.$this->transaction_id ."\n",
@@ -239,13 +240,13 @@ trait HasReceiptPrinter
             $this->printer->text("{$this->store->getName()}\n");
             $this->printer->selectPrintMode();
             $this->printer->text("{$this->store->getAddress()}\n");
-            $this->printer->text("{$noKarcis}");
+            $this->printer->text((string) ($noKarcis));
             $this->printer->text("{$tipe}");
 //            $this->printer->text($header."\n");
             $this->printer->feed(2);
             // Print receipt title
             $this->printer->setEmphasis(true);
-            if($this->jenistiket == 1) {
+            if ($this->jenistiket === 1) {
                 $this->printer->text("TIKET MASUK\n");
             } else {
                 $this->printer->text("TIKET PARKIR\n");
@@ -288,11 +289,11 @@ trait HasReceiptPrinter
             $this->printer->close();
 
         } else {
-            throw new Exception('Printer has not been initialized.');
+            throw new RuntimeException('Printer has not been initialized.');
         }
     }
 
-    public function printRequest()
+    public function printRequest(): void
     {
         if ($this->printer) {
             // Get request amount
@@ -347,7 +348,7 @@ trait HasReceiptPrinter
             $this->printer->cut();
             $this->printer->close();
         } else {
-            throw new Exception('Printer has not been initialized.');
+            throw new RuntimeException('Printer has not been initialized.');
         }
     }
 }

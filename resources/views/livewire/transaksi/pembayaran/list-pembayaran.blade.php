@@ -110,24 +110,24 @@
                     @if($checked)
                         <tr class="mb-2 mt-2 mx-2">
                             <td colspan="9">
-                                    <span class="text-dark font-medium-1">Terpilih
-                                        <span class="font-semibold text-danger">{{ count($checked) }}</span>
-                                        dari {{ $pageData['totalData'] }} data.
-                                        @if (!$selectAllPembayaran)
-                                            <a href="#" wire:click.prevent="selectAllData">Pilih Semua data</a>
-                                        @else
-                                            <button type="button" class="btn btn-sm btn-danger waves-float waves-effect waves-light" wire:click
-                                                    .prevent="resetCheckbox">Batalkan
-                                                Terpilih</button>
-                                            <button type="button" class="btn btn-sm btn-primary waves-float waves-effect waves-light" wire:click.prevent="deleteAllData">Hapus
-                                                Terpilih</button>
-                                        @endif
-                                    </span>
+                                <span class="text-dark font-medium-1">Terpilih
+                                    <span class="font-semibold text-danger">{{ count($checked) }}</span>
+                                    dari {{ $pageData['totalData'] }} data.
+                                    @if (!$selectAllPembayaran)
+                                        <a href="#" wire:click.prevent="selectAllData">Pilih Semua data</a>
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-danger waves-float waves-effect waves-light" wire:click
+                                                .prevent="resetCheckbox">Batalkan
+                                            Terpilih</button>
+                                        <button type="button" class="btn btn-sm btn-primary waves-float waves-effect waves-light" wire:click.prevent="deleteAllData">Hapus
+                                            Terpilih</button>
+                                    @endif
+                                </span>
                             </td>
                         </tr>
                     @endif
                     @forelse($listPembayaran as $bayar)
-                        <tr class="text-center">
+                        <tr class="text-center align-middle">
                             <td class="text-center">
                                 <div class="form-check text-center">
                                     <input id="list-pembayaran-{{ $bayar->id }}" value="{{ $bayar->id }}" class="form-check-input" type="checkbox"
@@ -136,18 +136,16 @@
                                 </div>
                             </td>
                             <td class="text-center" style="width: 5%;">{{ $bayar->no_transaksi }}</td>
-                            <td>
+                            <td class="text-start">
                                 <a href="{{ route('transaksi.pembayaran.detail', ['id' => Hashids::encode($bayar->customer_id)]) }}">
                                     {{ !is_null($bayar->customer) ?  $bayar->customer?->nama_pelanggan : 'N/A'  }}
-                                    <span class="badge badge-light-primary font-small-1">
-                                            {{  !is_null($bayar->customer->zona) ?  $bayar->customer?->zona?->wilayah : '' }}
+                                    <span class="badge badge-soft-info">
+                                            {{  !is_null($bayar->customer->zona) ?  $bayar->customer->zona->wilayah : '' }}
                                         </span>
-                                    {{--                                        <br>--}}
-                                    {{--                                        <span class="badge badge-light-danger font-small-2">{{ '#'. $bayar->no_transaksi }}</span>--}}
-                                    <span class="badge badge-light-dark font-small-1">
+                                    <span class="badge badge-soft-secondary">
                                             {{ !is_null($bayar->customer->golonganTarif) ?  $bayar->customer->golonganTarif->nama_golongan : '' }}
                                         </span><br>
-                                    <span class="text-muted font-small-3">Periode : {{ \App\Utilities\Helpers::getNamaBulanIndo($bayar->bulan_berjalan) . ' ' .
+                                    <span class="text-muted">Periode : {{ \App\Utilities\Helpers::getNamaBulanIndo($bayar->bulan_berjalan) . ' ' .
                                     $bayar->tahun_berjalan }}</span>
                                 </a>
 
@@ -164,7 +162,7 @@
                             <td class="text-center">{{ 'Rp. ' . number_format($bayar->total_bayar,0,',','.') }}</td>
                             <td class="text-center">{{ 'Rp. ' . number_format($bayar->denda,0,',','.') }}</td>
                             <td class="text-center">
-                                    <span class="badge rounded-pill badge-light-{{ \App\Utilities\Helpers::setBadgeColor($bayar->status_pembayaran) }} me-1">
+                                    <span class="badge rounded-pill badge-soft-{{ \App\Utilities\Helpers::setBadgeColor($bayar->status_pembayaran) }} me-1">
                                         {{ isset($bayar->statusPembayaran) ? $bayar->statusPembayaran->name : '-' }}
                                     </span>
                             </td>
