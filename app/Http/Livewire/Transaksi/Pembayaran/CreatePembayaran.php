@@ -2,22 +2,18 @@
 
 namespace App\Http\Livewire\Transaksi\Pembayaran;
 
-use App\Events\PaymentCreated;
-use App\Events\PaymentSaved;
 use App\Models\Customers;
 use App\Models\GolonganTarif;
 use App\Models\MetodeBayar;
 use App\Models\Payment;
-use App\Models\PaymentHistory;
 use App\Models\PaymentStatus;
-use App\Models\Status;
 use App\Models\Zone;
 use App\Utilities\Helpers;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Spatie\Honeypot\Http\Livewire\Concerns\HoneypotData;
@@ -67,11 +63,11 @@ class CreatePembayaran extends Component
         $this->customer = Customers::find($this->selectedPelanggan);
         if(!is_null($this->customer)) {
             if(!$this->customer->is_valid){
-                $this->alert('error', 'PelangganResource tidak valid. Harap validasi pelanggan terlebih dahulu. ');
+                $this->alert('error', 'Pelanggan tidak valid. Harap validasi pelanggan terlebih dahulu. ');
                 return;
             }
             if ($this->customer->status_pelanggan !== 1) {
-                $this->alert('error', 'PelangganResource tidak aktif. Harap aktifkan pelanggan terlebih dahulu. ');
+                $this->alert('error', 'Pelanggan tidak aktif. Harap aktifkan pelanggan terlebih dahulu. ');
                 return;
             }
 
@@ -98,7 +94,7 @@ class CreatePembayaran extends Component
 //        }
 //    }
 
-    private function hitungHargaAir($value, $model)
+    private function hitungHargaAir($value, $model): array
     {
         $golongan = $model::find($this->golonganId);
 
@@ -161,12 +157,18 @@ class CreatePembayaran extends Component
         $this->redirectRoute($this->redirectRoute);
     }
 
+    /**
+     * @throws Exception
+     */
     public function buatDanKembali(): void
     {
         $this->storePembayaran();
         $this->redirectRoute($this->redirectRoute);
     }
 
+    /**
+     * @throws Exception
+     */
     public function simpanDanCetak(): void
     {
         $this->storePembayaran();
@@ -175,11 +177,13 @@ class CreatePembayaran extends Component
             'pelangganId' => $this->pelangganId,
             'pembayaranId' => $this->pembayaranId,
         ]);
-        $this->dispatchBrowserEvent('print', ['url' => route('cetak.bukti-pembayaran', [
-            'page' => 'rekening-air',
-            'pelangganId' => $this->pelangganId,
-            'pembayaranId' => $this->pembayaranId,
-        ])]);
+        $this->dispatchBrowserEvent('print', [
+            'url' => route('cetak.bukti-pembayaran', [
+                'page' => 'rekening-air',
+                'pelangganId' => $this->pelangganId,
+                'pembayaranId' => $this->pembayaranId,
+            ])
+        ]);
     }
 
     private function hitungSisa($bayar, $tagihan): float|int
@@ -198,7 +202,7 @@ class CreatePembayaran extends Component
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function storePembayaran(): void
     {
@@ -229,8 +233,7 @@ class CreatePembayaran extends Component
         $validated['periode'] = Carbon::createFromDate($validated['tahun_berjalan'], $validated['bulan_berjalan'], $tglPembayaran);
         $validated['tgl_jatuh_tempo'] = Carbon::createFromDate($validated['tahun_berjalan'], $validated['bulan_berjalan'], $tglPembayaran)->addMonths(1);
 
-        $exist = $this->payment
-            ->checkExistPayment($validated['customer_id'], $validated['bulan_berjalan'],$validated['tahun_berjalan'])
+        $exist = $this->payment->checkExistPayment($validated['customer_id'], $validated['bulan_berjalan'], $validated['tahun_berjalan'])
 //            ->where('customer_id', $validated['customer_id'])
 //            ->where('bulan_berjalan', $validated['bulan_berjalan'])
 //            ->where('tahun_berjalan', $validated['tahun_berjalan'])

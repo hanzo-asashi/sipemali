@@ -50,24 +50,16 @@
 @once
     @push('css')
         @if(config('app.env') === 'production')
-            {{--        <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">--}}
-            {{--        <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/css/tom-select.css" rel="stylesheet">--}}
-{{--            <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.2/dist/css/tom-select.bootstrap5.css" rel="stylesheet">--}}
             <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.bootstrap5.css" rel="stylesheet">
             <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/css/tom-select.bootstrap5.min.css.map" rel="stylesheet">
-            {{--        <link href="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/css/tom-select.css" rel="stylesheet">--}}
         @else
             <link href="{{ mix('assets/libs/tom-select/tom-select.min.css') }}" rel="stylesheet">
-{{--            <link href="{{ mix('assets/libs/tom-select/tom') }}" rel="stylesheet">--}}
         @endif
     @endpush
 
     @push('script')
         @if(config('app.env') === 'production')
-            {{--        <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>--}}
-{{--            <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.2/dist/js/tom-select.complete.min.js"></script>--}}
             <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.3/dist/js/tom-select.complete.min.js"></script>
-            {{--        <script src="https://cdn.jsdelivr.net/npm/tom-select@1.1/dist/js/tom-select.complete.min.js"></script>--}}
         @else
             <script src="{{ mix('assets/libs/tom-select/tom-select.min.js') }}"></script>
         @endif
