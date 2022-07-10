@@ -239,28 +239,49 @@ class Helpers
         ];
     }
 
-    public static function generateNoSambungan($golid, $zonaid, $delimiter = '', $length = 5, $pad = '00000'): string
+    public static function generateKode($golid, $zonaid, $delimiter = '', $useKodeKab = false, $length = 5, $pad = '00000'): string
     {
-        $kode = static::getMaxNumber($golid, $zonaid, $length, $pad);
-        $zonaKode = $kode['zonaKode'];
-        $kodeGol = $kode['kodeGol'];
-        $padNum = $kode['padNum'];
-        $delimiter = setting('pemisah', $delimiter);
-
-        return $zonaKode.$delimiter.$kodeGol.$delimiter.$delimiter.$padNum;
-    }
-
-    public static function generateNoPelanggan($golid, $zonaid, $delimiter = '', $length = 5, $pad = '00000'): string
-    {
-        $kode = static::getMaxNumber($golid, $zonaid, $length, $pad);
-        $zonaKode = $kode['zonaKode'];
-        $kodeGol = $kode['kodeGol'];
-        $padNum = $kode['padNum'];
         $kodeKab = '7312';
+        $kode = static::getMaxNumber($golid, $zonaid, $length, $pad);
+        $zonaKode = $kode['zonaKode'];
+        $kodeGol = $kode['kodeGol'];
+        $padNum = $kode['padNum'];
         $delimiter = setting('pemisah', $delimiter);
 
-        return $kodeKab.$delimiter.$zonaKode.$delimiter.$kodeGol.$delimiter.$padNum;
+        if ($useKodeKab) {
+            return $kodeKab.$delimiter.$zonaKode.$delimiter.$kodeGol.$delimiter.$padNum;
+        }
+
+        return $zonaKode.$delimiter.$kodeGol.$delimiter.$padNum;
     }
+
+//    public static function generateNoSambungan($golid, $zonaid, $delimiter = '', $length = 5, $pad = '00000', $useKodeKab = false): string
+//    {
+//        $kodeKab = '7312';
+//        $kode = static::getMaxNumber($golid, $zonaid, $length, $pad);
+//        $zonaKode = $kode['zonaKode'];
+//        $kodeGol = $kode['kodeGol'];
+//        $padNum = $kode['padNum'];
+//        $delimiter = setting('pemisah', $delimiter);
+//
+//        if ($useKodeKab) {
+//            return $kodeKab.$delimiter.$zonaKode.$delimiter.$kodeGol.$delimiter.$padNum;
+//        }
+//
+//        return $zonaKode.$delimiter.$kodeGol.$delimiter.$padNum;
+//    }
+//
+//    public static function generateNoPelanggan($golid, $zonaid, $delimiter = '', $length = 5, $pad = '00000'): string
+//    {
+//        $kode = static::getMaxNumber($golid, $zonaid, $length, $pad);
+//        $zonaKode = $kode['zonaKode'];
+//        $kodeGol = $kode['kodeGol'];
+//        $padNum = $kode['padNum'];
+//        $kodeKab = '7312';
+//        $delimiter = setting('pemisah', $delimiter);
+//
+//        return $kodeKab.$delimiter.$zonaKode.$delimiter.$kodeGol.$delimiter.$padNum;
+//    }
 
     public function encodeId($id): string
     {

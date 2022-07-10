@@ -30,11 +30,13 @@ class Customers extends Model
     use HasApiTokens;
 
     protected $table = 'pelanggan';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
 //    protected $with = ['statusPelanggan','zona','golonganTarif','payment'];
 
     protected $fillable = [
-        'no_sambungan','no_pelanggan','nama_pelanggan','alamat_pelanggan','zona_id','golongan_id','bulan_langganan','tahun_langganan',
-        'status_pelanggan','penagihan_pelanggan','is_valid','keterangan'
+        'no_sambungan', 'no_pelanggan', 'nama_pelanggan', 'alamat_pelanggan', 'zona_id', 'golongan_id', 'bulan_langganan', 'tahun_langganan',
+        'status_pelanggan', 'penagihan_pelanggan', 'is_valid', 'keterangan'
     ];
 
     protected $casts = [
@@ -147,17 +149,18 @@ class Customers extends Model
             ->orWhere('no_pelanggan', 'like', $term)
             ->orWhere('nama_pelanggan', 'like', $term)
             ->orWhere('alamat_pelanggan', 'like', $term)
-            ->orWhere('is_valid', '=', $term)
+            ->orWhere('is_valid', 'like', $term)
             ->orWhereHas('statusPelanggan', function ($query) use ($term) {
-                $query->where('nama_status', '=', $term);
+                $query->where('nama_status', 'like', $term);
             })
             ->orWhereHas('zona', function ($query) use ($term) {
-                $query->where('kode', '=', $term)
+                $query->where('id', 'like', $term)
+                    ->orWhere('kode', 'like', $term)
                     ->orWhere('wilayah', 'like', $term);
             })
             ->orWhereHas('golonganTarif', function ($query) use ($term) {
                 $query->where('nama_golongan', 'like', $term)
-                    ->orWhere('kode_golongan', '=', $term);
+                    ->orWhere('kode_golongan', 'like', $term);
             });
     }
 }

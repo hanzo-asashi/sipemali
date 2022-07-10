@@ -2,58 +2,63 @@
     @section('title', $title)
     @push('css')
     @endpush
+    @isset($breadcrumbs)
+        <x-breadcrumb :breadcrumbs="$breadcrumbs" :title="$title"/>
+    @endisset
 <!-- frequently asked questions tabs pills -->
-    <section id="faq-tabs">
-        <div class="row mb-3">
+    <div class="row mb-3">
+        <div class="col-12">
             <div class="col-md-6">
                 <a href="{{ route('master.pelanggan.list') }}" class=""><i class="fa fa-arrow-alt-circle-left"></i> Kembali ke list pelanggan</a>
             </div>
         </div>
-        <!-- vertical tab pill -->
-        <div class="row">
-{{--            <div class="col-lg-4 col-md-6 col-sm-12">--}}
-{{--                <div class="faq-navigation d-flex justify-content-between flex-column mb-2 mb-md-0">--}}
-{{--                    <img style="width: 700px; height: 700px;"--}}
-{{--                         src="{{asset('images/illustration/create-account.svg')}}"--}}
-{{--                         class="img-fluid d-none d-md-block"--}}
-{{--                         alt="demand img"--}}
-{{--                    />--}}
-{{--                </div>--}}
-{{--            </div>--}}
-            <div class="col-lg-7 col-md-8 col-sm-12">
+    </div>
+    <!-- vertical tab pill -->
+    <div class="row">
+        {{--            <div class="col-lg-4 col-md-6 col-sm-12">--}}
+        {{--                <div class="faq-navigation d-flex justify-content-between flex-column mb-2 mb-md-0">--}}
+        {{--                    <img style="width: 700px; height: 700px;"--}}
+        {{--                         src="{{asset('images/illustration/create-account.svg')}}"--}}
+        {{--                         class="img-fluid d-none d-md-block"--}}
+        {{--                         alt="demand img"--}}
+        {{--                    />--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        <div class="col-12">
+            <div class="col-lg-12 col-md-8 col-sm-12">
                 <!-- pill tabs tab content -->
                 <div class="card">
                     <div class="card-body">
                         <form wire:submit.prevent="storePelanggan" class="form form-horizontal">
                             <div class="row">
+                                {{--                                <div class="col-12">--}}
+                                {{--                                    <div class="row mb-3">--}}
+                                {{--                                        <div class="col-md-3 text-end">--}}
+                                {{--                                            <label class="col-form-label" for="no_sambungan">No. Sambungan / No.Pelanggan</label>--}}
+                                {{--                                        </div>--}}
+                                {{--                                        <div class="col-md-3">--}}
+                                {{--                                            <div class="input-group">--}}
+                                {{--                                                <input wire:model.defer="pelanggan.no_sambungan" type="text"--}}
+                                {{--                                                       class="form-control @error('no_sambungan') is-invalid @enderror"--}}
+                                {{--                                                       id="no_sambungan" placeholder="contoh : 123456789" autofocus--}}
+                                {{--                                                />--}}
+                                {{--                                                <x-input-error :for="'no_sambungan'"/>--}}
+                                {{--                                            </div>--}}
+                                {{--                                        </div>--}}
+                                {{--                                        <div class="col-md-3">--}}
+                                {{--                                            <div class="input-group ">--}}
+                                {{--                                                <input wire:model.defer="pelanggan.no_pelanggan" type="text"--}}
+                                {{--                                                       class="form-control @error('no_pelanggan') is-invalid @enderror"--}}
+                                {{--                                                       id="no_pelanggan" placeholder="contoh : 7312111020355354"--}}
+                                {{--                                                />--}}
+                                {{--                                                <x-input-error :for="'no_pelanggan'"/>--}}
+                                {{--                                            </div>--}}
+                                {{--                                            --}}{{--                                            <p><small class="text-muted">Otomatis dari sistem</small></p>--}}
+                                {{--                                        </div>--}}
+                                {{--                                    </div>--}}
+                                {{--                                </div>--}}
                                 <div class="col-12">
-                                    <div class="row mb-1">
-                                        <div class="col-sm-3 text-end">
-                                            <label class="col-form-label" for="no_sambungan">No. Sambungan / No.Pelanggan</label>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group">
-                                                <input wire:model.defer="pelanggan.no_sambungan" type="text"
-                                                       class="form-control @error('no_sambungan') is-invalid @enderror"
-                                                       id="no_sambungan" placeholder="contoh : 123456789" autofocus
-                                                />
-                                                <x-input-error :for="'no_sambungan'"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="input-group ">
-                                                <input wire:model.defer="pelanggan.no_pelanggan" type="text"
-                                                       class="form-control @error('no_pelanggan') is-invalid @enderror"
-                                                       id="no_pelanggan" placeholder="contoh : 7312111020355354"
-                                                />
-                                                <x-input-error :for="'no_pelanggan'"/>
-                                            </div>
-                                            {{--                                            <p><small class="text-muted">Otomatis dari sistem</small></p>--}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="mb-1 row">
+                                    <div class="mb-3 row">
                                         <div class="col-sm-3 text-end">
                                             <label class="col-form-label" for="nama_pelanggan">Nama Pelanggan</label>
                                         </div>
@@ -68,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="mb-1 row">
+                                    <div class="mb-3 row">
                                         <div class="col-sm-3 text-end">
                                             <label class="col-form-label" for="alamat_pelanggan">Alamat Pelanggan</label>
                                         </div>
@@ -84,7 +89,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="mb-1 row">
+                                    <div class="mb-3 row">
                                         <div class="col-sm-3 text-end">
                                             <label class="col-form-label" for="basic-icon-default-contact">Zona / Golongan Pelanggan</label>
                                         </div>
@@ -116,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="mb-1 row">
+                                    <div class="mb-3 row">
                                         <div class="col-sm-3 text-end">
                                             <label class="col-form-label" for="bulan_tahun">Bulan / Tahun Langganan</label>
                                         </div>
@@ -148,7 +153,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="mb-1 row">
+                                    <div class="mb-3 row">
                                         <div class="col-sm-3 text-end">
                                             <label class="col-form-label" for="user-role">Status & Penagihan Pelanggan</label>
                                         </div>
@@ -179,7 +184,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="mb-1 row">
+                                    <div class="mb-3 row">
                                         <div class="col-sm-3 text-end">
                                             <label class="col-form-label" for="keterangan">Keterangan</label>
                                         </div>
@@ -197,7 +202,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-9 offset-sm-3">
-                                    <div class="mb-1">
+                                    <div class="mb-3">
                                         <div class="form-check">
                                             <input wire:dirty.class="is-valid" wire:model.lazy="pelanggan.is_valid" type="checkbox"
                                                    class="form-check-input @error('is_valid') is-invalid @enderror" id="isValid"
@@ -231,8 +236,8 @@
                 </div>
             </div>
         </div>
-    </section>
-    @push('page-script')
+    </div>
+    @push('script')
         {{--        @include('widgets.action-js')--}}
         {{--        @include('widgets.notifikasi')--}}
     @endpush

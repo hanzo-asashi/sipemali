@@ -97,7 +97,7 @@
                         <th style="width: 11%;">No Sambungan</th>
                         <th>Nama Pelanggan</th>
                         <th>Alamat</th>
-                        <th style="width: 8%;">Zona</th>
+                        <th style="width: 12%;">Zona</th>
                         <th style="width: 8%;">Golongan</th>
                         <th style="width: 8%;">Status</th>
                         <th style="width: 3%;">Valid</th>

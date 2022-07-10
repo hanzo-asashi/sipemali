@@ -20,17 +20,19 @@ class CreatePelanggan extends Component
     public string $title = 'Buat Pelanggan';
     public Customers $customers;
     public array $pelanggan = [];
+    public array $breadcrumbs = [];
 
     public function mount(Customers $customers): void
     {
         $this->customers = $customers;
         $this->generateNoSambungan();
+        $this->breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->title]];
     }
 
     private function generateNoSambungan(): void
     {
-//        $this->pelanggan['no_sambungan'] = Helpers::generateNoSambungan(1, 1, '');
-        $this->pelanggan['no_pelanggan'] = Helpers::generateNoPelanggan(1, 1, '');
+        $this->pelanggan['no_sambungan'] = Helpers::generateKode(1, 1, '');
+        $this->pelanggan['no_pelanggan'] = Helpers::generateKode(1, 1, '', true);
         $this->pelanggan['tahun_langganan'] = 2022;
         $this->pelanggan['bulan_langganan'] = now()->month;
         $this->pelanggan['status_pelanggan'] = 1;
@@ -58,8 +60,8 @@ class CreatePelanggan extends Component
     public function storePelanggan(): void
     {
         $validated = Validator::make($this->pelanggan, [
-            'no_sambungan' => 'required|max:30|unique:pelanggan,no_sambungan',
-            'no_pelanggan' => 'required|max:15|unique:pelanggan,no_pelanggan',
+//            'no_sambungan' => 'required|max:30|unique:pelanggan,no_sambungan',
+//            'no_pelanggan' => 'required|max:15|unique:pelanggan,no_pelanggan',
             'nama_pelanggan' => 'required|max:150',
             'alamat_pelanggan' => 'required|max:255',
             'zona_id' => 'required',
@@ -75,6 +77,9 @@ class CreatePelanggan extends Component
             'golongan_id' => 'Golongan harus diisi',
             'is_valid' => 'Status Valid harus diisi',
         ])->validate();
+
+        $validated['no_sambungan'] = Helpers::generateKode($validated['golongan_id'], $validated['zona_id'], '');
+        $validated['no_pelangggan'] = Helpers::generateKode($validated['golongan_id'], $validated['zona_id'], '', true);
 
         if ($this->customers->create($validated)) {
             $this->resetForms();

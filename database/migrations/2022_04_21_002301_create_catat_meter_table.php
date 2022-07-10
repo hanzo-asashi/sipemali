@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('catat_meter', function (Blueprint $table) {
-            $table->id()->index('id');
+            $table->id();
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedInteger('angka_meter_lama');

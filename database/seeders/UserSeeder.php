@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Faker\Generator;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -14,9 +15,11 @@ class UserSeeder extends Seeder
     /**
      * Run the database seeds.
      *
+     * @param  Generator  $faker
      * @return void
+     * @throws BindingResolutionException
      */
-    public function run(Generator $faker)
+    public function run(Generator $faker): void
     {
         app()->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
 
@@ -107,6 +110,7 @@ class UserSeeder extends Seeder
      * Create a user with given role.
      *
      * @param $role
+     * @param  Generator  $faker
      */
     private function createUser($role, Generator $faker): void
     {

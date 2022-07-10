@@ -14,7 +14,7 @@ class CreateGolonganTarifTable extends Migration
     public function up()
     {
         Schema::create('golongan_tarif', function (Blueprint $table) {
-            $table->id()->index('id');
+            $table->id();
             $table->string('kode_golongan', 20)->unique();
             $table->string('nama_golongan', 100)->nullable()->index('nama_golongan');
             $table->string('deskripsi', 100)->nullable();

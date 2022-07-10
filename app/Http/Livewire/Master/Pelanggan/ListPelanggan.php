@@ -179,6 +179,8 @@ class ListPelanggan extends Component
 
     public function renderPelangganCount(): void
     {
+//        $customers = $this->customers->query();
+
         $this->totalPelangganValid = $this->customers->query()
             ->search($this->search)
             ->when($this->zona, function ($q) {
@@ -199,7 +201,7 @@ class ListPelanggan extends Component
             ->when($this->valid, function ($q) {
                 return $q->where('is_valid', (int) $this->valid);
             })
-            ->where('is_valid', '=', 1)->count();
+            ->where('is_valid', true)->get()->count();
 
         $this->totalPelangganTidakValid = $this->customers->query()
             ->when($this->zona, function ($q) {
@@ -220,7 +222,7 @@ class ListPelanggan extends Component
             ->when($this->valid, function ($q) {
                 return $q->where('is_valid', $this->valid);
             })
-            ->where('is_valid', '=', 0)->count();
+            ->where('is_valid', false)->get()->count();
     }
 
     public function updating(): void
