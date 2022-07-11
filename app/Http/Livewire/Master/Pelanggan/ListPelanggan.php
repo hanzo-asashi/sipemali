@@ -430,11 +430,11 @@ class ListPelanggan extends Component
                 $this->pembayaranId = $pembayaran->id;
                 $this->reset('pembayaran');
                 $this->closeModal();
-                $this->alert('success', 'PembayaranPajak berhasil ditambahkan');
+                $this->alert('success', 'Pembayaran berhasil ditambahkan');
             } else {
                 $this->resetForms();
                 $this->resetValidation();
-                $this->alert('danger', 'PembayaranPajak gagal ditambahkan');
+                $this->alert('danger', 'Pembayaran gagal ditambahkan');
             }
         } else {
             $this->alert('info', 'Pelanggan tidak ditemukan');
@@ -474,7 +474,7 @@ class ListPelanggan extends Component
                 'pembayaranId' => $this->pembayaranId,
             ]);
         } else {
-            $this->alert('error', 'PembayaranPajak gagal ditambahkan');
+            $this->alert('error', 'Pembayaran gagal ditambahkan');
         }
     }
 

@@ -25,29 +25,30 @@
                     <div class="col-md-3">
                         <div>
                             <label class="form-label" for="search">Pencarian</label>
-                            @include('widget.search-table')
+                            @include('widgets.search-table')
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div>
                             <label class="form-label" for="form-sm-input">Baris</label>
-                            @include('widget.page')
+                            @include('widgets.page')
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div>
-                            @can('manage-users')
-                                @include('widget.bulk-action')
-                            @endcan
-                        </div>
+                        @if($checked)
+                            <div>
+                                @can('manage-users')
+                                    @include('widgets.bulk-action')
+                                @endcan
+                            </div>
+                        @endif
                     </div>
-
                 </div>
             </form>
         </div>
     </div>
     <div class="table-responsive mb-4">
-        <x-table class="align-middle table-check nowrap">
+        <x-table class="align-middle table-nowrap table-bordered">
             <x-table.table-head>
                 <th scope="col" style="width: 50px;">
                     <div class="form-check font-size-16">
@@ -117,9 +118,7 @@
             </x-table.table-body>
         </x-table>
         <!-- end table -->
-        <x-pagination>
-            {{ $listRoles->links() }}
-        </x-pagination>
+        <x-pagination :datalinks="$listRoles" :page="$page" :page-count="$pageCount" :total-data="$totaldata"/>
     </div>
 
     <!-- Add Role Modal start -->
@@ -190,7 +189,7 @@
             $('#roleModal').modal('show');
         })
     </script>
-    {{--    @include('widget.alertify')--}}
+    {{--    @include('widgets.alertify')--}}
     <!--suppress JSJQueryEfficiency -->
-    @include('widget.action-js')
+    @include('widgets.action-js')
 @endpush

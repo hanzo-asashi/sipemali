@@ -1,5 +1,4 @@
-@props(['tipe' => 'border', 'target' => ''])
+@props(['tipe' => 'border', 'target' => '', 'size' => 'sm'])
 
-{{--<span class="spinner-{{ $tipe }} spinner-{{ $tipe }}-sm" {{ $attributes->merge(['role' => 'status','aria-hidden' => true]) }}></span>--}}
-<span {{ $attributes->merge() }} wire:loading.delay.shorter class="spinner-{{ $tipe }} spinner-{{ $tipe }}-sm" role="status"
-      aria-hidden="true" {{ $attributes }}></span>
+<span wire:loading.delay.shorter class="spinner-{{ $tipe }} spinner-{{ $tipe }}-{{ $size }}" role="status"
+      aria-hidden="true" {{ $attributes }} wire:target="{{$target}}"></span>

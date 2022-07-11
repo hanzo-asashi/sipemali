@@ -53,10 +53,10 @@
                         @forelse($listStatus as $stat)
                             <tr class="@if($this->isChecked($stat->id)) bg-light @endif text-center">
                                 <td>{{ $i++ }}</td>
-                                <td><span class="badge badge-light-primary">{{ $stat->shortcode }}</span></td>
+                                <td><span class="badge badge-soft-primary">{{ $stat->shortcode }}</span></td>
                                 <td class="text-start">{{ $stat->name }}</td>
                                 <td>
-                                    @can('update_statuspembayaran')
+                                    @can('update_paymentstatus')
                                         <button wire:click.prevent="editStatus({{ $stat->id }})" data-bs-toggle="tooltip" data-bs-placement="bottom" title
                                                 data-bs-original-title="Edit Status"
                                                 type="button" class="btn btn-icon btn-sm btn-info waves-effect waves-float waves-light">
@@ -64,7 +64,7 @@
                                         </button>
                                     @endcan
 
-                                    @can('delete_statuspembayaran')
+                                    @can('delete_paymentstatus')
                                         <button wire:click="destroy({{ $stat->id }},'single')" data-bs-toggle="tooltip" data-bs-placement="bottom" title
                                                 data-bs-original-title="Hapus Status"
                                                 type="button" class="btn btn-icon btn-sm btn-danger waves-effect waves-float waves-light">

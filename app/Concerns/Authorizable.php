@@ -3,6 +3,7 @@
 namespace App\Concerns;
 
 use Arr;
+use Illuminate\Auth\Access\AuthorizationException;
 use Request;
 
 trait Authorizable
@@ -27,6 +28,7 @@ trait Authorizable
      * @param $method
      * @param $parameters
      * @return mixed
+     * @throws AuthorizationException
      */
     public function callAction($method, $parameters): mixed
     {

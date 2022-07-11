@@ -5,6 +5,9 @@ namespace App\Http\Livewire\Pengguna;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -36,12 +39,12 @@ class UserTable extends Component
 
 //    public $listeners = [];
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
-    public function mount(User $users)
+    public function mount(User $users): void
     {
         $this->users = $users;
     }
@@ -58,25 +61,25 @@ class UserTable extends Component
             $this->checked = [];
 
             return $user;
-        } else {
-//            $user = $this->users->findOrFail($id)->where('id', '!=', 1)->delete();
-            $user = $this->users->findOrFail($id);
-            if(!$user->hasRole('superadmin') && $user->is_admin === 1){
-                $user->delete();
-                $user->syncRoles();
-            }
-//            $user->roles()->detach();
-            return $user;
         }
+
+//            $user = $this->users->findOrFail($id)->where('id', '!=', 1)->delete();
+        $user = $this->users->findOrFail($id);
+        if ($user->is_admin !== 1 && !$user->hasRole('superadmin')) {
+            $user->delete();
+            $user->syncRoles();
+        }
+//            $user->roles()->detach();
+        return $user;
     }
 
-    public function hydrate()
+    public function hydrate(): void
     {
         $this->resetErrorBag();
         $this->resetValidation();
     }
 
-    public function updatedSelectAll($value)
+    public function updatedSelectAll($value): void
     {
         if ($value) {
             $this->checked = $this->users->query()
@@ -97,11 +100,11 @@ class UserTable extends Component
 
     public function isChecked($userid): bool
     {
-        return in_array($userid, $this->checked);
+        return in_array($userid, $this->checked, true);
     }
 
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         $listUsers = $this->users->with(['roles'])
             ->search(trim($this->search))
@@ -121,6 +124,8 @@ class UserTable extends Component
             'listUsers' => $listUsers,
             'listRoles' => $roles,
             'listStatus' => $listStatus,
+            'page' => $this->page,
+            'pageCount' => $this->perPage
         ]);
     }
 }

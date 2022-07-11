@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
@@ -70,8 +70,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts
         = [
             'email_verified_at' => 'datetime',
-            'last_login'        => 'datetime',
-            'is_admin'          => 'boolean',
+            'last_login' => 'datetime',
+            'is_admin' => 'boolean',
+            'status' => 'bool',
         ];
 
     /**
@@ -79,14 +80,14 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return string
      */
-    public function getAvatarAttribute()
+    public function getAvatarAttribute(): string
     {
         return asset('storage/pengguna/avatar.png') ?: asset('assets/images/users/default.png');
     }
 
-    public function loket()
+    public function loket(): BelongsTo
     {
-        return $this->belongsTo(BranchCounter::class,'loket_id','id');
+        return $this->belongsTo(BranchCounter::class, 'loket_id', 'id');
     }
 
     /**
@@ -138,12 +139,12 @@ class User extends Authenticatable implements MustVerifyEmail
 //        });
 //    }
 
-    public function scopeSearch($query, $term)
+    public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
         $query->where('name', 'like', $term)
             ->orWhere('email', 'like', $term)
-            ->orWhere('status', '=', $term)
+            ->orWhere('status', 'like', $term)
             ->orWhereHas('roles', function ($query) use ($term) {
                 $query->where('name', 'like', $term);
             })

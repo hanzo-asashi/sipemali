@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Account;
 
+use App\Concerns\Authorizable;
 use App\Http\Controllers\Controller;
-use App\Traits\Authorizable;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 class PenggunaController extends Controller
 {
     use Authorizable;
+
     /**
      * Display a listing of the resource.
      *
@@ -38,11 +39,11 @@ class PenggunaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      *
      * @return Response
      */
-    public function show($id)
+    public function show(int $id): ?Response
     {
         //
     }
@@ -50,15 +51,15 @@ class PenggunaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      *
      * @return Application|Factory|View
      */
-    public function edit($id)
+    public function edit(int $id)
     {
         return view('account.pengguna.create', [
             'updateMode' => true,
-            'id'         => $id,
+            'id' => $id,
         ]);
     }
 }

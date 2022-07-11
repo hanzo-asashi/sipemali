@@ -1,25 +1,25 @@
 <?php
 
 return [
-    'data-sidebar'            => ['enable' => true, 'content' => 'data-sidebar-'], // Options[String]: vertical(default), horizontal
-    'theme'                   => env('APP_THEME', 'light'), // options[String]: 'light'(default), 'dark', 'brand'
-    'social-login'            => false,
-    'page-loader'             => env('PAGE_LOADER', 'pace-done'),
-    'perPage'                 => [10, 20, 25, 50, 100],
-    'status_aktif'            => [0 => 'Non Aktif', 1 => 'Aktif'],
-    'status_bayar'            => [0 => 'Belum Lunas', 1 => 'Lunas'],
-    'status_obj'              => ['Belum Lunas' => 'Belum Lunas', 'Lunas' => 'Lunas'],
-    'status_pembayaran'       => ['Pending', 'Completed', 'On Hold'],
-    'status_transaksi'        => [0 => 'Normal', 1 => 'Menunggak'],
-    'status_tunggakan'        => [0 => 'Dalam Masa', 1 => 'Lewat Jatuh Tempo'],
+    'data-sidebar' => ['enable' => true, 'content' => 'data-sidebar-'], // Options[String]: vertical(default), horizontal
+    'theme' => env('APP_THEME', 'light'), // options[String]: 'light'(default), 'dark', 'brand'
+    'social-login' => false,
+    'page-loader' => env('PAGE_LOADER', 'pace-done'),
+    'perPage' => [10, 20, 25, 50, 100],
+    'status_aktif' => ['false' => 'Non Aktif', 'true' => 'Aktif'],
+    'status_bayar' => [0 => 'Belum Lunas', 1 => 'Lunas'],
+    'status_obj' => ['Belum Lunas' => 'Belum Lunas', 'Lunas' => 'Lunas'],
+    'status_pembayaran' => ['Pending', 'Completed', 'On Hold'],
+    'status_transaksi' => [0 => 'Normal', 1 => 'Menunggak'],
+    'status_tunggakan' => [0 => 'Dalam Masa', 1 => 'Lewat Jatuh Tempo'],
     'periode_penarikan_pajak' => ['tahun' => 'Tahun', 'bulan' => 'Bulan'],
-    'triwulan'                => [
+    'triwulan' => [
         'pertama' => 'Triwulan Pertama',
-        'kedua'   => 'Triwulan Kedua',
-        'ketiga'  => 'Triwulan Ketiga',
+        'kedua' => 'Triwulan Kedua',
+        'ketiga' => 'Triwulan Ketiga',
         'keempat' => 'Triwulan Keempat',
     ],
-    'tahun_kontrak'           => [
+    'tahun_kontrak' => [
         '2020' => '2020',
         '2021' => '2021',
         '2022' => '2022',

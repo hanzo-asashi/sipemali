@@ -10,27 +10,35 @@
                 </div>
                 <form wire:submit.prevent="{{ $updateMode ? 'updateStatus' : 'storeStatus' }}" class="needs-validation" novalidate>
                     <div class="card-body">
-                        {{--                        <x-jet-label for="nama_status" :value="'Nama Status'"/>--}}
-                        <div class="mb-1">
+                        <x-label for="nama_status" :value="'Nama Status'"/>
+                        <div class="mb-2">
                             <input class="form-control @error('nama_status') is-invalid @enderror"
                                    wire:model.defer="state.nama_status" type="text" placeholder="Masukkan nama status" autofocus>
-                            <x-input-error :for="'nama_status'" />
+                            <x-input-error :for="'nama_status'"/>
                         </div>
 
-                        {{--                        <x-jet-label for="shortcode" :value="'Kode'"/>--}}
-                        <div class="mb-1">
+                        <x-label for="shortcode" :value="'Kode'"/>
+                        <div class="mb-2">
                             <input class="form-control @error('shortcode') is-invalid @enderror"
                                    wire:model.defer="state.shortcode" type="text" placeholder="Masukkan kode pendek atau singkatan">
-                            <x-input-error :for="'shortcode'" />
+                            <x-input-error :for="'shortcode'"/>
                         </div>
                     </div>
                     <div class="card-footer">
                         @can('create_status')
-                            <button type="submit" class="btn btn-primary" wire:loading.attr="disabled">
+                            <x-button type="submit" class="btn-primary" wire:loading.attr="disabled">
+                                @if($updateMode)
+                                    <x-loading-button :target="'updateStatus'"/>
+                                @else
+                                    <x-loading-button :target="'storeStatus'"/>
+                                @endif
                                 {{ $updateMode ? 'Update' : 'Simpan' }}
-                            </button>
+                            </x-button>
                         @endcan
-                        <button type="button" wire:click.prevent="resetField" data-bs-dismiss="modal" class="btn btn-danger">Batal</button>
+                        <x-button wire:click.prevent="resetField" wire:loading.attr="disabled" class="btn-danger">
+                            <x-loading-button :target="'resetField'"/>
+                            Batal
+                        </x-button>
                     </div>
                 </form>
             </div>
@@ -85,7 +93,7 @@
                                 {{--                                               wire:model="checked" wire:key="list-status-{{ $stat->id }}">--}}
                                 {{--                                    </div>--}}
                                 {{--                                </td>--}}
-                                <td>{{ $stat->shortcode }}</td>
+                                <td><span class="badge badge-soft-primary">{{ $stat->shortcode }}</span></td>
                                 <td class="text-start">{{ $stat->nama_status }}</td>
                                 <td>
                                     @can('update_status')
@@ -111,11 +119,17 @@
                             </tr>
                         @endforelse
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="3">
+                                <!-- Pagination Start -->
+                                <x-pagination :datalinks="$listStatus" :page="$pageData['page']" :total-data="$pageData['totalData']" :page-count="$pageData['pageCount']"/>
+                                <!-- Pagination end -->
+                            </td>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
-                <!-- Pagination Start -->
-                <x-pagination :datalinks="$listStatus" :page="$pageData['page']" :total-data="$pageData['totalData']" :page-count="$pageData['pageCount']"/>
-                <!-- Pagination end -->
             </div>
         </div>
     </div>

@@ -196,24 +196,24 @@
                         </tr>
                     @endforelse
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="4" class="text-start border-0">
-                            <div class="text-muted" role="status" aria-live="polite">
-                                Menampilkan {{ $pageData['page'] }} sampai {{ $pageData['pageCount'] }} dari {{ $pageData['totalData'] }} entri
-                            </div>
-                        </td>
-                        <td colspan="5" class="text-center border-0">
-                            {{ $listCustomers->links() }}
-                        </td>
-                    </tr>
-                    </tfoot>
+                    {{--                    <tfoot>--}}
+                    {{--                    <tr>--}}
+                    {{--                        <td colspan="4" class="text-start border-0">--}}
+                    {{--                            <div class="text-muted" role="status" aria-live="polite">--}}
+                    {{--                                Menampilkan {{ $pageData['page'] }} sampai {{ $pageData['pageCount'] }} dari {{ $pageData['totalData'] }} entri--}}
+                    {{--                            </div>--}}
+                    {{--                        </td>--}}
+                    {{--                        <td colspan="5" class="text-center border-0">--}}
+                    {{--                            {{ $listCustomers->links() }}--}}
+                    {{--                        </td>--}}
+                    {{--                    </tr>--}}
+                    {{--                    </tfoot>--}}
                 </table>
             </div>
             <!-- Pagination Start -->
-        {{--                <x-pagination :datalinks="$listCustomers" :page="$pageData['page']" :total-data="$pageData['totalData']"--}}
-        {{--                              :page-count="$pageData['pageCount']"/>--}}
-        <!-- Pagination end -->
+            <x-pagination :datalinks="$listCustomers" :page="$pageData['page']" :total-data="$pageData['totalData']"
+                          :page-count="$pageData['pageCount']"/>
+            <!-- Pagination end -->
         </div>
     </div>
     @include('widgets.modal-bayar')
