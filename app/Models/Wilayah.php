@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use LaravelIdea\Helper\App\Models\_IH_Wilayah_C;
 
 /**
  * @mixin IdeHelperWilayah
@@ -20,22 +22,8 @@ class Wilayah extends Model
         'nama',
     ];
 
-    public function objekpajak()
-    {
-        return $this->hasMany(ObjekPajak::class, 'kecamatan', 'kode');
-    }
 
-    public function pembayaran()
-    {
-        return $this->hasManyThrough(ObjekPajak::class,PembayaranPajak::class,'objek_pajak_id','id');
-    }
-
-    public function wajibpajak()
-    {
-        return $this->hasOne(WajibPajak::class, 'kecamatan', 'kode');
-    }
-
-    public static function getWilayah($kode)
+    public static function getWilayah($kode): _IH_Wilayah_C|Collection|array
     {
         $wil = [
             2 => [5, 'Kota/Kabupaten', 'kab'],
@@ -44,7 +32,7 @@ class Wilayah extends Model
         ];
 
         $n = strlen($kode) ?: 2;
-        $length = in_array($n, $wil) ?: $wil[$n][0];
+        $length = in_array($n, $wil, true) ?: $wil[$n][0];
 
         return self::query()->with(['wajibpajak','objekpajak','objekpajak.jenisObjekPajak','objekpajak.pembayaran'])
             ->whereRaw('LEFT(kode,'.$n.")='{$kode}'")
@@ -53,7 +41,7 @@ class Wilayah extends Model
             ->get();
     }
 
-    public static function getWilayahName($kode)
+    public static function getWilayahName($kode): Wilayah
     {
         return self::where('kode', $kode)->first();
     }

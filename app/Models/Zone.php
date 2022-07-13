@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -22,7 +23,7 @@ class Zone extends Model
     protected $table = 'zona_wilayah';
     public $timestamps = false;
 
-    public function customer()
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customers::class, 'id', 'zona_id');
     }

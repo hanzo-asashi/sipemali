@@ -39,7 +39,7 @@ class Tunggakan extends Model
 
     public function pembayaran(): BelongsTo
     {
-        return $this->belongsTo(Pembayaran::class, 'pembayaran_id', 'id');
+        return $this->belongsTo(Payment::class, 'pembayaran_id', 'id');
     }
 
     public function scopeSearch($query, $term): void
@@ -56,11 +56,10 @@ class Tunggakan extends Model
             ->orWhere('sisa_bayar', 'like', $term)
             ->orWhere('tagihan_ke', 'like', $term)
             ->orWhere('status_tunggakan', 'like', $term)
-            ->orWhereHas('pembayaran', function ($query) use ($term) {
+            ->orWhereHas('payment', function ($query) use ($term) {
                 $query->where('no_transaksi', 'like', $term)
                     ->orWhere('nomor_sts')
-                    ->orWhere('jatuh_tempo')
-                ;
+                    ->orWhere('jatuh_tempo');
             })
         ;
     }

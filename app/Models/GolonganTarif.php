@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
@@ -35,9 +36,10 @@ class GolonganTarif extends Model
      *
      * @return array
      */
+    #[ArrayShape(['kode_golongan' => "string", 'nama_golongan' => "null|string", 'deskripsi' => "null|string"])]
     #[SearchUsingPrefix(['kode_golongan'])]
-    #[SearchUsingFullText(['nama_golongan','deskripsi'])]
-    public function toSearchableArray()
+    #[SearchUsingFullText(['nama_golongan', 'deskripsi'])]
+    public function toSearchableArray(): array
     {
         return [
 //            'id' => $this->id,

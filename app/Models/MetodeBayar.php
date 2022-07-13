@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Concerns\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Scout\Attributes\SearchUsingFullText;
 use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
@@ -21,7 +22,7 @@ class MetodeBayar extends Model
     use Searchable;
     use HasHashId;
 
-    protected $fillable = ['kode','nama','no_rekening','deskripsi'];
+    protected $fillable = ['kode', 'nama', 'no_rekening', 'deskripsi'];
     public $timestamps = false;
     protected $table = 'metode_bayar';
 
@@ -30,9 +31,10 @@ class MetodeBayar extends Model
      *
      * @return array
      */
-    #[SearchUsingPrefix(['id','kode'])]
-    #[SearchUsingFullText(['nama','deskripsi'])]
-    public function toSearchableArray()
+    #[ArrayShape(['id' => "int", 'kode' => "mixed|null|string", 'nama' => "mixed|string", 'no_rekening' => "mixed|null|string", 'deskripsi' => "mixed|null|string"])]
+    #[SearchUsingPrefix(['id', 'kode'])]
+    #[SearchUsingFullText(['nama', 'deskripsi'])]
+    public function toSearchableArray(): array
     {
         return [
             'id' => $this->id,

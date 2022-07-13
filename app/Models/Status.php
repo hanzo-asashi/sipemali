@@ -22,7 +22,7 @@ class Status extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->useLogName('Status PelangganResource')
+            ->useLogName('Status Pelanggan')
             ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} status pelanggan {$this->name}");
         // Chain fluent methods for configuration options
     }

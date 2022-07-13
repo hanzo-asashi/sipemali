@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utilities\Helpers;
+use JetBrains\PhpStorm\Pure;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 
 /**
@@ -45,7 +46,7 @@ class Permission extends SpatiePermission
         return $data;
     }
 
-    public function crudActions($name): array
+    #[Pure] public function crudActions($name): array
     {
         $actions = [];
         // list of permission actions
@@ -58,11 +59,10 @@ class Permission extends SpatiePermission
         return $actions;
     }
 
-    public function scopeSearch($query, $term)
+    public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
-        $query->where('name', 'like', $term)
-        ;
+        $query->where('name', 'like', $term);
     }
 
 

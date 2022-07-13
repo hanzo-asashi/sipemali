@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Storage;
 
 /**
  * @mixin IdeHelperUserInfo
@@ -98,14 +97,14 @@ class UserInfo extends Model implements HasMedia
      *
      * @return mixed|null
      */
-    public function getCommunicationAttribute($value)
+    public function getCommunicationAttribute($value): mixed
     {
         // test to un-serialize value and return as array
         $data = @unserialize($value);
         if ($data !== false) {
             return $data;
-        } else {
-            return null;
         }
+
+        return null;
     }
 }

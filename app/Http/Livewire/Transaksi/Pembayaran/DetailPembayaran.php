@@ -35,7 +35,7 @@ class DetailPembayaran extends Component
         $listPembayaran = $this->customer->payment()->latest();
         $totalData = $listPembayaran->count();
         $listPembayaran = $listPembayaran->paginate($this->perPage);
-        $listHistory = $this->customer->paymentHistory()->latest()->take(5)->get();
+        $listHistory = $this->customer->paymentHistory()->latest()->paginate($this->perPage);
         $this->pageData = [
             'page' => $this->page,
             'pageCount' => $this->perPage,

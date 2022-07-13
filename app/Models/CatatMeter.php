@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Events\CatatMeterCreated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -53,14 +53,14 @@ class CatatMeter extends Model
         // Chain fluent methods for configuration options
     }
 
-    public function customer()
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customers::class,'customer_id','id');
+        return $this->belongsTo(Customers::class, 'customer_id', 'id');
     }
 
-    public function petugas()
+    public function petugas(): BelongsTo
     {
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function scopeStatusMeter($query, $term)
@@ -68,7 +68,7 @@ class CatatMeter extends Model
         return $query->where('status_meter', $term);
     }
 
-    public function scopeSearch($query, $term)
+    public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
         $query->where('angka_meter_lama', 'like', $term)

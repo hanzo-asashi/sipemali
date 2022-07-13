@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use JetBrains\PhpStorm\ArrayShape;
 use Laravel\Scout\Attributes\SearchUsingFullText;
-use Laravel\Scout\Attributes\SearchUsingPrefix;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -29,8 +29,8 @@ class Address extends Model
      * @return array
      */
 //    #[SearchUsingPrefix(['id'])]
-    #[SearchUsingFullText(['alamat'])]
-    public function toSearchableArray()
+    #[ArrayShape(['alamat' => "string"])] #[SearchUsingFullText(['alamat'])]
+    public function toSearchableArray(): array
     {
         return [
 //            'id' => $this->id,
