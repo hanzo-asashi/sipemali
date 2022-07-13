@@ -84,7 +84,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @forelse($listPembayaran->get() as $list)
+                        @forelse($listPembayaran as $list)
                             <tr>
                                 <td>
                                     {{ '#' . $list->no_transaksi }} <span class="font-small-3 text-success">({{ $list->pemakaian_air_saat_ini .' m3' }})</span><br>

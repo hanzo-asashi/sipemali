@@ -1,9 +1,10 @@
-<x-label for="basic-icon-default-email">
-  {{ $label }}
+@props(['for' => ''])
+<x-label for="{{ $for }}">
+    {{ $label }}
 </x-label>
-<x-input >
- {{ $inputText }}
+<x-input>
+    {{ $inputText }}
 </x-input>
 <x-help-text>
-  {{ $helpText }}
+    {{ $helpText }}
 </x-help-text>

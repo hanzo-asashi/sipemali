@@ -40,7 +40,7 @@ class Customers extends Model
     ];
 
     protected $casts = [
-        'is_valid' => 'boolean',
+//        'is_valid' => 'boolean',
     ];
 
     protected $appends = ['angka_meter_lama','angka_meter_baru'];

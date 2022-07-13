@@ -1,12 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Laporan Transaksi')
-@push('vendor-style')
-    <link rel="stylesheet" href="{{asset('vendors/css/pickers/flatpickr/flatpickr.min.css')}}">
+@section('title', 'Laporan Transaksi Pembayaran')
+@push('css')
+    {{--    <link rel="stylesheet" href="{{asset('vendors/css/pickers/flatpickr/flatpickr.min.css')}}">--}}
+    {{--    <link rel="stylesheet" href="{{asset('css/base/plugins/forms/pickers/form-flat-pickr.css')}}">--}}
+    {{--    <link rel="stylesheet" href="{{asset('css/base/pages/app-invoice.css')}}">--}}
 @endpush
-@push('page-style')
-    <link rel="stylesheet" href="{{asset('css/base/plugins/forms/pickers/form-flat-pickr.css')}}">
-    <link rel="stylesheet" href="{{asset('css/base/pages/app-invoice.css')}}">
-@endpush
+
 @section('content')
     <section class="invoice-preview-wrapper">
         <div class="row invoice-preview">
@@ -388,11 +387,8 @@ We would appreciate payment of this invoice by 05/11/2019</textarea
     <!-- /Add Payment Sidebar -->
 @endsection
 
-@push('vendor-script')
-    <script src="{{asset('vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>
-    <script src="{{asset('vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>
-@endpush
-
-@push('page-script')
-    <script src="{{asset('js/scripts/pages/app-invoice.js')}}"></script>
+@push('script')
+    {{--    <script src="{{asset('vendors/js/forms/repeater/jquery.repeater.min.js')}}"></script>--}}
+    {{--    <script src="{{asset('vendors/js/pickers/flatpickr/flatpickr.min.js')}}"></script>--}}
+    {{--    <script src="{{asset('js/scripts/pages/app-invoice.js')}}"></script>--}}
 @endpush

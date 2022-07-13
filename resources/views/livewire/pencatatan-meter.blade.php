@@ -42,7 +42,7 @@
                         <div class="me-1">
                             <x-button wire:click.prevent="resetFilter" class="btn btn-icon btn-dark waves-effect waves-float waves-light"
                                       data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Reset Filter">
-                                <i class="far fa-recycle"></i>
+                                <i class="bx bx-reset align-middle font-size-18"></i>
                             </x-button>
                         </div>
                     </div>
@@ -71,25 +71,25 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-responsive table-hover">
-                    <thead class="text-capitalize">
-                    <tr class="text-center">
-                        <th style="width: 2%;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="selectAllCatatMeter" wire:model="selectAllCatatMeter" @selected($selectAllCatatMeter)>
-                                <label class="form-check-label" for="selectAllCatatMeter"></label>
-                            </div>
-                        </th>
-                        <th style="width: 8%;">No Sambungan</th>
-                        <th>Nama</th>
-                        <th>Alamat</th>
-                        <th style="width: 3%;">Gol</th>
-                        <th style="width: 5%;">Angka Meteran</th>
-                        <th style="width: 5%;">Periode</th>
-                        <th>Petugas</th>
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive table-hover">
+                        <thead class="text-uppercase align-middle">
+                        <tr class="text-center">
+                            <th style="width: 2%;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAllCatatMeter" wire:model="selectAllCatatMeter" @selected($selectAllCatatMeter)>
+                                    <label class="form-check-label" for="selectAllCatatMeter"></label>
+                                </div>
+                            </th>
+                            <th style="width: 8%;">No Sambungan</th>
+                            <th>Nama</th>
+                            <th>Alamat</th>
+                            <th style="width: 3%;">Gol</th>
+                            <th style="width: 5%;">Angka Meteran</th>
+                            <th style="width: 5%;">Periode</th>
+                            <th>Petugas</th>
                         <th style="width: 10%;">Aksi</th>
                     </tr>
                     </thead>

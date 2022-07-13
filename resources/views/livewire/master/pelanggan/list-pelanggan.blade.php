@@ -161,8 +161,8 @@
                                     </span>
                             </td>
                             <td>
-                                     <span class="badge rounded-pill bg-{{ $cust->is_valid ? 'success' : 'danger' }} me-1">
-                                        {!! $cust->is_valid ? '<i class="bx bx-user-check font-size-13"></i>' : '<i class="bx bx-x font-size-13"></i>'  !!}
+                                     <span class="badge rounded-pill bg-{{ $cust->is_valid === 1 ? 'success' : 'danger' }} me-1">
+                                        {!! $cust->is_valid === 1 ? '<i class="bx bx-user-check font-size-13"></i>' : '<i class="bx bx-x font-size-13"></i>'  !!}
                                     </span>
                             </td>
                             <td class="text-center">

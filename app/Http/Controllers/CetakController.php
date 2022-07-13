@@ -52,7 +52,15 @@ class CetakController extends Controller
         $view = 'laporan.preview.'.$page;
         if (in_array($page, $pageArray, true)) {
             if ($page === 'pembayaran') {
+                $payment = Payment::query();
+                if ($data['data'] = 'all') {
+                    $payment = $payment->get();
+                } else {
+                    $payment = $payment->whereIn('id', $data['data']);
+                }
+                $pageData['payment'] = $payment;
                 $view = 'laporan.transaksi';
+                $tipe = 'stream';
             }
 
             if ($page === 'opname-fisik') {

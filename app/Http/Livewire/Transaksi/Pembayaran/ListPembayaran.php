@@ -159,6 +159,17 @@ class ListPembayaran extends Component
         $this->totalTagihanSebagian = $this->sumPembayaran(3, 'total_tagihan');
     }
 
+    public function cetak()
+    {
+        $filter = [
+            'page' => 'pembayaran',
+            'data' => 'all',
+            ''
+        ];
+        
+        $this->redirectRoute('cetak.preview', $filter, true);
+    }
+
     public function updating(): void
     {
         $this->resetPage();

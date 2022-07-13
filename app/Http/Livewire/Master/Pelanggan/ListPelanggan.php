@@ -281,7 +281,7 @@ class ListPelanggan extends Component
         $customer = $this->customers->find($id);
 
         if (!is_null($customer)) {
-            $valid = !$customer->is_valid ? 1 : 0;
+            $valid = $customer->is_valid === 1 ? 1 : 0;
             if ($customer->update(['is_valid' => $valid])) {
                 $this->alert('success', 'Status pelanggan berhasil diubah');
             } else {

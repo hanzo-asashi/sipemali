@@ -1,85 +1,90 @@
 <div>
     @section('title', $title)
     @push('css')@endpush
+
     <div class="row">
-        <x-stats class="col-lg-3 col-sm-12" :jumlah="$totalTagihan" :text="'k'" :value="$totalTagihan" :icon="'money'" :color="'info'" :title="'Total Semua Tagihan'">
-            {{--            <i class="bx bx-money"></i>--}}
-        </x-stats>
-        <x-stats class="col-lg-3 col-sm-12" :jumlah="$countPembayaranLunas" :value="$totalPembayaran" :color="'success'" :title="'Total Semua Pembayaran'">
-            <i class="far fa-money-check"></i>
-        </x-stats>
-        <x-stats class="col-lg-3 col-sm-12" :value="$totalTagihanSebagian" :color="'danger'" :title="'Total Piutang'">
-            <i class="far fa-money-bill"></i>
-        </x-stats>
-        <x-stats class="col-lg-3 col-sm-12" :value="$totalTagihanBatal" :color="'warning'" :title="'Total Belum Terbayar'">
-            <i class="far fa-file-invoice-dollar"></i>
-        </x-stats>
+        <x-stats class="col-lg-3 col-sm-12" :jumlah="$totalTagihan" :text="'k'" :value="$totalTagihan" :icon="'money'" :color="'info'" :title="'Total Semua Tagihan'"/>
+        <x-stats class="col-lg-3 col-sm-12" :jumlah="$countPembayaranLunas" :value="$totalPembayaran" :icon="'transfer'" :color="'success'" :title="'Total Semua Pembayaran'"/>
+        <x-stats class="col-lg-3 col-sm-12" :value="$totalTagihanSebagian" :color="'danger'" :title="'Total Piutang'" :icon="'credit-card'"/>
+        <x-stats class="col-lg-3 col-sm-12" :value="$totalTagihanBatal" :color="'warning'" :title="'Total Belum Terbayar'" :icon="'folder-minus'"/>
     </div>
 
     <!-- Filter start -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-secondary p-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="col-sm-8 col-lg-8 d-flex justify-content-center justify-content-lg-start">
-                        <div class="me-1">
-                            <select wire:model="perPage" class="form-select">
-                                <option value="15">15</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                        <div class="me-1">
-                            <input wire:model.debounce.300ms="search" value="{{ $search }}" type="search" class="form-control" placeholder="Cari disini...">
-                        </div>
-                        <div class="me-1">
-                            <select wire:model="zona" class="form-select text-capitalize mb-md-0 mb-2">
-                                <option value=""> Semua Zona</option>
-                                @foreach($pageData['listZona'] as $key => $zona)
-                                    <option value="{{ $key }}">{{ $zona }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="me-1">
-                            <select wire:model="golongan" class="form-select text-capitalize mb-md-0 mb-2">
-                                <option value=""> Semua Golongan</option>
-                                @foreach($pageData['listGolongan'] as $key => $gol)
-                                    <option value="{{ $key }}">{{ $gol }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="me-1">
-                            <select wire:model="status" class="form-select text-capitalize mb-md-0 mb-2">
-                                <option value=""> Semua Status</option>
-                                @foreach($pageData['listStatus'] as $key => $status)
-                                    <option value="{{ $key }}">{{ $status }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+    <x-row-col>
+        <x-card class="bg-soft-light">
+            <div class="grid-container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <x-grid-container>
+                            <x-hstack>
+                                <div class="me-1">
+                                    <select wire:model="perPage" class="form-select">
+                                        <option value="15">15</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <input wire:model.debounce.300ms="search" value="{{ $search }}" type="search" class="form-control" placeholder="Cari disini...">
+                                </div>
+                                <div class="me-1">
+                                    <select wire:model="zona" class="form-select text-capitalize mb-md-0 mb-2">
+                                        <option value=""> Semua Zona</option>
+                                        @foreach($pageData['listZona'] as $key => $zona)
+                                            <option value="{{ $key }}">{{ $zona }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <select wire:model="golongan" class="form-select text-capitalize mb-md-0 mb-2">
+                                        <option value=""> Semua Golongan</option>
+                                        @foreach($pageData['listGolongan'] as $key => $gol)
+                                            <option value="{{ $key }}">{{ $gol }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <select wire:model="status" class="form-select text-capitalize mb-md-0 mb-2">
+                                        <option value=""> Semua Status</option>
+                                        @foreach($pageData['listStatus'] as $key => $status)
+                                            <option value="{{ $key }}">{{ $status }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </x-hstack>
+                        </x-grid-container>
                     </div>
-                    <div class="col-sm-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
-                        <div class="d-flex align-items-center justify-content-center justify-content-lg-end">
-                            @if($checked)
-                                <x-nav-link wire:click="$emit('triggerDelete','delete','bulk')" class="btn btn-danger waves-effect waves-float waves-light">
-                                    <span class="align-middle">Hapus Terpilih</span>
-                                </x-nav-link>
-                            @else
-                                <a href="{{ route('cetak.preview',['page' => 'pembayaran']) }}" target="_blank"
-                                   class="btn btn-secondary waves-effect waves-float waves-light me-1"
-                                   type="button">
-                                    <span>Cetak</span>
-                                </a>
-                                <a href="{{ route('transaksi.pembayaran.create') }}" class="btn btn-primary waves-effect waves-float waves-light" type="button">
-                                    <span>Buat Pembayaran</span>
-                                </a>
-                            @endif
-                        </div>
+                    <div class="col-lg-4">
+                        <x-grid-container class="d-flex justify-content-lg-end align-items-lg-end">
+                            <x-hstack>
+                                @if($checked)
+                                    <x-nav-link wire:click="$emit('triggerDelete','delete','bulk')" class="btn btn-danger waves-effect waves-float waves-light">
+                                        <span class="align-middle">Hapus Terpilih</span>
+                                    </x-nav-link>
+                                @else
+                                    {{--                                    <x-button wire:click.prevent="cetak" class="btn-success me-1">--}}
+                                    {{--                                        <i class="bx bx-printer"></i>--}}
+                                    {{--                                        <span>Cetak</span>--}}
+                                    {{--                                    </x-button>--}}
+                                    <x-nav-link href="{{ route('cetak.preview',['page' => 'pembayaran','data' => 'all']) }}" target="_blank"
+                                                class="btn btn-secondary waves-effect waves-float waves-light me-1"
+                                                type="button">
+                                        <i class="bx bx-printer"></i>
+                                        <span>Cetak</span>
+                                    </x-nav-link>
+                                    <x-nav-link href="{{ route('transaksi.pembayaran.create') }}" class="btn btn-primary waves-effect waves-float waves-light" type="button">
+                                        <i class="bx bx-plus"></i>
+                                        <span>Buat Pembayaran</span>
+                                    </x-nav-link>
+                                @endif
+                            </x-hstack>
+                        </x-grid-container>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </x-card>
+    </x-row-col>
     <!-- Filter end -->
 
     <!-- Hoverable rows start -->

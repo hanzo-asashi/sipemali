@@ -34,13 +34,14 @@ class DetailPembayaran extends Component
     {
         $listPembayaran = $this->customer->payment()->latest();
         $totalData = $listPembayaran->count();
-        $listPembayaran->paginate($this->perPage);
+        $listPembayaran = $listPembayaran->paginate($this->perPage);
         $listHistory = $this->customer->paymentHistory()->latest()->take(5)->get();
         $this->pageData = [
             'page' => $this->page,
             'pageCount' => $this->perPage,
             'totalData' => $totalData,
         ];
+//        dd($this->pageData, $listPembayaran);
         return view('livewire.transaksi.pembayaran.detail-pembayaran', compact('listPembayaran', 'listHistory'));
     }
 }

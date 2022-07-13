@@ -165,7 +165,7 @@ class PencatatanMeter extends Component
     public function storeCatatMeter(): void
     {
         $validated = Validator::make($this->state, [
-            'customer_id' => 'required|integer|unique:catat_meter,customer_id',
+            'customer_id' => 'required|integer',
             'angka_meter_baru' => 'required|integer',
             'bulan' => 'required|integer',
             'keterangan' => 'nullable|max:255',
@@ -173,7 +173,7 @@ class PencatatanMeter extends Component
 
         $validated['user_id'] = auth()->user()->id;
         $validated['status_meter'] = 1;
-        $validated['angka_meter_lama'] = $validated['angka_meter_baru'];
+        $validated['angka_meter_lama'] = 0;
 
         $create = $this->catatMeter->create($validated);
         $create->customer()->associate([
@@ -210,7 +210,7 @@ class PencatatanMeter extends Component
         $validated['status_meter'] = 1;
 
         $update = $this->catatMeter->find($this->catatMeterId);
-        $validated['angka_meter_lama'] = $update->angka_meter_lama;
+        $validated['angka_meter_lama'] = $update->angka_meter_lama === 0 ? 0 : $update->angka_meter_baru;
         $update->update($validated);
         $update->customer()->associate([
             'angka_meter_lama' => $update->angka_meter_lama,
