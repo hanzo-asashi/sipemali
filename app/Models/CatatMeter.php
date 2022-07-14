@@ -63,6 +63,17 @@ class CatatMeter extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public static function getAngkaMeterCustomerByMonth($customerId, $month): int
+    {
+        $catat = self::where('customer_id', $customerId)->where('bulan', $month)->first();
+
+        if ($catat) {
+            return $catat->angka_meter_baru;
+        }
+
+        return 0;
+    }
+
     public function scopeStatusMeter($query, $term)
     {
         return $query->where('status_meter', $term);

@@ -17,9 +17,9 @@ class ZonaTableSeeder extends Seeder
     {
 
 
-        DB::table('zona_wilayah')->delete();
+        DB::table('zona')->delete();
 
-        DB::table('zona_wilayah')->insert(array(
+        DB::table('zona')->insert(array(
             0 =>
                 array(
                     'id' => 1,

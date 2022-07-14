@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('zona_wilayah', function (Blueprint $table) {
+        Schema::create('zona', function (Blueprint $table) {
             $table->id();
             $table->string('kode', 30)->default('10')->index('kode')->unique();
             $table->string('wilayah', 60)->index('wilayah');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('zona_wilayah');
+        Schema::dropIfExists('zona');
     }
 };

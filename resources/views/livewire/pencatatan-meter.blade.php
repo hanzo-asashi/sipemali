@@ -5,91 +5,99 @@
     @isset($breadcrumb)
         <x-breadcrumb :title="$title" :breadcrumbs="$breadcrumb"/>
     @endisset
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-secondary p-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="col-sm-8 col-lg-8 d-flex justify-content-center justify-content-lg-start">
-                        <div class="me-1">
-                            <select wire:model="perPage" class="form-select">
-                                <option value="15">15</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                            </select>
-                        </div>
-                        <div class="me-1">
-                            <input wire:model.debounce.300ms="search" value="{{ $search }}" type="search" class="form-control" placeholder="Cari disini...">
-                        </div>
-                        <div class="me-1">
-                            <select wire:model="bulan" class="form-select text-capitalize mb-md-0 mb-2"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Filter Golongan">
-                                <option value=""> Semua Bulan</option>
-                                @foreach($pageData['listBulan'] as $key => $bulan)
-                                    <option value="{{ $key }}">{{ $bulan }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="me-1">
-                            <select wire:model="golongan" class="form-select text-capitalize mb-md-0 mb-2"
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Filter Golongan">
-                                <option value=""> Semua Golongan</option>
-                                @foreach($pageData['listGolongan'] as $key => $gol)
-                                    <option value="{{ $key }}">{{ $gol }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="me-1">
-                            <x-button wire:click.prevent="resetFilter" class="btn btn-icon btn-dark waves-effect waves-float waves-light"
-                                      data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Reset Filter">
-                                <i class="bx bx-reset align-middle font-size-18"></i>
-                            </x-button>
-                        </div>
+    <x-row-col>
+        <x-card class="bg-soft-light">
+            <div class="grid-container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <x-grid-container>
+                            <x-hstack>
+                                <div class="me-1">
+                                    <select wire:model="perPage" class="form-select">
+                                        <option value="15">15</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <input wire:model.debounce.300ms="search" value="{{ $search }}" type="search" class="form-control" placeholder="Cari disini...">
+                                </div>
+                                <div class="me-1">
+                                    <select wire:model="bulan" class="form-select text-capitalize mb-md-0 mb-2"
+                                            data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Filter Golongan">
+                                        <option value=""> Semua Bulan</option>
+                                        @foreach($pageData['listBulan'] as $key => $bulan)
+                                            <option value="{{ $key }}">{{ $bulan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <select wire:model="golongan" class="form-select text-capitalize mb-md-0 mb-2"
+                                            data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Filter Golongan">
+                                        <option value=""> Semua Golongan</option>
+                                        @foreach($pageData['listGolongan'] as $key => $gol)
+                                            <option value="{{ $key }}">{{ $gol }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="me-1">
+                                    <x-button wire:click.prevent="resetFilter" class="btn btn-icon btn-dark waves-effect waves-float waves-light"
+                                              data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Reset Filter">
+                                        <i class="bx bx-reset align-middle font-size-18"></i>
+                                    </x-button>
+                                </div>
+                            </x-hstack>
+                        </x-grid-container>
                     </div>
-                    <div class="col-sm-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
-                        <div class="d-flex align-items-center justify-content-center justify-content-lg-end">
-                            @if($checked)
-                                <x-nav-link wire:click="$emit('triggerDelete','delete','bulk')" class="btn btn-danger waves-effect waves-float waves-light">
-                                    <span class="align-middle">Hapus Terpilih</span>
-                                </x-nav-link>
-                            @else
-                                <a href="{{ route('cetak.preview',['page' => 'catat-meter']) }}" target="_blank"
-                                   class="btn btn-secondary waves-effect waves-float waves-light me-1"
-                                   type="button">
-                                    <span><i class="bx bx-printer mt-1"></i> Cetak</span>
-                                </a>
-                                <x-button class="btn-primary"
-                                          type="button" wire:click.prevent="addCatatMeter" wire:loading.attr="disabled">
-                                    <x-loading-button wire:target="addCatatMeter"/>
-                                    <i class="bx bx-plus mt-1"></i>
-                                    Buat Catatan Meter
-                                </x-button>
-                            @endif
-                        </div>
+                    <div class="col-lg-4">
+                        <x-grid-container class="d-flex justify-content-lg-end align-items-lg-end">
+                            <x-hstack>
+                                @if($checked)
+                                    <x-nav-link wire:click="$emit('triggerDelete','delete','bulk')" class="btn btn-danger waves-effect waves-float waves-light">
+                                        <span class="align-middle">Hapus Terpilih</span>
+                                    </x-nav-link>
+                                @else
+                                    <a href="{{ route('cetak.preview',['page' => 'catat-meter']) }}" target="_blank"
+                                       class="btn btn-secondary waves-effect waves-float waves-light me-1"
+                                       type="button">
+
+                                        <span><i class="bx bx-printer mt-1"></i> Cetak</span>
+                                    </a>
+                                    <x-button class="btn-primary"
+                                              type="button" wire:click.prevent="addCatatMeter" wire:loading.attr="disabled">
+                                        <x-loading-button wire:target="addCatatMeter"/>
+                                        <i class="bx bx-plus mt-1"></i>
+                                        Buat Catatan Meter
+                                    </x-button>
+                                @endif
+                            </x-hstack>
+                        </x-grid-container>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-responsive table-hover">
-                        <thead class="text-uppercase align-middle">
-                        <tr class="text-center">
-                            <th style="width: 2%;">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="selectAllCatatMeter" wire:model="selectAllCatatMeter" @selected($selectAllCatatMeter)>
-                                    <label class="form-check-label" for="selectAllCatatMeter"></label>
-                                </div>
-                            </th>
-                            <th style="width: 8%;">No Sambungan</th>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th style="width: 3%;">Gol</th>
-                            <th style="width: 5%;">Angka Meteran</th>
-                            <th style="width: 5%;">Periode</th>
-                            <th>Petugas</th>
+        </x-card>
+    </x-row-col>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-responsive table-hover">
+                    <thead class="text-uppercase align-middle">
+                    <tr class="text-center">
+                        <th style="width: 2%;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="selectAllCatatMeter" wire:model="selectAllCatatMeter" @selected($selectAllCatatMeter)>
+                                <label class="form-check-label" for="selectAllCatatMeter"></label>
+                            </div>
+                        </th>
+                        <th style="width: 8%;">No Sambungan</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th style="width: 3%;">Gol</th>
+                        <th style="width: 5%;">Angka Meteran</th>
+                        <th style="width: 5%;">Periode</th>
+                        <th>Petugas</th>
                         <th style="width: 10%;">Aksi</th>
                     </tr>
                     </thead>
@@ -130,7 +138,7 @@
                             <td>{{ !is_null($meter->customer) ? $meter->customer?->alamat_pelanggan : '' }}</td>
                             <td>{{ !is_null($meter->customer) ? $meter->customer?->golonganTarif?->kode_golongan : '' }}</td>
                             <td>{{ $meter->angka_meter_baru }}</td>
-                            <td>{{ \App\Utilities\Helpers::getNamaBulanIndo(5) }}</td>
+                            <td>{{ \App\Utilities\Helpers::getNamaBulanIndo($meter->bulan) }}</td>
                             <td>{{ !is_null($meter->petugas) ? $meter->petugas->name : 'N/A' }}</td>
                             <td class="text-end">
                                 @can('update_catatmeter')

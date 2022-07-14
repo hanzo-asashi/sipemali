@@ -20,7 +20,7 @@ class Zone extends Model
         'wilayah','kode',
     ];
 
-    protected $table = 'zona_wilayah';
+    protected $table = 'zona';
     public $timestamps = false;
 
     public function customer(): BelongsTo

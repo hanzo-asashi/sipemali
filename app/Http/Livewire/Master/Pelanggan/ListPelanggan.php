@@ -16,6 +16,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Cache;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -495,7 +496,7 @@ class ListPelanggan extends Component
         if ($bayar > $tagihan) {
             $sisa = $bayar - $tagihan;
         } elseif ($bayar < $tagihan) {
-            $sisa = '-' . $tagihan - $bayar;
+            $sisa = '-'.$tagihan - $bayar;
         } else {
             $sisa = 0;
         }
@@ -503,7 +504,7 @@ class ListPelanggan extends Component
         return $sisa;
     }
 
-    public function renderCustomers()
+    private function renderCustomers()
     {
         return $this->customers->search($this->search)
             ->with(['statusPelanggan', 'golonganTarif', 'zona'])
@@ -527,12 +528,17 @@ class ListPelanggan extends Component
             })
             ->orderBy('no_sambungan')
             ->fastPaginate($this->perPage);
-//            ->paginate($this->perPage);
     }
 
     public function render(): Factory|View|Application
     {
-        $listCustomers = $this->renderCustomers();
+//        $listCustomers = $this->renderCustomers();
+        if (Cache::has('list_pelanggan_cached')) {
+            $listCustomers = Cache::get('list_pelanggan_cached');
+        } else {
+            $listCustomers = Cache::add('list_pelanggan_cached', $this->renderCustomers());
+        }
+
         $this->renderPelangganCount();
 
         $listZona = Zone::pluck('wilayah', 'id');

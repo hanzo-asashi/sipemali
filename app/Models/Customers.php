@@ -30,8 +30,8 @@ class Customers extends Model
     use HasApiTokens;
 
     protected $table = 'pelanggan';
-    protected $primaryKey = 'id';
-    public $incrementing = true;
+//    protected $primaryKey = 'id';
+//    public $incrementing = true;
 //    protected $with = ['statusPelanggan','zona','golonganTarif','payment'];
 
     protected $fillable = [
@@ -75,7 +75,7 @@ class Customers extends Model
     {
         return LogOptions::defaults()
             ->useLogName('customers')
-            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} data pelanggan {$this->nama_pelanggan}")
+            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} data pelanggan {$this->nama_pelanggan}")
             ->logFillable()
             ->logOnlyDirty();
 
@@ -117,10 +117,10 @@ class Customers extends Model
         return $this->hasOneThrough(MetodeBayar::class, Payment::class, 'metode_bayar', 'id');
     }
 
-    public static function checkValidPelanggan($id): bool
+    public static function checkValidPelanggan($id): bool|int
     {
         $pelanggan = self::find($id);
-        return (bool) $pelanggan->is_valid;
+        return $pelanggan->is_valid === 1 || $pelanggan->is_valid === true;
     }
 
     public function scopePelangganDitangguhkan($query)
@@ -140,6 +140,11 @@ class Customers extends Model
     public function scopeStatusPelanggan($query, $term)
     {
         return $query->where('status_pelanggan', $term);
+    }
+
+    public function scopeValidPelanggan($query, $term)
+    {
+        return $query->where('is_valid', $term);
     }
 
     public function scopeSearch($query, $term): void

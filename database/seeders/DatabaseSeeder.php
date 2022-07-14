@@ -17,11 +17,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AddressesTableSeeder::class,
             GolonganTarifTableSeeder::class,
-            PelangganTableSeeder::class,
             StatusPembayaranSeeder::class,
             StatusSeeder::class,
             ZonaTableSeeder::class,
             MetodeBayarSeeder::class,
+            PelangganTableSeeder::class,
         ]);
     }
 }

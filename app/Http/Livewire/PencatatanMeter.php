@@ -6,9 +6,11 @@ use App\Models\CatatMeter;
 use App\Models\Customers;
 use App\Models\GolonganTarif;
 use App\Utilities\Helpers;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -121,7 +123,7 @@ class PencatatanMeter extends Component
 
     public function resetField(): void
     {
-        $this->reset('state', 'checked');
+        $this->reset('state', 'checked', 'selectedItem', 'selectedItems');
         $this->resetErrorBag();
         $this->updateMode = false;
         $this->dispatchBrowserEvent('customerId');
@@ -174,13 +176,32 @@ class PencatatanMeter extends Component
         $validated['user_id'] = auth()->user()->id;
         $validated['status_meter'] = 1;
         $validated['angka_meter_lama'] = 0;
+        $validated['periode'] = Carbon::create(now()->year, $validated['bulan'], now()->day)->format('Y-m-d H:i:s');
+
+        $check = $this->catatMeter->query()
+            ->where('customer_id', $validated['customer_id'])
+            ->where('bulan', $validated['bulan'])
+            ->first();
+
+        $angkaMeterLama = 0;
+
+        if (!is_null($check)) {
+            $angkaMeterLama = $check->angka_meter_lama;
+            if ($angkaMeterLama === 0) {
+                $angkaMeterLama = $validated['angka_meter_baru'];
+            }
+            $angkaMeterLama += $validated['angka_meter_baru'];
+        }
 
         $create = $this->catatMeter->create($validated);
-        $create->customer()->associate([
-            'angka_meter_lama' => $create->angka_meter_lama,
-            'angka_meter_baru' => $create->angka_meter_baru,
-        ]);
-//        CatatMeterCreated::dispatch($create);
+
+        if ($create) {
+            $create->customer()->associate([
+                'angka_meter_lama' => $angkaMeterLama,
+                'angka_meter_baru' => $create->angka_meter_baru,
+            ]);
+
+        }
         $this->sendNotifikasi($create);
         $this->resetField();
         $this->closeModal();
@@ -294,11 +315,10 @@ class PencatatanMeter extends Component
 //        }
 //    }
 
-    public function resetFilter()
+    public function resetFilter(): void
     {
         $this->search = '';
-//        $this->zona = '';
-//        $this->status = '';
+        $this->bulan = '';
         $this->golongan = '';
     }
 
@@ -306,14 +326,19 @@ class PencatatanMeter extends Component
     public function render(): Factory|View|Application
     {
         $listCatatMeter = $this->catatMeter->query()
-            ->with(['customer', 'customer.golonganTarif', 'petugas'])
+            ->with([
+                'customer' => static function ($query) {
+                    return $query->select('id', 'no_sambungan', 'nama_pelanggan', 'alamat_pelanggan', 'golongan_id');
+                },
+                'customer.golonganTarif', 'petugas'
+            ])
             ->search($this->search)
             ->when($this->bulan, function ($query) {
                 return $query->where('bulan', $this->bulan);
             })
             ->when($this->golongan, function ($query) {
-                $query->whereHas('customer.golonganTarif', function ($query){
-                    return $query->where('id' ,$this->golongan);
+                $query->whereHas('customer.golonganTarif', function ($query) {
+                    return $query->where('id', $this->golongan);
                 });
             })
             ->orderBy($this->orderBy, $this->direction)
@@ -323,15 +348,18 @@ class PencatatanMeter extends Component
 
         $listBulan = Helpers::list_bulan();
 
-        $listPelanggan = Customers::select('id', 'nama_pelanggan', 'no_sambungan')
-            ->get()
-            ->transform(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'nama_pelanggan' => $item->nama_pelanggan,
-                    'no_sambungan' => $item->no_sambungan,
-                ];
-            });
+        if (Cache::has('pelanggan_cached')) {
+            $listPelanggan = Cache::get('pelanggan_cached');
+        } else {
+            $listPelanggan = Cache::add('pelanggan_cached', Cache::add('pelanggan_cached', Customers::select('id', 'nama_pelanggan', 'no_sambungan')->get()
+                ->transform(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'nama_pelanggan' => $item->nama_pelanggan,
+                        'no_sambungan' => $item->no_sambungan,
+                    ];
+                })), now()->addMinutes(60));
+        }
 
         $this->pageData = [
             'page' => $this->page,
