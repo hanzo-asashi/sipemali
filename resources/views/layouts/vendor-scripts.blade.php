@@ -12,7 +12,12 @@
 <script src="{{ URL::asset('/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
 <!-- Sweet Alerts js -->
 <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
-<script src="{{ URL::asset('/assets/libs/choice-js/choice-js.min.js') }}"></script>
+{{--<script src="{{ URL::asset('/assets/libs/choice-js/choice-js.min.js') }}"></script>--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
+<!-- Scripts -->
+{{--<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>--}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{--<script src="{{ mix('assets/js/script.min.js') }}"></script>--}}
 {{--<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>--}}
 

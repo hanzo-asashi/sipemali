@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64c08ea58829340b7207e4d3dd56a822",
+    "content-hash": "89288c04031440fa19782eb32087d5f6",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -4234,6 +4234,62 @@
                 "source": "https://github.com/orangehill/iseed/tree/v3.0.2"
             },
             "time": "2022-02-11T07:31:08+00:00"
+        },
+        {
+            "name": "pharaonic/livewire-select2",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pharaonic/livewire-select2.git",
+                "reference": "bc40d89900ad2fcf9fa23b56be47c4e0141ae895"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pharaonic/livewire-select2/zipball/bc40d89900ad2fcf9fa23b56be47c4e0141ae895",
+                "reference": "bc40d89900ad2fcf9fa23b56be47c4e0141ae895",
+                "shasum": ""
+            },
+            "require": {
+                "livewire/livewire": ">=2.0",
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pharaonic\\Livewire\\Select2\\Select2ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pharaonic\\Livewire\\Select2\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Moamen Eltouny (Raggi)",
+                    "email": "raggi@raggitech.com"
+                }
+            ],
+            "description": "Simple way to handle the Select2 for livewire components.",
+            "homepage": "https://github.com/pharaonic/livewire-select2",
+            "keywords": [
+                "laravel",
+                "livewire",
+                "livewire select",
+                "livewire select2",
+                "livewire-select2"
+            ],
+            "support": {
+                "issues": "https://github.com/Pharaonic/livewire-select2/issues",
+                "source": "https://github.com/Pharaonic/livewire-select2/tree/1.1.0"
+            },
+            "time": "2022-07-10T12:23:37+00:00"
         },
         {
             "name": "phenx/php-font-lib",

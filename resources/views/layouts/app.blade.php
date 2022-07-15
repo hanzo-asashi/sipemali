@@ -62,6 +62,7 @@
 @include('layouts.vendor-scripts')
 @include('layouts.partials.feather-script')
 <x-livewire-alert::scripts/>
+<x:pharaonic-select2::scripts/>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);

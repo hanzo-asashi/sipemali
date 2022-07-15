@@ -176,85 +176,96 @@
         </div>
     </div>
 
-    {{-- Modal Tambah Status --}}
-    <x-modal :id="$modalId" :title="'Catat Meter'" :maxWidth="''" :update-mode="$updateMode">
-        <form wire:submit.prevent="{{ $updateMode ? 'updateCatatMeter' : 'storeCatatMeter' }}" class="needs-validation" novalidate>
-            <div class="modal-body">
-                <x-label for="name" :value="'Pelanggan'"/>
-                <div class="mb-1">
-                    <x-tom-select
-                        id="selectPelanggan"
-                        name="state.customer_id"
-                        wire:model="state.customer_id"
-                        :selected-items="$selectedItems"
-                        :selected-items="[$selectedItem]"
-                        :options="$listPelanggan"
-                        placeholder="Pilih Pelanggan"
-                        class="form-select"
-                        autocomplete="off"
-                    />
-                    <x-input-error :for="'customer_id'"/>
+        {{-- Modal Tambah Status --}}
+        <x-modal :id="$modalId" :title="'Catat Meter'" :maxWidth="''" :update-mode="$updateMode">
+            <form wire:submit.prevent="{{ $updateMode ? 'updateCatatMeter' : 'storeCatatMeter' }}" class="needs-validation" novalidate>
+                <div class="modal-body">
+                    <x-label for="name" :value="'Pelanggan'"/>
+                    <div class="mb-1">
+                        <div wire:ignore>
+                            <select class="form-select select2"
+                                    data-placeholder="Pilih Pelanggan"
+                                    data-parent="#{{$modalId}}"
+                                    data-pharaonic="select2"
+                                    data-component-id="{{ $this->id }}"
+                                    wire:model="state.customer_id" style="width: 100%;">
+                                @foreach($listPelanggan as $key => $value)
+                                    <option value="{{ $key }}">{{ $value }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{--                    <x-tom-select--}}
+                        {{--                        id="selectPelanggan"--}}
+                        {{--                        name="state.customer_id"--}}
+                        {{--                        wire:model="state.customer_id"--}}
+                        {{--                        :selected-items="$selectedItems"--}}
+                        {{--                        :selected-items="[$selectedItem]"--}}
+                        {{--                        :options="$listPelanggan"--}}
+                        {{--                        placeholder="Pilih Pelanggan"--}}
+                        {{--                        class="form-select"--}}
+                        {{--                        autocomplete="off"--}}
+                        {{--                    />--}}
+                        <x-input-error :for="'customer_id'"/>
+                    </div>
+
+                    <input class="form-control" wire:model.defer="state.angka_meter_lama" type="hidden">
+
+                    <x-label for="angka_meter_baru" :value="'Angka Meteran'"/>
+                    <div class="mb-1">
+                        <input class="form-control @error('angka_meter_baru') is-invalid @enderror"
+                               wire:model.defer="state.angka_meter_baru" type="text" placeholder="contoh: 1986">
+                        <x-input-error :for="'angka_meter_baru'"/>
+                    </div>
+
+                    <x-label for="bulan" :value="'Bulan'"/>
+                    <div class="mb-1">
+                        <select class="form-control @error('bulan') is-invalid @enderror"
+                                wire:model.defer="state.bulan">
+                            <option value="">Semua Bulan</option>
+                            @foreach($pageData['listBulan'] as $key => $bulan)
+                                <option value="{{ $key }}">{{ $bulan }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error :for="'bulan'"/>
+                    </div>
+                    <x-label for="keterangan" :value="'Keterangan'"/>
+                    <div class="mb-1">
+                        <input class="form-control @error('keterangan') is-invalid @enderror" wire:model.defer="state.keterangan" type="text">
+                        <x-input-error :for="'keterangan'"/>
+                    </div>
                 </div>
-
-                <input class="form-control" wire:model.defer="state.angka_meter_lama" type="hidden">
-
-                <x-label for="angka_meter_baru" :value="'Angka Meteran'"/>
-                <div class="mb-1">
-                    <input class="form-control @error('angka_meter_baru') is-invalid @enderror"
-                           wire:model.defer="state.angka_meter_baru" type="text" placeholder="contoh: 1986">
-                    <x-input-error :for="'angka_meter_baru'"/>
+                <div class="modal-footer">
+                    <x-button type="submit" class="btn-primary" wire:loading.attr="disabled">
+                        <i class="bx bx-save mt-1"></i>
+                        {{ $updateMode ? 'Update' : 'Simpan' }}
+                    </x-button>
+                    <x-button type="button" wire:click.prevent="$emit('resetField')" data-bs-dismiss="modal" class="btn btn-danger">
+                        <i class="bx bx-x mt-1"></i>
+                        Batal
+                    </x-button>
                 </div>
+            </form>
+        </x-modal>
 
-                <x-label for="bulan" :value="'Bulan'"/>
-                <div class="mb-1">
-                    <select class="form-control @error('bulan') is-invalid @enderror"
-                           wire:model.defer="state.bulan">
-                        <option value="">Semua Bulan</option>
-                        @foreach($pageData['listBulan'] as $key => $bulan)
-                            <option value="{{ $key }}">{{ $bulan }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :for="'bulan'"/>
-                </div>
-                <x-label for="keterangan" :value="'Keterangan'"/>
-                <div class="mb-1">
-                    <input class="form-control @error('keterangan') is-invalid @enderror" wire:model.defer="state.keterangan" type="text">
-                    <x-input-error :for="'keterangan'"/>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <x-button type="submit" class="btn-primary" wire:loading.attr="disabled">
-                    <i class="bx bx-save mt-1"></i>
-                    {{ $updateMode ? 'Update' : 'Simpan' }}
-                </x-button>
-                <x-button type="button" wire:click.prevent="$emit('resetField')" data-bs-dismiss="modal" class="btn btn-danger">
-                    <i class="bx bx-x mt-1"></i>
-                    Batal
-                </x-button>
-            </div>
-        </form>
-    </x-modal>
+        <!-- Hoverable rows end -->
+        @push('script')
+            <script>
+                // $('.select2').select2({
+                //     theme: 'bootstrap-5'
+                // });
+                window.addEventListener('openModal', event => {
+                    $('#{{ $modalId }}').modal('show');
+                    // $('#modal-catatmeter').modal('show');
+                })
+                window.addEventListener('closeModal', event => {
+                    $('#{{ $modalId }}').modal('hide');
+                    // $('#modal-catatmeter').modal('hide');
+                })
 
-    <!-- Hoverable rows end -->
-    @push('script')
-        <script>
-            window.addEventListener('openModal', event => {
-                {{--$('#{{ $modalId }}').modal('show');--}}
-                $('#modal-catatmeter').modal('show');
-            })
-            window.addEventListener('closeModal', event => {
-{{--                $('#{{ $modalId }}').modal('hide');--}}
-                $('#modal-catatmeter').modal('hide');
-            })
-
-            /* Clear selection pelanggan */
-            // window.addEventListener('clearPelanggan', event => {
-            //     TomSelect('#selectPelanggan').clear();
-            //     $('#selectPelanggan').clear();
-            // });
-            // window.addEventListener('customerId', event => {
-            //     TomSelect('#selectPelanggan').clear();
-            // });
-        </script>
-    @endpush
+                /* Clear selection pelanggan */
+                window.addEventListener('clearPelanggan', event => {
+                    $('.select2').val(null).trigger('change');
+                });
+            </script>
+        @endpush
 </div>

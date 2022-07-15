@@ -10,7 +10,6 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -126,7 +125,7 @@ class PencatatanMeter extends Component
         $this->reset('state', 'checked', 'selectedItem', 'selectedItems');
         $this->resetErrorBag();
         $this->updateMode = false;
-        $this->dispatchBrowserEvent('customerId');
+        $this->dispatchBrowserEvent('clearPelanggan');
     }
 
     public function updating(): void
@@ -144,8 +143,8 @@ class PencatatanMeter extends Component
         $this->updateMode = true;
         $catatMeter = $this->catatMeter->find($id);
         $this->catatMeterId = $catatMeter->id ?? $id;
-        $this->state['customer_id'] = [$catatMeter->customer_id];
-        $this->selectedItems = [(int) $catatMeter->customer_id];
+        $this->state['customer_id'] = (int) $catatMeter->customer_id;
+//        $this->selectedItems = [(int) $catatMeter->customer_id];
         $this->selectedItem = (int) $catatMeter->customer_id;
         $this->state['user_id'] = $catatMeter->user_id;
         $this->state['angka_meter_lama'] = $catatMeter->angka_meter_lama;
@@ -153,7 +152,8 @@ class PencatatanMeter extends Component
         $this->state['status_meter'] = $catatMeter->status_meter;
         $this->state['bulan'] = $catatMeter->bulan;
         $this->state['keterangan'] = $catatMeter->keterangan;
-        $this->openModal(['state' => $this->state, 'selectedItem' => $this->selectedItem]);
+
+        $this->openModal(['state' => $this->state]);
     }
 
     public function addCatatMeter(): void
@@ -161,7 +161,7 @@ class PencatatanMeter extends Component
         $this->updateMode = false;
         $this->resetField();
         $this->openModal();
-        $this->emit('clearPelanggan');
+        $this->dispatchBrowserEvent('clearPelanggan');
     }
 
     public function storeCatatMeter(): void
@@ -348,18 +348,27 @@ class PencatatanMeter extends Component
 
         $listBulan = Helpers::list_bulan();
 
-        if (Cache::has('pelanggan_cached')) {
-            $listPelanggan = Cache::get('pelanggan_cached');
-        } else {
-            $listPelanggan = Cache::add('pelanggan_cached', Cache::add('pelanggan_cached', Customers::select('id', 'nama_pelanggan', 'no_sambungan')->get()
-                ->transform(function ($item) {
-                    return [
-                        'id' => $item->id,
-                        'nama_pelanggan' => $item->nama_pelanggan,
-                        'no_sambungan' => $item->no_sambungan,
-                    ];
-                })), now()->addMinutes(60));
-        }
+//        if (Cache::has('pelanggan_cached')) {
+//            $listPelanggan = Cache::get('pelanggan_cached');
+//        } else {
+//            $listPelanggan = Cache::add('pelanggan_cached', Cache::add('pelanggan_cached', Customers::select('id', 'nama_pelanggan', 'no_sambungan')->get()
+//                ->transform(function ($item) {
+//                    return [
+//                        'id' => $item->id,
+//                        'nama_pelanggan' => $item->nama_pelanggan,
+//                        'no_sambungan' => $item->no_sambungan,
+//                    ];
+//                })), now()->addMinutes(60));
+//        }
+
+//        if (Cache::has('pelanggan_cached')) {
+//            $listPelanggan = Cache::get('pelanggan_cached');
+//        } else {
+//            $listPelanggan = Cache::add('pelanggan_cached',
+//                Cache::add('pelanggan_cached', Customers::pluck('nama_pelanggan', 'id')), now()->addMinutes(60));
+//        }
+
+        $listPelanggan = Customers::pluck('nama_pelanggan', 'id');
 
         $this->pageData = [
             'page' => $this->page,

@@ -1,140 +1,142 @@
 @extends('layouts.app')
 @section('title', 'Laporan Daftar Rekening Ditagih (DRD)')
-@push('page-style')
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/base/plugins/forms/pickers/form-flat-pickr.css') }}">
 @endpush
 @section('content')
-{{--    <livewire:laporan.form-rekening-ditagih />--}}
-<div class="row">
-    <div class="col-md-6 col-4">
-        <div class="card">
-            {{--                <div class="card-header">--}}
-            {{--                    <h4 class="card-title">Horizontal Form</h4>--}}
-            {{--                </div>--}}
-            <div class="card-body">
-                <form class="form form-horizontal" action="{{ route('laporan.daftar-rekening-ditagih') }}">
+    {{--    <livewire:laporan.form-rekening-ditagih/>--}}
+    {{--    <div class="row">--}}
+    {{--        <div class="col-12">--}}
+    {{--            <div class="col-md-6 col-4">--}}
+    {{--                <div class="card">--}}
+    {{--                    --}}{{--                <div class="card-header">--}}
+    {{--                    --}}{{--                    <h4 class="card-title">Horizontal Form</h4>--}}
+    {{--                    --}}{{--                </div>--}}
+    {{--                    <div class="card-body">--}}
+    {{--                        <form class="form form-horizontal" action="{{ route('laporan.daftar-rekening-ditagih') }}">--}}
+    {{--                            <div class="row">--}}
+    {{--                                <div class="col-12">--}}
+    {{--                                    <div class="mb-3 row">--}}
+    {{--                                        <div class="col-sm-3">--}}
+    {{--                                            <label class="col-form-label" for="first-name">Periode</label>--}}
+    {{--                                        </div>--}}
+    {{--                                        <div class="col-sm-9">--}}
+    {{--                                            <input name="filter[periode_range]" data-input--}}
+    {{--                                                   type="text"--}}
+    {{--                                                   id="fp-range"--}}
+    {{--                                                   value="{{ $filter['periode_range'] ?? '' }}"--}}
+    {{--                                                   class="form-control flatpickr-input flatpickr-range"--}}
+    {{--                                                   placeholder="YYYY-MM-DD to YYYY-MM-DD"--}}
+    {{--                                            />--}}
+    {{--                                        </div>--}}
+    {{--                                    </div>--}}
+    {{--                                </div>--}}
+    {{--                                <div class="col-12">--}}
+    {{--                                    <div class="mb-3 row">--}}
+    {{--                                        <div class="col-sm-3">--}}
+    {{--                                            <label class="col-form-label" for="email-id">Zona</label>--}}
+    {{--                                        </div>--}}
+    {{--                                        <div class="col-sm-9">--}}
+    {{--                                            <select class="form-select" name="filter[zona]">--}}
+    {{--                                                <option value="">Pilih Zona</option>--}}
+    {{--                                                @foreach($listZona as $kode => $wilayah)--}}
+    {{--                                                    <option value="{{ $kode }}">{{ $wilayah }}</option>--}}
+    {{--                                                @endforeach--}}
+    {{--                                            </select>--}}
+    {{--                                        </div>--}}
+    {{--                                    </div>--}}
+    {{--                                </div>--}}
+    {{--                                <div class="col-12">--}}
+    {{--                                    <div class="mb-3 row">--}}
+    {{--                                        <div class="col-sm-3">--}}
+    {{--                                            <label class="col-form-label" for="contact-info">Golongan Tarif</label>--}}
+    {{--                                        </div>--}}
+    {{--                                        <div class="col-sm-9">--}}
+    {{--                                            <select class="form-select" name="filter[golongan]">--}}
+    {{--                                                <option value="">Pilih Golongan</option>--}}
+    {{--                                                @foreach($listGolongan as $kode => $golongan)--}}
+    {{--                                                    <option value="{{ $kode }}">{{ $golongan }}</option>--}}
+    {{--                                                @endforeach--}}
+    {{--                                            </select>--}}
+    {{--                                        </div>--}}
+    {{--                                    </div>--}}
+    {{--                                </div>--}}
+    {{--                                <div class="col-sm-9 offset-sm-3">--}}
+    {{--                                    <button type="submit" class="btn btn-primary me-1">Cetak</button>--}}
+    {{--                                    <button type="reset" class="btn btn-outline-secondary">Reset</button>--}}
+    {{--                                </div>--}}
+    {{--                            </div>--}}
+    {{--                        </form>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-secondary">
+                <div class="card-body p-2">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="mb-1 row">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label" for="first-name">Periode</label>
+                        <div class="col-md-8">
+                            <form action="{{ route('laporan.daftar-rekening-ditagih') }}">
+                                <div class="d-flex flex-wrap align-items-center gap-2">
+                                    <div class="col-md-3">
+                                        <input name="filter[periode_range]" data-input
+                                               type="text"
+                                               id="fp-range"
+                                               value="{{ $filter['periode_range'] ?? '' }}"
+                                               class="form-control flatpickr-input flatpickr-range"
+                                               placeholder="YYYY-MM-DD to YYYY-MM-DD"
+                                        />
+                                        {{--                                        <x-inputs.flatpickr name="periode_range" :value="$filter['periode_range'] ?? ''"/>--}}
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-select" name="filter[zona]">
+                                            <option value="">Pilih Zona</option>
+                                            @foreach($listZona as $kode => $wilayah)
+                                                <option value="{{ $kode }}">{{ $wilayah }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <select class="form-select" name="filter[golongan]">
+                                            <option value="">Pilih Golongan</option>
+                                            @foreach($listGolongan as $kode => $golongan)
+                                                <option value="{{ $kode }}">{{ $golongan }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <x-button title="Filter" type="submit" class="btn-light"><i class="mdi mdi-filter-variant-plus"></i></x-button>
+                                    </div>
+                                    <div>
+                                        <x-button title="Reset Filter" id="btnReset" class="btn-light"><i class="mdi mdi-format-clear"></i></x-button>
+                                    </div>
                                 </div>
-                                <div class="col-sm-9">
-                                    <input name="filter[periode_range]" data-input
-                                           type="text"
-                                           id="fp-range"
-                                           value="{{ $filter['periode_range'] ?? '' }}"
-                                           class="form-control flatpickr-input flatpickr-range"
-                                           placeholder="YYYY-MM-DD to YYYY-MM-DD"
-                                    />
+                            </form>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex flex-wrap align-items-center justify-content-end gap-1">
+                                <div>
+                                    <x-nav-link href="{{ route('export.index', ['page' => $page, 'periode' => $periode]) }}" target="_blank" class="btn btn-success">
+                                        <i class="mdi mdi-file-excel-box-outline"></i> Excel
+                                    </x-nav-link>
+                                </div>
+                                <div>
+                                    <x-nav-link href="{{ route('cetak.preview', [
+                                        'page' => $page, 'periode' => $periode, 'pelanggan' => $pelanggan, 'pembayaran' => $pembayaran,'filterZona' => $filterZona
+                                        ]) }}"
+                                                target="_blank" class="btn btn-primary">
+                                        <i class="mdi mdi-printer"></i> Cetak
+                                    </x-nav-link>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-1 row">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label" for="email-id">Zona</label>
-                                </div>
-                                <div class="col-sm-9">
-                                    <select class="form-select" name="filter[zona]">
-                                        <option value="">Pilih Zona</option>
-                                        @foreach($listZona as $kode => $wilayah)
-                                            <option value="{{ $kode }}">{{ $wilayah }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mb-1 row">
-                                <div class="col-sm-3">
-                                    <label class="col-form-label" for="contact-info">Golongan Tarif</label>
-                                </div>
-                                <div class="col-sm-9">
-                                    <select class="form-select" name="filter[golongan]">
-                                        <option value="">Pilih Golongan</option>
-                                        @foreach($listGolongan as $kode => $golongan)
-                                            <option value="{{ $kode }}">{{ $golongan }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-9 offset-sm-3">
-                            <button type="submit" class="btn btn-primary me-1">Cetak</button>
-                            <button type="reset" class="btn btn-outline-secondary">Reset</button>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{{--    <div class="row">--}}
-{{--        <div class="col-12">--}}
-{{--            <div class="card border-secondary">--}}
-{{--                <div class="card-body p-1">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-8">--}}
-{{--                            <form action="{{ route('laporan.daftar-rekening-ditagih') }}">--}}
-{{--                                <div class="d-flex flex-wrap align-items-center gap-1">--}}
-{{--                                    <div class="col-md-3">--}}
-{{--                                        <input name="filter[periode_range]" data-input--}}
-{{--                                               type="text"--}}
-{{--                                               id="fp-range"--}}
-{{--                                               value="{{ $filter['periode_range'] ?? '' }}"--}}
-{{--                                               class="form-control flatpickr-input flatpickr-range"--}}
-{{--                                               placeholder="YYYY-MM-DD to YYYY-MM-DD"--}}
-{{--                                        />--}}
-{{--                                        <x-inputs.flatpickr name="periode_range" :value="$filter['periode_range'] ?? ''" />--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-md-2">--}}
-{{--                                        <select class="form-select" name="filter[zona]">--}}
-{{--                                            <option value="">Pilih Zona</option>--}}
-{{--                                            @foreach($listZona as $kode => $wilayah)--}}
-{{--                                                <option value="{{ $kode }}">{{ $wilayah }}</option>--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="col-md-2">--}}
-{{--                                        <select class="form-select" name="filter[golongan]">--}}
-{{--                                            <option value="">Pilih Golongan</option>--}}
-{{--                                           @foreach($listGolongan as $kode => $golongan)--}}
-{{--                                                <option value="{{ $kode }}">{{ $golongan }}</option>--}}
-{{--                                           @endforeach--}}
-{{--                                        </select>--}}
-{{--                                    </div>--}}
-{{--                                    <div>--}}
-{{--                                        <button type="submit" class="btn btn-primary">Filter</button>--}}
-{{--                                    </div>--}}
-{{--                                    <div>--}}
-{{--                                        <button id="btnReset" class="btn btn-info">Reset</button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-4">--}}
-{{--                            <div class="d-flex flex-wrap align-items-center justify-content-end gap-1">--}}
-{{--                                <div>--}}
-{{--                                    <a href="{{ route('export.index', ['page' => $page, 'periode' => $periode]) }}" target="_blank" class="btn btn-success">--}}
-{{--                                        <i class="far fa-file-excel"></i>--}}
-{{--                                    </a>--}}
-{{--                                </div>--}}
-{{--                                <div>--}}
-{{--                                    <a href="{{ route('cetak.preview', [--}}
-{{--                                        'page' => $page, 'periode' => $periode, 'pelanggan' => $pelanggan, 'pembayaran' => $pembayaran,'filterZona' => $filterZona--}}
-{{--                                        ]) }}"--}}
-{{--                                       target="_blank" class="btn btn-primary">--}}
-{{--                                        <i class="far fa-print"></i>--}}
-{{--                                    </a>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
     <div class="row">
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -183,14 +185,16 @@
                     </tr>
                 @endforeach
                 @empty
-                    <tr><td colspan="8">Data Tidak ditemukan</td></tr>
+                    <tr>
+                        <td colspan="8" class="text-center text-info">Maaf, data Tidak ditemukan. Silahkan menginput data terlebih dahulu.</td>
+                    </tr>
                 @endforelse
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
-@push('page-script')
+@push('script')
     <script>
         const rangePickr = $('.flatpickr-range');
         if (rangePickr.length) {
