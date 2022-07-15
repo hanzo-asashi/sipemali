@@ -11,16 +11,18 @@ class LandingController extends Controller
 {
     public function index()
     {
-        $totalWajibPajak = Customers::all()->count();
-        $totalObjekPajak = Customers::where(['is_valid' => 1, 'status_pelanggan' => 1])->count();
-        $totalTargetPajak = Payment::where('status_pembayaran', 1)->sum('total_tagihan');
-        $totalRealisasiPajak = Payment::where('status_pembayaran', 2)->sum('total_bayar');
+        $totalSemuaPelanggan = Customers::all()->count();
+        $totalPelangganAktif = Customers::where('status_pelanggan', 1)->count();
+        $totalPelangganValid = Customers::where(['is_valid' => 1, 'status_pelanggan' => 1])->count();
+        $totalPendapatan = Payment::where('status_pembayaran', 1)->sum('total_tagihan');
+        $totalTertunggak = Payment::where('status_pembayaran', 2)->sum('total_bayar');
 
         $data = [
-            'totalWajibPajak' => $totalWajibPajak,
-            'totalObjekPajak' => $totalObjekPajak,
-            'totalTargetPajak' => $totalTargetPajak,
-            'totalRealisasiPajak' => $totalRealisasiPajak
+            'totalSemuaPelanggan' => $totalSemuaPelanggan,
+            'totalPelangganAktif' => $totalPelangganAktif,
+            'totalPelangganValid' => $totalPelangganValid,
+            'totalPendapatan' => $totalPendapatan,
+            'totalTertunggak' => $totalTertunggak
         ];
 
         return view('landing.index', compact('data'));
