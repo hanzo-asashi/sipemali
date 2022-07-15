@@ -15,7 +15,7 @@
         </ul>
         <!-- end bubble effect -->
         <div class="row justify-content-center align-items-center">
-            <div class="col-xl-12">
+            <div id="vanta" class="col-xl-12">
                 <div class="p-0 p-sm-4 px-xl-0 text-center" style="margin-top: 13%;">
                     <img src="{{ asset('assets/images/logo/logo-soppeng.png') }}" width="160px" class="mb-3">
                     <h5>KABUPATEN SOPPENG</h5>

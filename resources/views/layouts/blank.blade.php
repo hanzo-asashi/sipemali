@@ -39,16 +39,23 @@
             background-size: cover;
             background-repeat: no-repeat;
         }
+
         .auth-bg {
             background-image: url("../../assets/images/bg-kolutkab.jpg");
             background-position: center;
             background-size: cover;
-            background-repeat: no-repeat; }
+            background-repeat: no-repeat;
+        }
+
         .auth-bg .bg-overlay {
-            opacity: 0.9; }
+            opacity: 0.9;
+        }
+
         @media (min-width: 768px) {
             .auth-bg {
-                height: 100vh; } }
+                height: 100vh;
+            }
+        }
     </style>
     {!! ReCaptcha::htmlScriptTagJsApi() !!}
 </head>
@@ -58,5 +65,31 @@
 @yield('content')
 @include('layouts.vendor-script-without-nav')
 @livewireScripts
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.birds.min.js"></script>
+<script>
+    VANTA.BIRDS({
+        el: "#vanta",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: true,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        colorMode: "variance",
+        birdSize: 1.60,
+        // color1: 0xcdb60a,
+        // color2: 0xff2d00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        wingSpan: 40.00,
+        speedLimit: 10.00,
+        separation: 67.00,
+        alignment: 18.00,
+        cohesion: 10.00,
+        quantity: 3.00,
+        backgroundAlpha: 0.00,
+        backgroundColor: 0.00,
+    })
+</script>
 </body>
 </html>

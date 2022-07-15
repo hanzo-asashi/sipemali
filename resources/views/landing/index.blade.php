@@ -3,7 +3,7 @@
 @section('title', 'Landing Page')
 
 @section('content')
-
+{{--    <div id="vanta"></div>--}}
     <div class="bg-soft-light min-vh-100 pt-3">
         <div class="pt-3">
             <div class="container d-none d-lg-block">
@@ -24,7 +24,7 @@
 
             <div class="container-fluid">
                 <div class="row mt-3">
-                    <div class="col-xl-8 bg-gradient bg-soft-light bg-card-img">
+                    <div id="vanta" class="col-xl-8 bg-gradient bg-soft-light bg-card-img">
                         <div class="text-center text-white p-4 pt-5">
                             <img style="width: 300px;height: 100%;" src="{{ asset('assets/images/app-name.png') }}" alt=""/>
                             <p class="mt-3 mb-1">SISTEM ELEKTRONIK</p>
@@ -53,7 +53,7 @@
                                 </div>
                             </form>
                         </div>
-{{--                        <livewire:tracking-pembayaran />--}}
+                        {{--                        <livewire:tracking-pembayaran />--}}
                     </div>
                 </div>
             </div>
@@ -123,6 +123,7 @@
             </div>
         </div>
     </div>
-    <!-- end  -->
+
+<!-- end  -->
 
 @endsection
