@@ -5,6 +5,7 @@ namespace App\Concerns;
 use Arr;
 use Illuminate\Auth\Access\AuthorizationException;
 use Request;
+use Symfony\Component\HttpFoundation\Response;
 
 trait Authorizable
 {
@@ -27,10 +28,10 @@ trait Authorizable
      *
      * @param $method
      * @param $parameters
-     * @return mixed
+     * @return Response
      * @throws AuthorizationException
      */
-    public function callAction($method, $parameters): mixed
+    public function callAction($method, $parameters): Response
     {
         if ($ability = $this->getAbility($method)) {
             $this->authorize($ability);
@@ -39,10 +40,9 @@ trait Authorizable
         return parent::callAction($method, $parameters);
     }
 
-    public function getAbility(
-        $method
-    ): ?string {
-        $routeName = explode('.', Request::route()->getName());
+    public function getAbility($method): ?string
+    {
+        $routeName = explode('.', Request::route()?->getName());
         $action = Arr::get($this->getAbilities(), $method);
 
         return $action ? $action.' '.$routeName[0] : null;

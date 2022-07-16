@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Concerns\HasBulkAction;
+use App\Concerns\WithModal;
+use App\Concerns\WithTitle;
 use App\Models\CatatMeter;
 use App\Models\Customers;
 use App\Models\GolonganTarif;
@@ -17,12 +20,12 @@ use Livewire\WithPagination;
 
 class PencatatanMeter extends Component
 {
-    use WithPagination;
-    use LivewireAlert;
+    use WithPagination, LivewireAlert, WithTitle, WithModal, HasBulkAction;
 
     protected string $paginationTheme = 'bootstrap';
 
     public CatatMeter $catatMeter;
+    public $catatMeterId;
 
     public int $perPage = 15;
     public string $orderBy = 'id';
@@ -39,22 +42,9 @@ class PencatatanMeter extends Component
     ];
 
     public array $pageData = [];
-    public array $checked = [];
     public array $state = [];
-    public array $selectedItems = [];
-    public $selectedItem;
-    public bool $isChecked = false;
-    public bool $selectAllCatatMeter = false;
     public bool $updateMode = false;
-    public bool $selectAllMeter = false;
     public string $deleteTipe = 'single';
-
-    public $catatMeterId;
-
-    public string $title = 'List Pencatatan Meter';
-    public bool $show = true;
-    public string $modalId = 'modal-catatmeter';
-    public array $breadcrumb = [];
 
     protected $listeners = [
         'delete',
@@ -72,57 +62,25 @@ class PencatatanMeter extends Component
 
     public function confirmed(): void
     {
-        $this->delete($this->catatMeterId, $this->deleteTipe);
+        $this->delete($this->catatMeterId ?: $this->modelId, $this->deleteTipe);
     }
 
     public function mount(CatatMeter $catatMeter): void
     {
+        $this->setTitle('List Pencatatan Meter');
+        $this->breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->getTitle()]];
         $this->catatMeter = $catatMeter;
-        $this->breadcrumb = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->title]];
+        $this->model = $catatMeter;
     }
 
     public function updatedStateCustomerId($value): void
     {
-        $this->state['customer_id'] = $value;
-        $this->selectedItem = (int) $value;
-    }
-
-    public function isChecked($id): bool
-    {
-        $this->catatMeterId = $id;
-        return in_array($id, $this->checked, true);
-    }
-
-    public function selectAllData(): void
-    {
-        $this->selectAllMeter = true;
-        $this->checked = $this->catatMeter->pluck('id')->toArray();
-    }
-
-    public function updatedSelectAllCatatMeter($value): void
-    {
-        $this->checked = [];
-        $this->isChecked = false;
-        $this->selectAllMeter = false;
-
-        if ($value) {
-            $this->checked = $this->catatMeter->query()
-                ->pluck('id')
-                ->forPage($this->page, $this->perPage)
-                ->toArray();
-        }
-    }
-
-    public function resetCheckbox(): void
-    {
-        $this->checked = [];
-        $this->selectAllMeter = false;
-        $this->selectAllCatatMeter = false;
+        $this->state['customer_id'] = (int) $value;
     }
 
     public function resetField(): void
     {
-        $this->reset('state', 'checked', 'selectedItem', 'selectedItems');
+        $this->reset('state', 'selectedRows', 'selectedRow');
         $this->resetErrorBag();
         $this->updateMode = false;
         $this->dispatchBrowserEvent('clearPelanggan');
@@ -144,16 +102,14 @@ class PencatatanMeter extends Component
         $catatMeter = $this->catatMeter->find($id);
         $this->catatMeterId = $catatMeter->id ?? $id;
         $this->state['customer_id'] = (int) $catatMeter->customer_id;
-//        $this->selectedItems = [(int) $catatMeter->customer_id];
-        $this->selectedItem = (int) $catatMeter->customer_id;
         $this->state['user_id'] = $catatMeter->user_id;
         $this->state['angka_meter_lama'] = $catatMeter->angka_meter_lama;
         $this->state['angka_meter_baru'] = $catatMeter->angka_meter_baru;
         $this->state['status_meter'] = $catatMeter->status_meter;
         $this->state['bulan'] = $catatMeter->bulan;
         $this->state['keterangan'] = $catatMeter->keterangan;
-
-        $this->openModal(['state' => $this->state]);
+        $this->options = ['state' => $this->state];
+        $this->openModal();
     }
 
     public function addCatatMeter(): void
@@ -202,19 +158,10 @@ class PencatatanMeter extends Component
             ]);
 
         }
-        $this->sendNotifikasi($create);
+        $this->sendNotifikasi($create, 'Catat Meter');
         $this->resetField();
         $this->closeModal();
         $this->dispatchBrowserEvent('clearPelanggan');
-    }
-
-    public function sendNotifikasi($model): void
-    {
-        if ($model) {
-            $this->alert('success', 'Catat Meter Berhasil Disimpan');
-        } else {
-            $this->alert('danger', 'Catat Meter Gagal Disimpan');
-        }
     }
 
     public function updateCatatMeter(): void
@@ -237,7 +184,7 @@ class PencatatanMeter extends Component
             'angka_meter_lama' => $update->angka_meter_lama,
             'angka_meter_baru' => $update->angka_meter_baru,
         ]);
-        $this->sendNotifikasi($update);
+        $this->sendNotifikasi($update, 'Catatan Meter');
         $this->resetField();
         $this->closeModal();
         $this->dispatchBrowserEvent('clearPelanggan');
@@ -246,6 +193,7 @@ class PencatatanMeter extends Component
     public function destroy($id, $tipe): void
     {
         $this->catatMeterId = $id;
+        $this->modelId = $id;
         $this->deleteTipe = $tipe;
 
         $this->confirm('Anda yakin ingin menghapus ??', [
@@ -256,8 +204,8 @@ class PencatatanMeter extends Component
     public function delete($id, $tipe): void
     {
         if ($tipe === 'bulk') {
-            $delete = $this->catatMeter->whereKey($this->checked)->delete();
-            $this->checked = [];
+            $delete = $this->catatMeter->whereKey($this->selectedRows)->delete();
+            $this->selectedRows = [];
         } else {
             $delete = $this->catatMeter->findOrFail($id)->delete();
         }
@@ -269,51 +217,6 @@ class PencatatanMeter extends Component
         }
     }
 
-//    public function delete($id, $tipe)
-//    {
-//        if ('bulk' === $tipe) {
-//            $delete = $this->catatMeter->query()->whereKey($this->checked)->delete();
-//            $this->checked = [];
-//        } else {
-//            $delete = $this->catatMeter->findOrFail($id)->delete();
-//        }
-//        $this->sendNotifikasi($delete, 'sendNotif');
-//    }
-
-//    private function alert($options = false, $event = 'notifikasi')
-//    {
-//        $options = ($options && is_array($options)) ? $options : [];
-//        $this->dispatchBrowserEvent($event, $options);
-//    }
-
-    private function closeModal($options = false): void
-    {
-        $options = ($options && is_array($options)) ? $options : [];
-        $this->dispatchBrowserEvent('closeModal', $options);
-    }
-
-    private function openModal($options = false): void
-    {
-        $options = ($options && is_array($options)) ? $options : [];
-        $this->dispatchBrowserEvent('openModal', $options);
-    }
-
-//    private function sendNotifikasi($model, $event = 'notifikasi')
-//    {
-//        if ($model) {
-//            $this->alert([
-//                'type' => 'success',
-//                'title' => 'Berhasil!!',
-//                'message' => 'Data berhasil disimpan',
-//            ], $event);
-//        } else {
-//            $this->alert([
-//                'type' => 'error',
-//                'title' => 'Gagal!!',
-//                'message' => 'Data gagal dihapus',
-//            ], $event);
-//        }
-//    }
 
     public function resetFilter(): void
     {

@@ -2,8 +2,8 @@
     @section('title') {{ $title }} @endsection
     @push('css')
     @endpush
-    @isset($breadcrumb)
-        <x-breadcrumb :title="$title" :breadcrumbs="$breadcrumb"/>
+    @isset($breadcrumbs)
+        <x-breadcrumb :title="$title" :breadcrumbs="$breadcrumbs"/>
     @endisset
     <x-row-col>
         <x-card class="bg-soft-light">
@@ -53,7 +53,7 @@
                     <div class="col-lg-4">
                         <x-grid-container class="d-flex justify-content-lg-end align-items-lg-end">
                             <x-hstack>
-                                @if($checked)
+                                @if($selectedRows)
                                     <x-nav-link wire:click="$emit('triggerDelete','delete','bulk')" class="btn btn-danger waves-effect waves-float waves-light">
                                         <span class="align-middle">Hapus Terpilih</span>
                                     </x-nav-link>
@@ -87,8 +87,8 @@
                     <tr class="text-center">
                         <th style="width: 2%;">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="selectAllCatatMeter" wire:model="selectAllCatatMeter" @selected($selectAllCatatMeter)>
-                                <label class="form-check-label" for="selectAllCatatMeter"></label>
+                                <input class="form-check-input" id="selectAllRows" type="checkbox" wire:model="selectAllRows" @selected($selectAllRows)>
+                                <label class="form-check-label" for="selectAllRows"></label>
                             </div>
                         </th>
                         <th style="width: 8%;">No Sambungan</th>
@@ -102,17 +102,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @if($checked)
+                    @if($selectedRows)
                         <tr>
                             <td colspan="8">
                                     <span class="text-dark font-medium-1 py-5">Terpilih
-                                        <span class="badge badge-light-danger font-semibold">{{ count($checked) }}</span>
+                                        <span class="badge badge-soft-danger font-semibold">{{ count($selectedRows) }}</span>
                                         dari {{ $pageData['totalData'] }} data.
-                                        @if (!$selectAllMeter)
+                                        @if (!$selectAllRows)
                                             <a href="#" wire:click.prevent="selectAllData">Pilih Semua data. </a>
                                         @else
                                             <button type="button" class="btn btn-sm btn-danger waves-float waves-effect waves-light"
-                                                    wire:click.prevent="resetCheckbox">
+                                                    wire:click.prevent="resetSelectedRows">
                                                 Batalkan Terpilih
                                             </button>
                                             <button type="button" class="btn btn-sm btn-success waves-float waves-effect waves-light"
@@ -125,11 +125,11 @@
                         </tr>
                     @endif
                     @forelse($listCatatMeter as $meter)
-                        <tr class="text-center {{ $this->isChecked($meter->id) ? 'bg-light' : '' }}">
+                        <tr class="text-center">
                             <td>
                                 <div class="form-check">
                                     <input id="list-meter-{{ $meter->id }}" value="{{ $meter->id }}" class="form-check-input" type="checkbox"
-                                           wire:model="checked" wire:key="meter{{ $meter->id }}"/>
+                                           wire:model="selectedRows" wire:key="meter{{ $meter->id }}"/>
                                     <label class="form-check-label" for="list-meter-{{ $meter->id }}"></label>
                                 </div>
                             </td>
