@@ -16,11 +16,12 @@ class Tunggakan extends Model
     use HasFactory, LogsActivity;
 
     public $table = 'tunggakan';
+
 //    public $timestamps = false;
     protected $fillable = [
-        'pembayaran_id', 'tgl_bayar', 'tgl_jatuh_tempo', 'lama_tunggakan', 'jumlah_tagihan', 'jumlah_bayar', 'denda'
-        , 'total_tagihan', 'sisa_bayar', 'tagihan_ke', 'status_tunggakan'
+        'pembayaran_id', 'tgl_bayar', 'tgl_jatuh_tempo', 'lama_tunggakan', 'jumlah_tagihan', 'jumlah_bayar', 'denda', 'total_tagihan', 'sisa_bayar', 'tagihan_ke', 'status_tunggakan',
     ];
+
     protected $casts = [
         'tgl_bayar' => 'datetime',
         'tgl_jatuh_tempo' => 'datetime',
@@ -30,7 +31,7 @@ class Tunggakan extends Model
     {
         return LogOptions::defaults()
             ->useLogName('Tunggakan')
-            ->setDescriptionForEvent(fn($eventName) => "{$eventName} tunggakan dengan pembayaran ID: {$this->payment_id}, Total Tagihan: Rp. {$this->total_tagihan}, Denda: Rp. {$this->denda}")
+            ->setDescriptionForEvent(fn ($eventName) => "{$eventName} tunggakan dengan pembayaran ID: {$this->payment_id}, Total Tagihan: Rp. {$this->total_tagihan}, Denda: Rp. {$this->denda}")
             ->logFillable()
             ->logOnlyDirty();
 
@@ -60,7 +61,6 @@ class Tunggakan extends Model
                 $query->where('no_transaksi', 'like', $term)
                     ->orWhere('nomor_sts')
                     ->orWhere('jatuh_tempo');
-            })
-        ;
+            });
     }
 }

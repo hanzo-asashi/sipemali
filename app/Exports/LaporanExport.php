@@ -10,12 +10,13 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Excel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class LaporanExport implements FromCollection,Responsable, WithMapping,WithHeadings
+class LaporanExport implements FromCollection, Responsable, WithMapping, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     use Exportable;
+
     /**
      * It's required to define the fileName within
      * the export class when making use of Responsable.

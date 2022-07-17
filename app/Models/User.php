@@ -28,10 +28,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return LogOptions::defaults()
             ->useLogName('pengguna')
-            ->setDescriptionForEvent(fn($eventName) => "{$eventName} pengguna {$this->name}")
+            ->setDescriptionForEvent(fn ($eventName) => "{$eventName} pengguna {$this->name}")
             ->logFillable()
-            ->logOnlyDirty()
-            ;
+            ->logOnlyDirty();
         // Chain fluent methods for configuration options
     }
 
@@ -102,7 +101,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isSuperadmin(): bool
     {
-        return auth()->user()->id === 1;
+        return auth()->user()?->getRoleNames() === 'superadmin';
+    }
+
+    public function isAdmin(): bool
+    {
+        return auth()->user()?->getRoleNames() === 'admin';
+    }
+
+    public function isOperator(): bool
+    {
+        return auth()->user()?->getRoleNames() === 'operator';
+    }
+
+    public function isPencatat(): bool
+    {
+        return auth()->user()?->getRoleNames() === 'pencatat';
     }
 
     public function scopeNotSuperadmin($query)
@@ -151,6 +165,6 @@ class User extends Authenticatable implements MustVerifyEmail
 //            ->orWhereHas('loket', function ($query) use ($term) {
 //                $query->where('name', 'like', $term);
 //            })
-        ;
+;
     }
 }

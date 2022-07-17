@@ -12,22 +12,37 @@ class Table extends Component
 {
     use WithPagination;
     use AuthorizesRequests;
+
     protected string $paginationTheme = 'bootstrap';
 
     public $targetPajak;
+
     public bool $filter = false;
+
     public bool $sort = false;
+
     public string $defaultSort = 'id';
+
     public int $perPage = 10;
+
     public string $search = '';
+
     public array $checked = [];
+
     public bool $isChecked = false;
+
     public string $cardTitle = 'List Target Pajak';
+
     public bool $selectAll = false;
+
     public bool $bulkDisabled = true;
+
     public bool $showEditModal = false;
+
     public $tahun_pajak;
+
     public $id_jenis_objek_pajak;
+
     public $target;
 
     protected $rules = [
@@ -37,7 +52,7 @@ class Table extends Component
     ];
 
     protected $validationAttributes = [
-        'id_jenis_objek_pajak' => 'jenis objek pajak'
+        'id_jenis_objek_pajak' => 'jenis objek pajak',
     ];
 
     public function mount()
@@ -59,7 +74,7 @@ class Table extends Component
 
     private function resetInput()
     {
-        $this->reset('target','id_jenis_objek_pajak');
+        $this->reset('target', 'id_jenis_objek_pajak');
     }
 
     public function edit(Model $targetPajak)
@@ -158,8 +173,8 @@ class Table extends Component
         $listTargetPajak = Model::with(['jenisObjekPajak'])->search(trim($this->search))
             ->orderBy($this->defaultSort)
             ->paginate($this->perPage);
-        $listJenisObjekPajak = JenisObjekPajak::pluck('nama_jenis_op','id');
+        $listJenisObjekPajak = JenisObjekPajak::pluck('nama_jenis_op', 'id');
 
-        return view('livewire.master.target-pajak.table',compact('listTargetPajak','listJenisObjekPajak'));
+        return view('livewire.master.target-pajak.table', compact('listTargetPajak', 'listJenisObjekPajak'));
     }
 }

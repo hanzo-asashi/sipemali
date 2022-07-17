@@ -14,12 +14,17 @@ use Livewire\WithPagination;
 class DetailPembayaran extends Component
 {
     public string $title = 'Detail Pembayaran';
+
     public $payment;
+
     public Customers $customer;
 
     use WithPagination;
+
     protected string $paginationTheme = 'bootstrap';
+
     public $pageData = [];
+
     public int $perPage;
 
     public function mount(string $id): void

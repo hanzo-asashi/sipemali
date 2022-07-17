@@ -5,31 +5,43 @@ namespace App\Utilities;
 use App\Utilities\Item as Item;
 use App\Utilities\Store as Store;
 use Exception;
+use Mike42\Escpos\CapabilityProfile;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\CupsPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
-use Mike42\Escpos\CapabilityProfile;
 
 class ReceiptPrinter
 {
     private $printer;
+
     private $logo;
+
     private $store;
+
     private $items;
+
     private $currency = 'Rp';
+
     private $subtotal = 0;
+
     private $tax_percentage = 10;
+
     private $tax = 0;
+
     private $grandtotal = 0;
+
     private $request_amount = 0;
+
     private $qr_code = [];
+
     private $transaction_id = '';
+
     private $jenistiket = 1;
 
-    function __construct()
+    public function __construct()
     {
         $this->printer = null;
         $this->items = [];
@@ -62,9 +74,9 @@ class ReceiptPrinter
         $this->printer?->close();
     }
 
-    public function setStore($mid, $name, $address, $phone, $email, $website, $kodePengunjung,$kodeKendaraan)
+    public function setStore($mid, $name, $address, $phone, $email, $website, $kodePengunjung, $kodeKendaraan)
     {
-        $this->store = new Store($mid, $name, $address, $phone, $email, $website,$kodePengunjung,$kodeKendaraan);
+        $this->store = new Store($mid, $name, $address, $phone, $email, $website, $kodePengunjung, $kodeKendaraan);
     }
 
     public function setLogo($logo)
@@ -160,7 +172,7 @@ class ReceiptPrinter
         $left_cols = $is_double_width ? 6 : 12;
         $right_cols = $is_double_width ? 10 : 20;
 
-        if($value === 0){
+        if ($value === 0) {
             $value = 0.00;
         }
 
@@ -181,7 +193,6 @@ class ReceiptPrinter
 
     public function printDashedLine()
     {
-
         $line = str_repeat('-', 32);
 
         $this->printer->text($line);
@@ -200,7 +211,7 @@ class ReceiptPrinter
 
     public function printQRcode()
     {
-        if (!empty($this->qr_code)) {
+        if (! empty($this->qr_code)) {
             $this->printer->qrCode($this->getPrintableQRcode(), Printer::QR_ECLEVEL_L, 8);
         }
     }
@@ -216,10 +227,10 @@ class ReceiptPrinter
             $tax = $this->getPrintableSummary('Pajak (10%)', $this->tax);
             $total = $this->getPrintableSummary('TOTAL', $this->grandtotal, true);
             $noKarcis = $this->getPrintableSummary('No.Karcis', $this->transaction_id);
-            if($this->jenistiket == 1){
-                $tipe = 'PENGUNJUNG: '.$this->store->getKodeKendaraan() ."\n";
-            }else{
-                $tipe = 'KENDARAAN: '.$this->store->getKodeKendaraan() ."\n";
+            if ($this->jenistiket == 1) {
+                $tipe = 'PENGUNJUNG: '.$this->store->getKodeKendaraan()."\n";
+            } else {
+                $tipe = 'KENDARAAN: '.$this->store->getKodeKendaraan()."\n";
             }
 //            $header = $this->getPrintableHeader(
 //                'No.Karcis: '.$this->transaction_id ."\n",
@@ -246,7 +257,7 @@ class ReceiptPrinter
             $this->printer->feed(2);
             // Print receipt title
             $this->printer->setEmphasis(true);
-            if($this->jenistiket == 1) {
+            if ($this->jenistiket == 1) {
                 $this->printer->text("TIKET MASUK\n");
             } else {
                 $this->printer->text("TIKET PARKIR\n");
@@ -287,7 +298,6 @@ class ReceiptPrinter
             // Cut the receipt
             $this->printer->cut();
             $this->printer->close();
-
         } else {
             throw new Exception('Printer has not been initialized.');
         }

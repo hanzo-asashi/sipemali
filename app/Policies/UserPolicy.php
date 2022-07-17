@@ -16,9 +16,9 @@ class UserPolicy
      * @param  User  $user
      * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
-        return $user->isSuperadmin() || $user->getRoleNames() == 'admin';
+        return $user->isSuperadmin();
     }
 
     /**
@@ -28,7 +28,7 @@ class UserPolicy
      * @param  User  $model
      * @return Response|bool
      */
-    public function view(User $user, User $model)
+    public function view(User $user, User $model): Response|bool
     {
         return $user->isSuperadmin();
     }
@@ -39,9 +39,9 @@ class UserPolicy
      * @param  User  $user
      * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
-        return $user->isSuperadmin() || $user->getRoleNames() == 'admin';
+        return $user->isSuperadmin() || $user->isAdmin();
     }
 
     /**
@@ -51,9 +51,9 @@ class UserPolicy
      * @param  User  $model
      * @return Response|bool
      */
-    public function update(User $user, User $model)
+    public function update(User $user, User $model): Response|bool
     {
-        return $user->isSuperadmin() || $user->getRoleNames() == 'admin';
+        return $user->isSuperadmin() || $user->isAdmin();
     }
 
     /**
@@ -63,9 +63,9 @@ class UserPolicy
      * @param  User  $model
      * @return Response|bool
      */
-    public function delete(User $user, User $model)
+    public function delete(User $user, User $model): Response|bool
     {
-        return $user->isSuperadmin();
+        return $user->isSuperadmin() || $user->isAdmin();
     }
 
     /**
@@ -75,9 +75,9 @@ class UserPolicy
      * @param  User  $model
      * @return Response|bool
      */
-    public function restore(User $user, User $model)
+    public function restore(User $user, User $model): Response|bool
     {
-        return $user->isSuperadmin();
+        return $user->isSuperadmin() || $user->isAdmin();
     }
 
     /**
@@ -87,9 +87,9 @@ class UserPolicy
      * @param  User  $model
      * @return Response|bool
      */
-    public function forceDelete(User $user, User $model)
+    public function forceDelete(User $user, User $model): Response|bool
     {
-        return $user->isSuperadmin();
+        return $user->isSuperadmin() || $user->isAdmin();
     }
 
     /**
@@ -99,8 +99,8 @@ class UserPolicy
      * @param  User  $model
      * @return Response|bool
      */
-    public function manage(User $user, User $model)
+    public function manage(User $user, User $model): Response|bool
     {
-        return $user->isSuperadmin();
+        return $user->isSuperadmin() || $user->isAdmin();
     }
 }

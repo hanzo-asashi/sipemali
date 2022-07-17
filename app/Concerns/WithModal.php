@@ -4,8 +4,10 @@ namespace App\Concerns;
 
 trait WithModal
 {
-    public string $modalId = 'modal-catatmeter';
+    public string $modalId = '';
+
     public bool $show = true;
+
     public array $options = [];
 
     public function sendNotifikasi($model, $message): void
@@ -15,6 +17,11 @@ trait WithModal
         } else {
             $this->alert('danger', $message.' Gagal Disimpan');
         }
+    }
+
+    public function setModalId($id): void
+    {
+        $this->modalId = $id;
     }
 
     private function closeModal(): void

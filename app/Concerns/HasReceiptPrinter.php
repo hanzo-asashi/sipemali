@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Concerns;
 
 use App\Utilities\Item as Item;
@@ -16,17 +17,29 @@ use RuntimeException;
 trait HasReceiptPrinter
 {
     private $printer;
+
     private $logo;
+
     private $store;
+
     private $items;
+
     private string $currency = 'Rp';
+
     private int $subtotal = 0;
+
     private int $tax_percentage = 10;
+
     private int $tax = 0;
+
     private int $grandtotal = 0;
+
     private int $request_amount = 0;
+
     private array $qr_code = [];
+
     private string $transaction_id = '';
+
     private int $jenistiket = 1;
 
     public function __construct()
@@ -181,7 +194,6 @@ trait HasReceiptPrinter
 
     public function printDashedLine(): void
     {
-
         $line = str_repeat('-', 32);
 
         $this->printer->text($line);
@@ -200,7 +212,7 @@ trait HasReceiptPrinter
 
     public function printQRcode(): void
     {
-        if (!empty($this->qr_code)) {
+        if (! empty($this->qr_code)) {
             $this->printer->qrCode($this->getPrintableQRcode(), Printer::QR_ECLEVEL_L, 8);
         }
     }
@@ -287,7 +299,6 @@ trait HasReceiptPrinter
             // Cut the receipt
             $this->printer->cut();
             $this->printer->close();
-
         } else {
             throw new RuntimeException('Printer has not been initialized.');
         }

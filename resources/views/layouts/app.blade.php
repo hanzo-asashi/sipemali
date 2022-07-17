@@ -68,5 +68,8 @@
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
     });
 </script>
+{{--@env('local')--}}
+{{--    <script src="https://cdn.jsdelivr.net/gh/underground-works/clockwork-browser@1/dist/toolbar.js"></script>--}}
+{{--@endenv--}}
 </body>
 </html>

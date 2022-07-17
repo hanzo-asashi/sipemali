@@ -27,30 +27,40 @@ class EditPembayaran extends Component
     public HoneypotData $extraFields;
 
     public string $title = 'Ubah PembayaranPajak';
+
     public $golonganTarif;
+
     public $customers;
+
     public $payment;
 
     public array $pembayaran = [];
+
     public $data;
+
     public int $selectedPelanggan;
+
     public array $selectedItems = [];
+
     public $customer;
+
     public string $select2DropdownId = 'select2-dropdown';
+
     public $pelangganData;
+
     public $golonganId;
+
     public $zonaId;
+
     public int $paymentId;
 
     /**
      * Computed Property Payment
      * */
-
     public function getDataPembayaranProperty(): Model|Collection|Builder|array|null
     {
         return Payment::with(['customer', 'customer.golonganTarif'])->find($this->paymentId);
     }
-
 
     public function mount(string $id): void
     {
@@ -58,8 +68,8 @@ class EditPembayaran extends Component
         $this->paymentId = $id;
         $payment = $this->dataPembayaran;
         $this->payment = $this->dataPembayaran;
-        $this->customers = !is_null($this->payment) ? $this->payment->customer : null;
-        $this->golonganTarif = !is_null($this->customers) ? $this->customers->golonganTarif : 0;
+        $this->customers = ! is_null($this->payment) ? $this->payment->customer : null;
+        $this->golonganTarif = ! is_null($this->customers) ? $this->customers->golonganTarif : 0;
         $this->pembayaran['customer_id'] = $payment->customer_id;
         $this->pembayaran['bulan_berjalan'] = $payment->bulan_berjalan;
         $this->pembayaran['tahun_berjalan'] = $payment->tahun_berjalan;
@@ -76,18 +86,19 @@ class EditPembayaran extends Component
         $this->extraFields = new HoneypotData();
     }
 
-    #[Pure] #[ArrayShape(['hargaAir' => 'mixed', 'danaMeter' => 'mixed', 'biayaLayanan' => 'mixed'])] private function hitungHargaAir($value): array
-    {
-        $hargaAir = $this->getTarifAir($value);
-        $danaMeter = $this->golonganTarif->dana_meter;
-        $biayaLayanan = $this->golonganTarif->biaya_administrasi;
+    #[Pure] #[ArrayShape(['hargaAir' => 'mixed', 'danaMeter' => 'mixed', 'biayaLayanan' => 'mixed'])]
+ private function hitungHargaAir($value): array
+ {
+     $hargaAir = $this->getTarifAir($value);
+     $danaMeter = $this->golonganTarif->dana_meter;
+     $biayaLayanan = $this->golonganTarif->biaya_administrasi;
 
-        return [
-            'hargaAir' => $hargaAir,
-            'danaMeter' => $danaMeter,
-            'biayaLayanan' => $biayaLayanan,
-        ];
-    }
+     return [
+         'hargaAir' => $hargaAir,
+         'danaMeter' => $danaMeter,
+         'biayaLayanan' => $biayaLayanan,
+     ];
+ }
 
 //    public function updatedSelectedPelanggan()
 //    {
@@ -116,7 +127,7 @@ class EditPembayaran extends Component
 //            ];
 //            $this->pembayaran['stand_awal'] = $this->customer->angka_meter_lama ?? 0;
 //            $this->pembayaran['stand_akhir'] = $this->customer->angka_meter_baru ?? 0;
-////            $this->pembayaran['pemakaian_air_saat_ini'] = $this->customer->angka_meter_baru - $this->customer->angka_meter_lama;
+    ////            $this->pembayaran['pemakaian_air_saat_ini'] = $this->customer->angka_meter_baru - $this->customer->angka_meter_lama;
 //            $this->golonganId = $this->customer->golongan_id;
 //            $this->zonaId = $this->customer->zona_id;
 //            $this->pembayaran['customer_id'] = $this->selectedPelanggan;
@@ -211,6 +222,7 @@ class EditPembayaran extends Component
         } else {
             $sisa = 0;
         }
+
         return $sisa;
     }
 
@@ -218,7 +230,7 @@ class EditPembayaran extends Component
     {
 //        dd($this->pembayaran);
         $validated = Validator::make($this->pembayaran, [
-//            'customer_id' => 'required',
+            //            'customer_id' => 'required',
             'bulan_berjalan' => 'required',
             'tahun_berjalan' => 'required',
             'total_bayar' => 'required',
@@ -274,6 +286,7 @@ class EditPembayaran extends Component
             'listBulan' => $listBulan,
             'listTahun' => $listTahun,
         ];
+
         return view('livewire.transaksi.pembayaran.edit-pembayaran', compact('pageData'))->extends('layouts.contentLayoutMaster');
     }
 }

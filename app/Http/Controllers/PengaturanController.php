@@ -15,9 +15,9 @@ class PengaturanController extends Controller
         $periodePenarikan = config('custom.periode_penarikan_pajak');
 
         return view('pengaturan.index', [
-            'pengaturan'      => $pengaturan,
-//            'listObjekPajak'  => $listObjekPajak,
-            'periode'  => $periodePenarikan,
+            'pengaturan' => $pengaturan,
+            //            'listObjekPajak'  => $listObjekPajak,
+            'periode' => $periodePenarikan,
         ]);
     }
 

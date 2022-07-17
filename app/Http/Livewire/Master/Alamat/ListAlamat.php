@@ -6,7 +6,6 @@ use App\Models\Address;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,30 +15,45 @@ class ListAlamat extends Component
     use WithPagination;
 
     protected string $paginationTheme = 'bootstrap';
+
     use LivewireAlert;
 
     public Address $address;
 
     public string $search = '';
+
     public int $perPage;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public bool $selectAll = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllAlamat = false;
 
     public $alamat;
+
     public $alamatId;
+
     public $deleteTipe;
 
     public string $title = 'List Alamat';
+
     public bool $show = false;
+
     public string $modalId = 'modal-alamat';
 
     protected $queryString = [
@@ -103,7 +117,7 @@ class ListAlamat extends Component
     {
         $this->reset('search', 'alamat', 'checked');
         $this->resetErrorBag();
-        $this->updateMode = !$this->updateMode;
+        $this->updateMode = ! $this->updateMode;
     }
 
     public function updating(): void

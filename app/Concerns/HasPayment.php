@@ -5,11 +5,17 @@ namespace App\Concerns;
 trait HasPayment
 {
     public int $totalPembayaran;
+
     public int $totalPiutang;
+
     public int $totalTagihan;
+
     public int $totalSisa;
+
     public int $totalPembayaranLunas;
+
     public int $totalPembayaranBatal;
+
     public int $totalPembayaranSebagian;
 
     public function __construct()
@@ -100,5 +106,4 @@ trait HasPayment
     {
         $this->totalPembayaranSebagian = $totalPembayaranSebagian;
     }
-
 }

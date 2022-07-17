@@ -17,10 +17,10 @@ class StatistikDashboard extends Component
     {
         $this->updatedDate = Carbon::now()->diffForHumans();
         $this->tipe = [
-            'sales'     => ['name' => 'Sales', 'count' => '250k', 'bg' => 'primary', 'icon' => 'trending-up'],
+            'sales' => ['name' => 'Sales', 'count' => '250k', 'bg' => 'primary', 'icon' => 'trending-up'],
             'customers' => ['name' => 'Customers', 'count' => '8.549k', 'bg' => 'info', 'icon' => 'user'],
-            'products'  => ['name' => 'Products', 'count' => '1.423k', 'bg' => 'danger', 'icon' => 'box'],
-            'revenue'   => ['name' => 'Revenue', 'count' => '$9754', 'bg' => 'success', 'icon' => 'dollar-sign'],
+            'products' => ['name' => 'Products', 'count' => '1.423k', 'bg' => 'danger', 'icon' => 'box'],
+            'revenue' => ['name' => 'Revenue', 'count' => '$9754', 'bg' => 'success', 'icon' => 'dollar-sign'],
         ];
     }
 

@@ -33,15 +33,15 @@ class EventServiceProvider extends ServiceProvider
         PaymentUpdated::class => [
             UpdatePaymentHistory::class,
         ],
-//        PaymentSaved::class => [
-//            SendNotifications::class,
-//        ],
+        //        PaymentSaved::class => [
+        //            SendNotifications::class,
+        //        ],
         Registered::class => [
-            SendEmailVerificationNotification::class
+            SendEmailVerificationNotification::class,
         ],
-//        SendTagihanNotifications::class => [
-//            SendNotifications::class
-//        ]
+        //        SendTagihanNotifications::class => [
+        //            SendNotifications::class
+        //        ]
     ];
 
     /**

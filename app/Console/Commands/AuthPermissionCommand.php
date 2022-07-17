@@ -50,7 +50,6 @@ class AuthPermissionCommand extends Command
             } else {
                 $this->warn('No permissions for '.$this->getNameArgument().' found!');
             }
-
         } else {
             // create permissions
             foreach ($permissions as $permission) {
@@ -65,8 +64,8 @@ class AuthPermissionCommand extends Command
             $role->syncPermissions(Permission::all());
             $this->info('Superadmin permissions');
         }
-
     }
+
     private function generatePermissions()
     {
         $abilities = ['create', 'read', 'update', 'delete', 'manage'];

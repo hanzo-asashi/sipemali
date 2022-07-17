@@ -24,7 +24,7 @@ class UserFactory extends Factory
     {
         return [
             'avatar' => 'assets/images/users/default.png',
-//            'nik'                => '7471'.$this->faker->unique()->numberBetween(0, 12),
+            //            'nik'                => '7471'.$this->faker->unique()->numberBetween(0, 12),
             'name' => $this->faker->unique()->name,
             'email' => $this->faker->unique()->safeEmail,
             'status' => 1,

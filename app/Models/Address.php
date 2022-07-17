@@ -20,6 +20,7 @@ class Address extends Model
     use Searchable;
 
     protected $fillable = ['alamat'];
+
     public $timestamps = false;
 //    protected $table = 'alamats';
 
@@ -29,11 +30,11 @@ class Address extends Model
      * @return array
      */
 //    #[SearchUsingPrefix(['id'])]
-    #[ArrayShape(['alamat' => "string"])] #[SearchUsingFullText(['alamat'])]
+    #[ArrayShape(['alamat' => 'string'])] #[SearchUsingFullText(['alamat'])]
     public function toSearchableArray(): array
     {
         return [
-//            'id' => $this->id,
+            //            'id' => $this->id,
             'alamat' => $this->alamat,
         ];
     }
@@ -42,7 +43,7 @@ class Address extends Model
     {
         return LogOptions::defaults()
             ->useLogName('alamat')
-            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} data alamat {$this->alamat}");
+            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} data alamat {$this->alamat}");
         // Chain fluent methods for configuration options
     }
 
@@ -52,6 +53,4 @@ class Address extends Model
 //        $query->where('alamat', 'like', $term)
 //            ->orWhere('blok', 'like', $term);
 //    }
-
-
 }

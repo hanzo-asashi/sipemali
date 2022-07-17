@@ -22,7 +22,7 @@ class LandingController extends Controller
             'totalPelangganAktif' => $totalPelangganAktif,
             'totalPelangganValid' => $totalPelangganValid,
             'totalPendapatan' => $totalPendapatan,
-            'totalTertunggak' => $totalTertunggak
+            'totalTertunggak' => $totalTertunggak,
         ];
 
         return view('landing.index', compact('data'));
@@ -31,6 +31,7 @@ class LandingController extends Controller
     public function searchTracking(Request $request): RedirectResponse
     {
         $search = $request->has('search') ? $request->get('search') : null;
+
         return redirect()->route('tracking', ['q' => $search]);
     }
 }

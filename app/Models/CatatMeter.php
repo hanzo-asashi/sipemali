@@ -17,6 +17,7 @@ class CatatMeter extends Model
     use LogsActivity;
 
     protected $table = 'catat_meter';
+
     protected $fillable = [
         'customer_id',
         'user_id',
@@ -25,13 +26,13 @@ class CatatMeter extends Model
         'angka_meter_lama',
         'angka_meter_baru',
         'status_meter',
-        'keterangan'
+        'keterangan',
     ];
 
     protected $dispatchesEvents = [
-//        'created' => CatatMeterCreated::class,
-//        'updated' => \App\Events\CatatMeterUpdated::class,
-//        'deleted' => \App\Events\CatatMeterDeleted::class,
+        //        'created' => CatatMeterCreated::class,
+        //        'updated' => \App\Events\CatatMeterUpdated::class,
+        //        'deleted' => \App\Events\CatatMeterDeleted::class,
     ];
 
     protected $casts = [
@@ -42,14 +43,14 @@ class CatatMeter extends Model
         'bulan' => 'integer',
         'periode' => 'date',
         'status_meter' => 'boolean',
-        'keterangan' => 'string'
+        'keterangan' => 'string',
     ];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->useLogName('Bank')
-            ->setDescriptionForEvent(fn($eventName) => "{$eventName} akun {$this->bank_name}");
+            ->setDescriptionForEvent(fn ($eventName) => "{$eventName} akun {$this->bank_name}");
         // Chain fluent methods for configuration options
     }
 

@@ -21,49 +21,78 @@ class ListPembayaran extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public Payment $payment;
+
     public $detail;
+
     public string $search = '';
+
     public int $perPage = 15;
+
     public string $status = '';
+
     public string $zona = '';
+
     public string $golongan = '';
 
     public float $totalPembayaran;
+
     public float $totalPiutang;
+
     public float $totalTagihan;
+
     public float $totalSisa;
+
     public float $totalDenda;
+
     public float $totalBelumBayar;
+
     public float $totalPembayaranLunas;
+
     public int $countPembayaranLunas;
+
     public float $totalPembayaranBatal;
+
     public int $countPembayaranBatal;
+
     public float $totalPembayaranSebagian;
+
     public int $countPembayaranSebagian;
+
     public float $totalTagihanLunas;
+
     public float $totalTagihanBatal;
+
     public float $totalTagihanSebagian;
 
     protected $queryString = [
-        'search' => ['except' => '','as' => 'q'],
+        'search' => ['except' => '', 'as' => 'q'],
         'status' => ['except' => '', 'as' => 's'],
         'zona' => ['except' => '', 'as' => 'z'],
         'golongan' => ['except' => '', 'as' => 'g'],
     ];
 
     public array $checked = [];
+
     public bool $isChecked = false;
+
     public bool $selectAll = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllPembayaran = false;
 
     public array $pelanggan = [];
+
     public array $pembayaran = [];
+
     public int $pembayaranId = 0;
+
     public string $deleteTipe = 'single';
 
     public string $title = 'Pembayaran';
+
     public string $modalId = 'modal-pembayaran';
+
     public array $breadcrumb = [];
 
     protected $listeners = [
@@ -79,7 +108,6 @@ class ListPembayaran extends Component
     {
         return in_array($id, $this->checked, true);
     }
-
 
     public function selectAllData(): void
     {
@@ -144,7 +172,7 @@ class ListPembayaran extends Component
             ->filterStatus($this->status)
             ->filterGolongan($this->golongan);
 
-        if($status === 0){
+        if ($status === 0) {
             return $query->sum($field);
         }
 
@@ -164,9 +192,9 @@ class ListPembayaran extends Component
         $filter = [
             'page' => 'pembayaran',
             'data' => 'all',
-            ''
+            '',
         ];
-        
+
         $this->redirectRoute('cetak.preview', $filter, true);
     }
 
@@ -187,7 +215,7 @@ class ListPembayaran extends Component
 
         $this->confirm('Anda yakin ingin menghapus ??', [
             'onConfirmed' => 'confirmed',
-//            'onDismissed' => 'cancelled',
+            //            'onDismissed' => 'cancelled',
         ]);
     }
 
@@ -236,7 +264,6 @@ class ListPembayaran extends Component
             ->orderByDesc('bulan_berjalan')
             ->paginate($this->perPage);
     }
-
 
     public function render(): Factory|View|Application
     {

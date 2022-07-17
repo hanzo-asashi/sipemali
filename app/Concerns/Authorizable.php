@@ -29,6 +29,7 @@ trait Authorizable
      * @param $method
      * @param $parameters
      * @return Response
+     *
      * @throws AuthorizationException
      */
     public function callAction($method, $parameters): Response

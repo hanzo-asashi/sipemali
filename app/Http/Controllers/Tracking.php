@@ -20,13 +20,13 @@ class Tracking extends Controller
         $pembayaran = collect();
         $tunggakan = collect();
 
-        if (!is_null($wajibPajak)) {
+        if (! is_null($wajibPajak)) {
             $detailWajibPajak = WajibPajak::with([
                 'objekpajak', 'objekpajakrumahmakan', 'jenisWajibPajak', 'kab', 'kec', 'kel', 'objekpajak.pembayaran', 'pembayaran',
             ])
                 ->find($wajibPajak->id);
 //            $pembayaran = PembayaranPajak::with(['objekpajak.objekPajakRumahMakan','wajibpajak','tunggakan'])->where('wajib_pajak_id', $wajibPajak->id)->get();
-            foreach ($detailWajibPajak->pembayaran()->with(['objekpajak','tunggakan'])->get() as $item) {
+            foreach ($detailWajibPajak->pembayaran()->with(['objekpajak', 'tunggakan'])->get() as $item) {
                 $pembayaran->add($item);
             }
 

@@ -15,8 +15,8 @@ class PaymentHistory extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['payment_id','customer_id','description','event','meter_awal','meter_akhir','pemakaian_air','dana_meter','biaya_layanan',
-        'total_tagihan','user_id'
+    protected $fillable = ['payment_id', 'customer_id', 'description', 'event', 'meter_awal', 'meter_akhir', 'pemakaian_air', 'dana_meter', 'biaya_layanan',
+        'total_tagihan', 'user_id',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -32,16 +32,17 @@ class PaymentHistory extends Model
 
     public function payment(): BelongsTo
     {
-        return $this->belongsTo(Payment::class,'payment_id','id');
+        return $this->belongsTo(Payment::class, 'payment_id', 'id');
     }
 
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(Customers::class,'customer_id','id');
+        return $this->belongsTo(Customers::class, 'customer_id', 'id');
     }
+
 //
     public function pengguna(): BelongsTo
     {
-        return $this->belongsTo(User::class,'user_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

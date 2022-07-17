@@ -12,14 +12,19 @@ use Livewire\Component;
 class ListRoles extends Component
 {
     public Role $roles;
+
     public Permission $permission;
 
     public int $roleId;
+
     public int $permissionId;
+
     public array $perm = [];
 
-    public bool $updateMode = FALSE;
+    public bool $updateMode = false;
+
     public $modalId = 'modal-roles';
+
     public array $state = [];
 
     public function mount(Role $roles, Permission $permission)
@@ -36,14 +41,14 @@ class ListRoles extends Component
 
     public function addRole()
     {
-        $this->updateMode = FALSE;
+        $this->updateMode = false;
         $this->reset('state');
         $this->openModal();
     }
 
     public function editRole($id)
     {
-        $this->updateMode = TRUE;
+        $this->updateMode = true;
         $roles = $this->roles->find($id);
         $this->roleId = $id;
         $this->state['name'] = $roles->name;
@@ -53,19 +58,19 @@ class ListRoles extends Component
         $this->openModal(['roles' => $this->roles]);
     }
 
-    private function closeModal($options = FALSE): void
+    private function closeModal($options = false): void
     {
         $options = ($options && is_array($options)) ? $options : [];
         $this->dispatchBrowserEvent('closeModal', $options);
     }
 
-    private function openModal($options = FALSE): void
+    private function openModal($options = false): void
     {
         $options = ($options && is_array($options)) ? $options : [];
         $this->dispatchBrowserEvent('openModal', $options);
     }
 
-    private function alert($options = FALSE, $event = 'notifikasi'): void
+    private function alert($options = false, $event = 'notifikasi'): void
     {
         $options = ($options && is_array($options)) ? $options : [];
         $this->dispatchBrowserEvent($event, $options);
@@ -129,7 +134,7 @@ class ListRoles extends Component
         ], $validated);
         foreach ($validated['permission'] as $item) {
             $exist = Permission::select('name', 'guard_name')->where('name', $item)->where('guard_name', $validated['guard_name'])->first();
-            if (!$exist) {
+            if (! $exist) {
                 Permission::create(['name' => $item, 'guard_name' => $validated['guard_name']]);
             }
         }
@@ -153,6 +158,7 @@ class ListRoles extends Component
         $listPermission = Permission::defaultCrud();
         $defaultPermission = Permission::defaultPermissions();
         $listUserWithRoles = User::with('roles')->get();
+
         return view('livewire.pengaturan.roles.list-roles', compact('listRoles', 'listUserWithRoles', 'listPermission', 'allModels'))
             ->extends('layouts.contentLayoutMaster');
     }

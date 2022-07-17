@@ -15,29 +15,43 @@ class ListGolongan extends Component
 {
     use WithPagination;
     use LivewireAlert;
+
     protected string $paginationTheme = 'bootstrap';
 
     public string $search = '';
+
     public int $perPage;
+
     public string $orderBy = 'kode_golongan';
+
     public string $direction = 'desc';
+
     protected $queryString = [
-        'search' => ['except' => '','as' => 'q'],
+        'search' => ['except' => '', 'as' => 'q'],
     ];
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $golongan = [];
 
     public bool $show = true;
+
     public bool $isChecked = false;
+
     public bool $selectAll = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllGolongan = false;
 
     public string $title = 'List Golongan Tarif';
+
     public string $modalId = 'modal-golongan';
+
     public string $deleteTipe = 'single';
+
     public int $golonganId = 1;
 
     public GolonganTarif $golonganTarif;
@@ -49,7 +63,7 @@ class ListGolongan extends Component
         'cancelDelete',
         'denied',
         'delete',
-        'updateGolongan' => 'render'
+        'updateGolongan' => 'render',
     ];
 
     public function confirmedDelete(): void
@@ -59,7 +73,6 @@ class ListGolongan extends Component
 
     public function denied(): void
     {
-
     }
 
     public function cancelDelete(): void
@@ -74,7 +87,7 @@ class ListGolongan extends Component
 
         $this->confirm('Anda yakin ingin menghapus ??', [
             'onConfirmed' => 'confirmedDelete',
-//            'onDismissed' => 'cancelled',
+            //            'onDismissed' => 'cancelled',
         ]);
     }
 
@@ -203,6 +216,7 @@ class ListGolongan extends Component
         $this->resetField();
         $this->closeModal();
     }
+
     public function updateGolongan(): void
     {
         $validated = Validator::make($this->golongan, [
@@ -222,16 +236,15 @@ class ListGolongan extends Component
         ])->validate();
 
         $golongan = $this->golonganTarif->find($this->golonganId);
-        if($golongan){
+        if ($golongan) {
             $golongan->update($validated);
             $this->showNotifikasi($golongan);
             $this->resetField();
-        }else{
+        } else {
             $this->showNotifikasi(false);
         }
         $this->closeModal();
     }
-
 
     public function delete($id, $tipe): void
     {
@@ -247,9 +260,9 @@ class ListGolongan extends Component
     private function showNotifikasi($model): void
     {
         if ($model) {
-            $this->alert('success', 'Berhasil disimpan' );
+            $this->alert('success', 'Berhasil disimpan');
         } else {
-            $this->alert('error', 'Gagal disimpan' );
+            $this->alert('error', 'Gagal disimpan');
         }
     }
 

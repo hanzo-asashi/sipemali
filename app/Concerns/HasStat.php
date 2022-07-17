@@ -5,10 +5,15 @@ namespace App\Concerns;
 trait HasStat
 {
     public int $totalPelanggan;
+
     public int $totalPelangganValid;
+
     public int $totalPelangganTidakValid;
+
     public int $totalPelangganAktif;
+
     public int $totalPelangganDitangguhkan;
+
     public int $totalPelangganDiDop;
 
     public function __construct()
@@ -99,5 +104,4 @@ trait HasStat
     {
         $this->totalPelangganTidakValid = $totalPelangganTidakValid;
     }
-
 }

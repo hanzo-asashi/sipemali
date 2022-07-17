@@ -27,18 +27,31 @@ class CreatePembayaran extends Component
     public HoneypotData $extraFields;
 
     public string $title = 'Buat Pembayaran';
+
     public Payment $payment;
+
     public array $pembayaran = [];
+
     public array $data;
+
     public $selectedPelanggan;
+
     public $selectedItems = [];
+
     public $customer;
+
     public string $select2DropdownId = 'select2-dropdown';
+
     public $pelangganData;
+
     public int $golonganId;
+
     public int $zonaId;
+
     public int $pembayaranId;
+
     public int $pelangganId;
+
     public array $breadcrumb = [];
 
     private string $redirectRoute = 'transaksi.pembayaran.list';
@@ -63,13 +76,15 @@ class CreatePembayaran extends Component
     {
         $this->selectedPelanggan = (int) $value;
         $this->customer = Customers::find($this->selectedPelanggan);
-        if (!is_null($this->customer)) {
-            if (!$this->customer->is_valid) {
+        if (! is_null($this->customer)) {
+            if (! $this->customer->is_valid) {
                 $this->alert('error', 'Pelanggan tidak valid. Harap validasi pelanggan terlebih dahulu. ');
+
                 return;
             }
             if ($this->customer->status_pelanggan !== 1) {
                 $this->alert('error', 'Pelanggan tidak aktif. Harap aktifkan pelanggan terlebih dahulu. ');
+
                 return;
             }
 
@@ -204,7 +219,7 @@ class CreatePembayaran extends Component
                 'page' => 'rekening-air',
                 'pelangganId' => $this->pelangganId,
                 'pembayaranId' => $this->pembayaranId,
-            ])
+            ]),
         ]);
     }
 
@@ -220,6 +235,7 @@ class CreatePembayaran extends Component
         } else {
             $sisa = 0;
         }
+
         return $sisa;
     }
 
@@ -263,6 +279,7 @@ class CreatePembayaran extends Component
 
         if ($exist && $exist->status_pembayaran !== 1) {
             $this->alert('error', 'Masih ada pembayaran yang masih tertunggak. Silahkan melunasi pembayaran anda sebelumnya terlebih dahulu.');
+
             return;
         }
 

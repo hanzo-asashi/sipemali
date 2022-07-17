@@ -5,16 +5,23 @@ namespace App\Concerns;
 trait HasBulkAction
 {
     public bool $isChecked = false;
+
     public int $modelId;
+
     public array $selected = [];
+
     public int $selectedRow = 0;
+
     public array $selectedRows = [];
+
     public bool $selectAllRows = false;
+
     public $model;
 
     public function isChecked($id): bool
     {
         $this->setModelId($id);
+
         return in_array($id, $this->selectedRows, true);
     }
 

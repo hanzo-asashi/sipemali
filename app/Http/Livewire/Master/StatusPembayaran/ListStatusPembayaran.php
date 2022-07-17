@@ -19,23 +19,35 @@ class ListStatusPembayaran extends Component
     public PaymentStatus $paymentStatus;
 
     public int $perPage;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public bool $selectAllCheckbox = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllStatus = false;
 
     public $paymentStatusId;
+
     public $deleteTipe;
 
     public string $title = 'List Status Pembayaran';
+
     public bool $show = true;
+
     public string $modalId = 'modal-statusbayar';
 
     protected string $paginationTheme = 'bootstrap';
@@ -43,7 +55,7 @@ class ListStatusPembayaran extends Component
     protected $listeners = [
         'delete',
         'resetField',
-        'confirmedDelete'
+        'confirmedDelete',
     ];
 
     public function hydrate(): void
@@ -69,14 +81,13 @@ class ListStatusPembayaran extends Component
         $this->checked = $this->paymentStatus->pluck('id')->toArray();
     }
 
-    public function updatedSelectAllCheckbox($value) :void
+    public function updatedSelectAllCheckbox($value): void
     {
         if ($value) {
             $this->checked = $this->paymentStatus->query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
-                ->toArray()
-            ;
+                ->toArray();
         } else {
             $this->checked = [];
             $this->selectAllStatus = false;
@@ -187,8 +198,7 @@ class ListStatusPembayaran extends Component
     {
         $listStatus = $this->paymentStatus
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage)
-        ;
+            ->paginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,

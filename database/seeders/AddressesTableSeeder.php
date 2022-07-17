@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 
 class AddressesTableSeeder extends Seeder
 {
-
     /**
      * Auto generated seed file
      *
@@ -14,1343 +13,1073 @@ class AddressesTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
         \DB::table('addresses')->delete();
-        
-        \DB::table('addresses')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('addresses')->insert([
+            0 => [
                 'id' => 1,
                 'alamat' => 'JL.UJUNG',
-            ),
-            1 => 
-            array (
+            ],
+            1 => [
                 'id' => 2,
                 'alamat' => 'JL.SALOTUNGO',
-            ),
-            2 => 
-            array (
+            ],
+            2 => [
                 'id' => 3,
                 'alamat' => 'LOMPO',
-            ),
-            3 => 
-            array (
+            ],
+            3 => [
                 'id' => 4,
                 'alamat' => 'JL.NURDIN SALEH',
-            ),
-            4 => 
-            array (
+            ],
+            4 => [
                 'id' => 5,
                 'alamat' => 'JL.PENGAYOMAN',
-            ),
-            5 => 
-            array (
+            ],
+            5 => [
                 'id' => 6,
                 'alamat' => 'JL.PASAR',
-            ),
-            6 => 
-            array (
+            ],
+            6 => [
                 'id' => 7,
                 'alamat' => 'JL.KALINO',
-            ),
-            7 => 
-            array (
+            ],
+            7 => [
                 'id' => 8,
                 'alamat' => 'JL.ATTANG BENTENG',
-            ),
-            8 => 
-            array (
+            ],
+            8 => [
                 'id' => 9,
                 'alamat' => 'JL.PEMUDA',
-            ),
-            9 => 
-            array (
+            ],
+            9 => [
                 'id' => 10,
                 'alamat' => 'JL.WIJAYA',
-            ),
-            10 => 
-            array (
+            ],
+            10 => [
                 'id' => 11,
                 'alamat' => 'JL.KESATRIA',
-            ),
-            11 => 
-            array (
+            ],
+            11 => [
                 'id' => 12,
                 'alamat' => 'JL.KAYANGAN',
-            ),
-            12 => 
-            array (
+            ],
+            12 => [
                 'id' => 13,
                 'alamat' => 'JL.KEMAKMURAN',
-            ),
-            13 => 
-            array (
+            ],
+            13 => [
                 'id' => 14,
                 'alamat' => 'JL.SAMUDRA',
-            ),
-            14 => 
-            array (
+            ],
+            14 => [
                 'id' => 15,
                 'alamat' => 'SALOTUNGO',
-            ),
-            15 => 
-            array (
+            ],
+            15 => [
                 'id' => 16,
                 'alamat' => 'JL.SAMUDRA/ASPOL',
-            ),
-            16 => 
-            array (
+            ],
+            16 => [
                 'id' => 17,
                 'alamat' => 'JL.SUNU',
-            ),
-            17 => 
-            array (
+            ],
+            17 => [
                 'id' => 18,
                 'alamat' => 'JL.SAMUDRA/JL.SANU',
-            ),
-            18 => 
-            array (
+            ],
+            18 => [
                 'id' => 19,
                 'alamat' => 'ASPOL',
-            ),
-            19 => 
-            array (
+            ],
+            19 => [
                 'id' => 20,
                 'alamat' => 'LAPPACABBU',
-            ),
-            20 => 
-            array (
+            ],
+            20 => [
                 'id' => 21,
                 'alamat' => 'PERUMNAS',
-            ),
-            21 => 
-            array (
+            ],
+            21 => [
                 'id' => 22,
                 'alamat' => 'B. LATEMMAMALA',
-            ),
-            22 => 
-            array (
+            ],
+            22 => [
                 'id' => 23,
                 'alamat' => 'LOLLOE',
-            ),
-            23 => 
-            array (
+            ],
+            23 => [
                 'id' => 24,
                 'alamat' => 'JL.NENEURANG',
-            ),
-            24 => 
-            array (
+            ],
+            24 => [
                 'id' => 25,
                 'alamat' => 'JL.KEMAKMURAN/BTN',
-            ),
-            25 => 
-            array (
+            ],
+            25 => [
                 'id' => 26,
                 'alamat' => 'CIKKE\'E',
-            ),
-            26 => 
-            array (
+            ],
+            26 => [
                 'id' => 27,
                 'alamat' => 'BTN PEPABRI',
-            ),
-            27 => 
-            array (
+            ],
+            27 => [
                 'id' => 28,
                 'alamat' => 'PAKKANREBETE',
-            ),
-            28 => 
-            array (
+            ],
+            28 => [
                 'id' => 29,
                 'alamat' => 'JL.KEMAKMURAN PAKKANREBET',
-            ),
-            29 => 
-            array (
+            ],
+            29 => [
                 'id' => 30,
-            'alamat' => 'JL.SUNU (JL.KEMAKMURAN)',
-            ),
-            30 => 
-            array (
+                'alamat' => 'JL.SUNU (JL.KEMAKMURAN)',
+            ],
+            30 => [
                 'id' => 31,
                 'alamat' => 'LIPPENNO',
-            ),
-            31 => 
-            array (
+            ],
+            31 => [
                 'id' => 32,
                 'alamat' => 'JL.KESATRIA/KAYANGAN',
-            ),
-            32 => 
-            array (
+            ],
+            32 => [
                 'id' => 33,
                 'alamat' => 'JL.KAYANGAN/NENEURANG',
-            ),
-            33 => 
-            array (
+            ],
+            33 => [
                 'id' => 34,
                 'alamat' => 'BILA SELATAN',
-            ),
-            34 => 
-            array (
+            ],
+            34 => [
                 'id' => 35,
                 'alamat' => 'BTN KAYANGAN',
-            ),
-            35 => 
-            array (
+            ],
+            35 => [
                 'id' => 36,
                 'alamat' => 'LAPPACABBU KAYANGAN',
-            ),
-            36 => 
-            array (
+            ],
+            36 => [
                 'id' => 37,
                 'alamat' => 'LAPPASABBU',
-            ),
-            37 => 
-            array (
+            ],
+            37 => [
                 'id' => 38,
                 'alamat' => 'JL.KAYANGAN / PAKKAREBETE',
-            ),
-            38 => 
-            array (
+            ],
+            38 => [
                 'id' => 39,
                 'alamat' => 'JL KAYANGAN LAPPA CABBU',
-            ),
-            39 => 
-            array (
+            ],
+            39 => [
                 'id' => 40,
                 'alamat' => 'JL. NENE URANG',
-            ),
-            40 => 
-            array (
+            ],
+            40 => [
                 'id' => 41,
                 'alamat' => 'BTN',
-            ),
-            41 => 
-            array (
+            ],
+            41 => [
                 'id' => 42,
                 'alamat' => 'BTN SOPPENG PERMAI',
-            ),
-            42 => 
-            array (
+            ],
+            42 => [
                 'id' => 43,
                 'alamat' => 'BTN HUSADA PERMAI',
-            ),
-            43 => 
-            array (
+            ],
+            43 => [
                 'id' => 44,
                 'alamat' => 'BNT LALABATA INDAH',
-            ),
-            44 => 
-            array (
+            ],
+            44 => [
                 'id' => 45,
                 'alamat' => 'JL.KEMAKMURAN BTN HSP',
-            ),
-            45 => 
-            array (
+            ],
+            45 => [
                 'id' => 46,
                 'alamat' => 'BPD PERMAI',
-            ),
-            46 => 
-            array (
+            ],
+            46 => [
                 'id' => 47,
                 'alamat' => 'BTN HUSADA BAKTI',
-            ),
-            47 => 
-            array (
+            ],
+            47 => [
                 'id' => 48,
                 'alamat' => 'BTN HUSADA',
-            ),
-            48 => 
-            array (
+            ],
+            48 => [
                 'id' => 49,
                 'alamat' => 'BTN LALABATA INDAH',
-            ),
-            49 => 
-            array (
+            ],
+            49 => [
                 'id' => 50,
                 'alamat' => 'PERUMNAS ANGREK PERMAI',
-            ),
-            50 => 
-            array (
+            ],
+            50 => [
                 'id' => 51,
                 'alamat' => 'BTN PERUMNAS',
-            ),
-            51 => 
-            array (
+            ],
+            51 => [
                 'id' => 52,
                 'alamat' => 'BKT LATEMMAMALA',
-            ),
-            52 => 
-            array (
+            ],
+            52 => [
                 'id' => 53,
                 'alamat' => 'JL.MERDEKA',
-            ),
-            53 => 
-            array (
+            ],
+            53 => [
                 'id' => 54,
                 'alamat' => 'JL.PANRE LANTO',
-            ),
-            54 => 
-            array (
+            ],
+            54 => [
                 'id' => 55,
                 'alamat' => 'LORONG DELAPAN',
-            ),
-            55 => 
-            array (
+            ],
+            55 => [
                 'id' => 56,
                 'alamat' => 'JL.MESS TINGGI',
-            ),
-            56 => 
-            array (
+            ],
+            56 => [
                 'id' => 57,
                 'alamat' => 'JL. BALUBU',
-            ),
-            57 => 
-            array (
+            ],
+            57 => [
                 'id' => 58,
                 'alamat' => 'COPPO BUKKANG',
-            ),
-            58 => 
-            array (
+            ],
+            58 => [
                 'id' => 59,
                 'alamat' => 'JL.BILA UTARA',
-            ),
-            59 => 
-            array (
+            ],
+            59 => [
                 'id' => 60,
                 'alamat' => 'JL.MANGKAWANI',
-            ),
-            60 => 
-            array (
+            ],
+            60 => [
                 'id' => 61,
                 'alamat' => 'JL A. ABD MUIS',
-            ),
-            61 => 
-            array (
+            ],
+            61 => [
                 'id' => 62,
                 'alamat' => 'BILA SELATAN BUCCELLO',
-            ),
-            62 => 
-            array (
+            ],
+            62 => [
                 'id' => 63,
                 'alamat' => 'BILA SELATAN / A.ABD.MUIS',
-            ),
-            63 => 
-            array (
+            ],
+            63 => [
                 'id' => 64,
                 'alamat' => 'BIL-SEL/MANGKAWANI',
-            ),
-            64 => 
-            array (
+            ],
+            64 => [
                 'id' => 65,
                 'alamat' => 'BILA UTARA/SELEPPE\'E',
-            ),
-            65 => 
-            array (
+            ],
+            65 => [
                 'id' => 66,
                 'alamat' => 'BAKTI/BILA UTARA',
-            ),
-            66 => 
-            array (
+            ],
+            66 => [
                 'id' => 67,
                 'alamat' => 'JL.BILA UTARA / SEWO',
-            ),
-            67 => 
-            array (
+            ],
+            67 => [
                 'id' => 68,
                 'alamat' => 'BILA UTARA/JERA\'E',
-            ),
-            68 => 
-            array (
+            ],
+            68 => [
                 'id' => 69,
                 'alamat' => 'MANGKAWANI',
-            ),
-            69 => 
-            array (
+            ],
+            69 => [
                 'id' => 70,
                 'alamat' => 'JERA\'E',
-            ),
-            70 => 
-            array (
+            ],
+            70 => [
                 'id' => 71,
                 'alamat' => 'JL.JERA\'E',
-            ),
-            71 => 
-            array (
+            ],
+            71 => [
                 'id' => 72,
                 'alamat' => 'SEWO',
-            ),
-            72 => 
-            array (
+            ],
+            72 => [
                 'id' => 73,
                 'alamat' => 'JL.NENEURANG SEWO',
-            ),
-            73 => 
-            array (
+            ],
+            73 => [
                 'id' => 74,
                 'alamat' => 'JL.MANGKAWANI SEWO',
-            ),
-            74 => 
-            array (
+            ],
+            74 => [
                 'id' => 75,
                 'alamat' => 'JL.MERDEKA JERA\'E',
-            ),
-            75 => 
-            array (
+            ],
+            75 => [
                 'id' => 76,
                 'alamat' => 'COPPO BUKKANG BILUT',
-            ),
-            76 => 
-            array (
+            ],
+            76 => [
                 'id' => 77,
                 'alamat' => 'SALEPPE/SEWO',
-            ),
-            77 => 
-            array (
+            ],
+            77 => [
                 'id' => 78,
                 'alamat' => 'MADINING',
-            ),
-            78 => 
-            array (
+            ],
+            78 => [
                 'id' => 79,
                 'alamat' => 'TANETE',
-            ),
-            79 => 
-            array (
+            ],
+            79 => [
                 'id' => 80,
                 'alamat' => 'LAPAJUNG BARAT',
-            ),
-            80 => 
-            array (
+            ],
+            80 => [
                 'id' => 81,
                 'alamat' => 'JL.PESANTREN',
-            ),
-            81 => 
-            array (
+            ],
+            81 => [
                 'id' => 82,
                 'alamat' => 'JL.PESANTREN LPJ.BARAT',
-            ),
-            82 => 
-            array (
+            ],
+            82 => [
                 'id' => 83,
                 'alamat' => 'JL.PASAR SENTRAL',
-            ),
-            83 => 
-            array (
+            ],
+            83 => [
                 'id' => 84,
                 'alamat' => 'JL.MALAKA',
-            ),
-            84 => 
-            array (
+            ],
+            84 => [
                 'id' => 85,
                 'alamat' => 'MALAKA / LAPPA\'E',
-            ),
-            85 => 
-            array (
+            ],
+            85 => [
                 'id' => 86,
                 'alamat' => 'SENTRAL / BATU MASSILA',
-            ),
-            86 => 
-            array (
+            ],
+            86 => [
                 'id' => 87,
                 'alamat' => 'LAPAJUNG LABURAWUNG',
-            ),
-            87 => 
-            array (
+            ],
+            87 => [
                 'id' => 88,
                 'alamat' => 'LABURAWUNG',
-            ),
-            88 => 
-            array (
+            ],
+            88 => [
                 'id' => 89,
                 'alamat' => 'JL.SENTRAL',
-            ),
-            89 => 
-            array (
+            ],
+            89 => [
                 'id' => 90,
                 'alamat' => 'JL.MALAKA RAYA',
-            ),
-            90 => 
-            array (
+            ],
+            90 => [
                 'id' => 91,
                 'alamat' => 'BTN MALAKA',
-            ),
-            91 => 
-            array (
+            ],
+            91 => [
                 'id' => 92,
                 'alamat' => 'TANETE/LABURAWUNG',
-            ),
-            92 => 
-            array (
+            ],
+            92 => [
                 'id' => 93,
                 'alamat' => 'MALAKA',
-            ),
-            93 => 
-            array (
+            ],
+            93 => [
                 'id' => 94,
                 'alamat' => 'LAKACERE LABURAWUNG',
-            ),
-            94 => 
-            array (
+            ],
+            94 => [
                 'id' => 95,
                 'alamat' => 'BTN LABURAWUNG',
-            ),
-            95 => 
-            array (
+            ],
+            95 => [
                 'id' => 96,
                 'alamat' => 'LEPPANGENG / TANETE',
-            ),
-            96 => 
-            array (
+            ],
+            96 => [
                 'id' => 97,
                 'alamat' => 'JL. PISANG',
-            ),
-            97 => 
-            array (
+            ],
+            97 => [
                 'id' => 98,
                 'alamat' => 'TANETE MALAKA',
-            ),
-            98 => 
-            array (
+            ],
+            98 => [
                 'id' => 99,
                 'alamat' => 'LAPPA\'E MALAKA',
-            ),
-            99 => 
-            array (
+            ],
+            99 => [
                 'id' => 100,
                 'alamat' => 'LEPPANGENG MALAKA',
-            ),
-            100 => 
-            array (
+            ],
+            100 => [
                 'id' => 101,
                 'alamat' => 'PERUMNAS LANGKEME',
-            ),
-            101 => 
-            array (
+            ],
+            101 => [
                 'id' => 102,
                 'alamat' => 'BTN MALAKA SARI',
-            ),
-            102 => 
-            array (
+            ],
+            102 => [
                 'id' => 103,
                 'alamat' => 'LAPAJUNG',
-            ),
-            103 => 
-            array (
+            ],
+            103 => [
                 'id' => 104,
                 'alamat' => 'JL.RAYA MALAKA',
-            ),
-            104 => 
-            array (
+            ],
+            104 => [
                 'id' => 105,
                 'alamat' => 'LAPPAE',
-            ),
-            105 => 
-            array (
+            ],
+            105 => [
                 'id' => 106,
                 'alamat' => 'BTN MALAKA RAYA',
-            ),
-            106 => 
-            array (
+            ],
+            106 => [
                 'id' => 107,
                 'alamat' => 'KOMP.LANGKEMME',
-            ),
-            107 => 
-            array (
+            ],
+            107 => [
                 'id' => 108,
                 'alamat' => 'BTN MALAKA INDAH',
-            ),
-            108 => 
-            array (
+            ],
+            108 => [
                 'id' => 109,
                 'alamat' => 'MALAKA / BTN MALAKA',
-            ),
-            109 => 
-            array (
+            ],
+            109 => [
                 'id' => 110,
                 'alamat' => 'R.DINAS LANGKEMME MALAKA',
-            ),
-            110 => 
-            array (
+            ],
+            110 => [
                 'id' => 111,
                 'alamat' => 'WATU-WATU',
-            ),
-            111 => 
-            array (
+            ],
+            111 => [
                 'id' => 112,
                 'alamat' => 'KOMP.MALAKA INDAH',
-            ),
-            112 => 
-            array (
+            ],
+            112 => [
                 'id' => 113,
                 'alamat' => 'KOMP.MALAKA',
-            ),
-            113 => 
-            array (
+            ],
+            113 => [
                 'id' => 114,
                 'alamat' => 'LP.MALAKA',
-            ),
-            114 => 
-            array (
+            ],
+            114 => [
                 'id' => 115,
                 'alamat' => 'LEPPANGENG',
-            ),
-            115 => 
-            array (
+            ],
+            115 => [
                 'id' => 116,
                 'alamat' => 'JL.MALAKA INDAH',
-            ),
-            116 => 
-            array (
+            ],
+            116 => [
                 'id' => 117,
                 'alamat' => 'MALAKA INDAH',
-            ),
-            117 => 
-            array (
+            ],
+            117 => [
                 'id' => 118,
                 'alamat' => 'MALAKA POROS BAKA\'E',
-            ),
-            118 => 
-            array (
+            ],
+            118 => [
                 'id' => 119,
                 'alamat' => 'MALAKA / VILLA',
-            ),
-            119 => 
-            array (
+            ],
+            119 => [
                 'id' => 120,
                 'alamat' => 'JL.LAMAPPOLEWARE',
-            ),
-            120 => 
-            array (
+            ],
+            120 => [
                 'id' => 121,
                 'alamat' => 'BTN GRIYA MALAKA',
-            ),
-            121 => 
-            array (
+            ],
+            121 => [
                 'id' => 122,
                 'alamat' => 'V.LAMAPOLOWARE',
-            ),
-            122 => 
-            array (
+            ],
+            122 => [
                 'id' => 123,
                 'alamat' => 'BTN GBMI',
-            ),
-            123 => 
-            array (
+            ],
+            123 => [
                 'id' => 124,
                 'alamat' => 'MALAKA KOMP. LKM',
-            ),
-            124 => 
-            array (
+            ],
+            124 => [
                 'id' => 125,
                 'alamat' => 'MADELLO/LAKACERE',
-            ),
-            125 => 
-            array (
+            ],
+            125 => [
                 'id' => 126,
                 'alamat' => 'SENTRAL',
-            ),
-            126 => 
-            array (
+            ],
+            126 => [
                 'id' => 127,
                 'alamat' => 'MADELLO',
-            ),
-            127 => 
-            array (
+            ],
+            127 => [
                 'id' => 128,
                 'alamat' => 'LAKACERE',
-            ),
-            128 => 
-            array (
+            ],
+            128 => [
                 'id' => 129,
                 'alamat' => 'MADELLO/OMPO',
-            ),
-            129 => 
-            array (
+            ],
+            129 => [
                 'id' => 130,
                 'alamat' => 'OMPO',
-            ),
-            130 => 
-            array (
+            ],
+            130 => [
                 'id' => 131,
                 'alamat' => 'JL.H.A.WANA',
-            ),
-            131 => 
-            array (
+            ],
+            131 => [
                 'id' => 132,
                 'alamat' => 'MADELLO/LAWO',
-            ),
-            132 => 
-            array (
+            ],
+            132 => [
                 'id' => 133,
                 'alamat' => 'LAWO',
-            ),
-            133 => 
-            array (
+            ],
+            133 => [
                 'id' => 134,
                 'alamat' => 'HAWA',
-            ),
-            134 => 
-            array (
+            ],
+            134 => [
                 'id' => 135,
                 'alamat' => 'LAWO/JL.PESANTREN',
-            ),
-            135 => 
-            array (
+            ],
+            135 => [
                 'id' => 136,
                 'alamat' => 'LAWO / LESU',
-            ),
-            136 => 
-            array (
+            ],
+            136 => [
                 'id' => 137,
                 'alamat' => 'BTN PAYUNG MAS',
-            ),
-            137 => 
-            array (
+            ],
+            137 => [
                 'id' => 138,
                 'alamat' => 'L A W O',
-            ),
-            138 => 
-            array (
+            ],
+            138 => [
                 'id' => 139,
                 'alamat' => 'BATU-BATU',
-            ),
-            139 => 
-            array (
+            ],
+            139 => [
                 'id' => 140,
                 'alamat' => 'LIMPOMAJANG',
-            ),
-            140 => 
-            array (
+            ],
+            140 => [
                 'id' => 141,
                 'alamat' => 'BAKA\'E',
-            ),
-            141 => 
-            array (
+            ],
+            141 => [
                 'id' => 142,
                 'alamat' => 'MACCOPE',
-            ),
-            142 => 
-            array (
+            ],
+            142 => [
                 'id' => 143,
                 'alamat' => 'GTP SALOTUNGO',
-            ),
-            143 => 
-            array (
+            ],
+            143 => [
                 'id' => 144,
                 'alamat' => 'BAKA\'E /SALOTUNGO',
-            ),
-            144 => 
-            array (
+            ],
+            144 => [
                 'id' => 145,
                 'alamat' => 'SALOTUNGO / LOLLO\'E',
-            ),
-            145 => 
-            array (
+            ],
+            145 => [
                 'id' => 146,
                 'alamat' => 'MACCOPE / LOLLO\'E',
-            ),
-            146 => 
-            array (
+            ],
+            146 => [
                 'id' => 147,
                 'alamat' => 'CIKKE\'E SALOTUNGO',
-            ),
-            147 => 
-            array (
+            ],
+            147 => [
                 'id' => 148,
                 'alamat' => 'BAKA\'E LOLLOE',
-            ),
-            148 => 
-            array (
+            ],
+            148 => [
                 'id' => 149,
                 'alamat' => 'BTN GTP',
-            ),
-            149 => 
-            array (
+            ],
+            149 => [
                 'id' => 150,
                 'alamat' => 'UKKE\'E',
-            ),
-            150 => 
-            array (
+            ],
+            150 => [
                 'id' => 151,
                 'alamat' => 'BENTENGE',
-            ),
-            151 => 
-            array (
+            ],
+            151 => [
                 'id' => 152,
                 'alamat' => 'BENTENGE/UKKEE',
-            ),
-            152 => 
-            array (
+            ],
+            152 => [
                 'id' => 153,
                 'alamat' => 'SOLIE',
-            ),
-            153 => 
-            array (
+            ],
+            153 => [
                 'id' => 154,
                 'alamat' => 'TONRONGE',
-            ),
-            154 => 
-            array (
+            ],
+            154 => [
                 'id' => 155,
                 'alamat' => 'TAKALALA',
-            ),
-            155 => 
-            array (
+            ],
+            155 => [
                 'id' => 156,
                 'alamat' => 'TAKALALA/SENTRAL',
-            ),
-            156 => 
-            array (
+            ],
+            156 => [
                 'id' => 157,
                 'alamat' => 'JL.A.POTTO',
-            ),
-            157 => 
-            array (
+            ],
+            157 => [
                 'id' => 158,
                 'alamat' => 'JL. MACANRE',
-            ),
-            158 => 
-            array (
+            ],
+            158 => [
                 'id' => 159,
                 'alamat' => 'JL.A.PALOMPOI',
-            ),
-            159 => 
-            array (
+            ],
+            159 => [
                 'id' => 160,
                 'alamat' => 'JL.A.PANNE',
-            ),
-            160 => 
-            array (
+            ],
+            160 => [
                 'id' => 161,
                 'alamat' => 'JL.PASAR LAMA',
-            ),
-            161 => 
-            array (
+            ],
+            161 => [
                 'id' => 162,
                 'alamat' => 'JL.MESJID RAYA',
-            ),
-            162 => 
-            array (
+            ],
+            162 => [
                 'id' => 163,
                 'alamat' => 'JL.ALLIMBANGENG',
-            ),
-            163 => 
-            array (
+            ],
+            163 => [
                 'id' => 164,
                 'alamat' => 'JL.AL-MUHAJIRIN',
-            ),
-            164 => 
-            array (
+            ],
+            164 => [
                 'id' => 165,
                 'alamat' => 'JL.SUKARELA',
-            ),
-            165 => 
-            array (
+            ],
+            165 => [
                 'id' => 166,
                 'alamat' => 'JL.SUNGAI WALANAE',
-            ),
-            166 => 
-            array (
+            ],
+            166 => [
                 'id' => 167,
                 'alamat' => 'JL. LOMPENGENG',
-            ),
-            167 => 
-            array (
+            ],
+            167 => [
                 'id' => 168,
                 'alamat' => 'JL.PAHLAWAN',
-            ),
-            168 => 
-            array (
+            ],
+            168 => [
                 'id' => 169,
                 'alamat' => 'JL.GOTONG ROYONG',
-            ),
-            169 => 
-            array (
+            ],
+            169 => [
                 'id' => 170,
                 'alamat' => 'JL.PEMILIHAN',
-            ),
-            170 => 
-            array (
+            ],
+            170 => [
                 'id' => 171,
                 'alamat' => 'JL.AMAN',
-            ),
-            171 => 
-            array (
+            ],
+            171 => [
                 'id' => 172,
                 'alamat' => 'JL.CABENGE',
-            ),
-            172 => 
-            array (
+            ],
+            172 => [
                 'id' => 173,
                 'alamat' => 'JL.ALLAPORENG',
-            ),
-            173 => 
-            array (
+            ],
+            173 => [
                 'id' => 174,
                 'alamat' => 'S.WALENNA\'E',
-            ),
-            174 => 
-            array (
+            ],
+            174 => [
                 'id' => 175,
                 'alamat' => 'JL.POTTO',
-            ),
-            175 => 
-            array (
+            ],
+            175 => [
                 'id' => 176,
                 'alamat' => 'MACANRE',
-            ),
-            176 => 
-            array (
+            ],
+            176 => [
                 'id' => 177,
                 'alamat' => 'JL.H.A.PANNE',
-            ),
-            177 => 
-            array (
+            ],
+            177 => [
                 'id' => 178,
                 'alamat' => 'LOMPENGENG',
-            ),
-            178 => 
-            array (
+            ],
+            178 => [
                 'id' => 179,
                 'alamat' => 'CABENGE',
-            ),
-            179 => 
-            array (
+            ],
+            179 => [
                 'id' => 180,
                 'alamat' => 'ABBANUANGE',
-            ),
-            180 => 
-            array (
+            ],
+            180 => [
                 'id' => 181,
                 'alamat' => 'TETEWATU',
-            ),
-            181 => 
-            array (
+            ],
+            181 => [
                 'id' => 182,
                 'alamat' => 'PALERO',
-            ),
-            182 => 
-            array (
+            ],
+            182 => [
                 'id' => 183,
                 'alamat' => 'TAJUNCU',
-            ),
-            183 => 
-            array (
+            ],
+            183 => [
                 'id' => 184,
                 'alamat' => 'BTN BUCCELLO',
-            ),
-            184 => 
-            array (
+            ],
+            184 => [
                 'id' => 185,
                 'alamat' => 'PEPPAE, ABBANUANGE',
-            ),
-            185 => 
-            array (
+            ],
+            185 => [
                 'id' => 186,
                 'alamat' => 'MANGKUTTU',
-            ),
-            186 => 
-            array (
+            ],
+            186 => [
                 'id' => 187,
                 'alamat' => 'BTN BUKIT MATRA',
-            ),
-            187 => 
-            array (
+            ],
+            187 => [
                 'id' => 188,
                 'alamat' => 'SALENG, ABBANUANGE',
-            ),
-            188 => 
-            array (
+            ],
+            188 => [
                 'id' => 189,
                 'alamat' => 'TOGORA',
-            ),
-            189 => 
-            array (
+            ],
+            189 => [
                 'id' => 190,
                 'alamat' => 'BERRU/ABBANUANGE',
-            ),
-            190 => 
-            array (
+            ],
+            190 => [
                 'id' => 191,
                 'alamat' => 'DESA LABAE',
-            ),
-            191 => 
-            array (
+            ],
+            191 => [
                 'id' => 192,
                 'alamat' => 'RAFILLA RESIDENCE / CIKKE',
-            ),
-            192 => 
-            array (
+            ],
+            192 => [
                 'id' => 193,
                 'alamat' => 'TONRONGE, TETEWATU',
-            ),
-            193 => 
-            array (
+            ],
+            193 => [
                 'id' => 194,
                 'alamat' => 'BTN KOLAM MAS INDAH',
-            ),
-            194 => 
-            array (
+            ],
+            194 => [
                 'id' => 195,
                 'alamat' => 'BTN MASAGO LOLLOE',
-            ),
-            195 => 
-            array (
+            ],
+            195 => [
                 'id' => 196,
                 'alamat' => 'KALAKKANG',
-            ),
-            196 => 
-            array (
+            ],
+            196 => [
                 'id' => 197,
                 'alamat' => 'BTN TOMPO TOBANI',
-            ),
-            197 => 
-            array (
+            ],
+            197 => [
                 'id' => 198,
                 'alamat' => 'BTN LALABATA PERMAI',
-            ),
-            198 => 
-            array (
+            ],
+            198 => [
                 'id' => 199,
                 'alamat' => 'BTN SINAR MATRA',
-            ),
-            199 => 
-            array (
+            ],
+            199 => [
                 'id' => 200,
                 'alamat' => 'BTN HANDAYANI LOLLOE',
-            ),
-            200 => 
-            array (
+            ],
+            200 => [
                 'id' => 304,
                 'alamat' => 'SEDUTA PERMAI MALAKA',
-            ),
-            201 => 
-            array (
+            ],
+            201 => [
                 'id' => 401,
                 'alamat' => 'BTN CAHAYA',
-            ),
-            202 => 
-            array (
+            ],
+            202 => [
                 'id' => 501,
                 'alamat' => 'TINCO',
-            ),
-            203 => 
-            array (
+            ],
+            203 => [
                 'id' => 502,
                 'alamat' => 'TETEWATU',
-            ),
-            204 => 
-            array (
+            ],
+            204 => [
                 'id' => 606,
                 'alamat' => 'TAJUNCU',
-            ),
-            205 => 
-            array (
+            ],
+            205 => [
                 'id' => 607,
                 'alamat' => 'PALANGISENG',
-            ),
-            206 => 
-            array (
+            ],
+            206 => [
                 'id' => 608,
                 'alamat' => 'TAKAMMUTA',
-            ),
-            207 => 
-            array (
+            ],
+            207 => [
                 'id' => 609,
                 'alamat' => 'LAPPA WATU WATU',
-            ),
-            208 => 
-            array (
+            ],
+            208 => [
                 'id' => 610,
                 'alamat' => 'BTN GRAHA MERDEKA',
-            ),
-            209 => 
-            array (
+            ],
+            209 => [
                 'id' => 611,
                 'alamat' => 'PANINCONG',
-            ),
-            210 => 
-            array (
+            ],
+            210 => [
                 'id' => 612,
                 'alamat' => 'MARIO INDAH',
-            ),
-            211 => 
-            array (
+            ],
+            211 => [
                 'id' => 613,
                 'alamat' => 'BTN BUKIT MALAKA',
-            ),
-            212 => 
-            array (
+            ],
+            212 => [
                 'id' => 614,
                 'alamat' => 'GRAHA LAKACERE',
-            ),
-            213 => 
-            array (
+            ],
+            213 => [
                 'id' => 615,
                 'alamat' => 'BTN POROS LEMPA',
-            ),
-            214 => 
-            array (
+            ],
+            214 => [
                 'id' => 616,
                 'alamat' => 'TUJUH WALI WALI',
-            ),
-            215 => 
-            array (
+            ],
+            215 => [
                 'id' => 617,
                 'alamat' => 'LALABATA PERMAI',
-            ),
-            216 => 
-            array (
+            ],
+            216 => [
                 'id' => 618,
                 'alamat' => 'BUCCELLO',
-            ),
-            217 => 
-            array (
+            ],
+            217 => [
                 'id' => 619,
                 'alamat' => 'PARENRING',
-            ),
-            218 => 
-            array (
+            ],
+            218 => [
                 'id' => 620,
                 'alamat' => 'TETEWATU / TONRONGE',
-            ),
-            219 => 
-            array (
+            ],
+            219 => [
                 'id' => 621,
                 'alamat' => 'PALERO / PALANGISENG',
-            ),
-            220 => 
-            array (
+            ],
+            220 => [
                 'id' => 622,
                 'alamat' => 'TEGORA / PALANGISENG',
-            ),
-            221 => 
-            array (
+            ],
+            221 => [
                 'id' => 623,
                 'alamat' => 'JL.NENE URANG',
-            ),
-            222 => 
-            array (
+            ],
+            222 => [
                 'id' => 624,
                 'alamat' => 'BUKIT KAYANGAN',
-            ),
-            223 => 
-            array (
+            ],
+            223 => [
                 'id' => 625,
                 'alamat' => 'JL.A.MAKKULAWU',
-            ),
-            224 => 
-            array (
+            ],
+            224 => [
                 'id' => 626,
                 'alamat' => 'JL.BATU MASSILA',
-            ),
-            225 => 
-            array (
+            ],
+            225 => [
                 'id' => 627,
                 'alamat' => 'BTN PAKANREBETE',
-            ),
-            226 => 
-            array (
+            ],
+            226 => [
                 'id' => 628,
                 'alamat' => 'PAROTO',
-            ),
-            227 => 
-            array (
+            ],
+            227 => [
                 'id' => 629,
                 'alamat' => 'PALERO / ABBANUANGE',
-            ),
-            228 => 
-            array (
+            ],
+            228 => [
                 'id' => 630,
                 'alamat' => 'JL.A.MADE ALI',
-            ),
-            229 => 
-            array (
+            ],
+            229 => [
                 'id' => 631,
                 'alamat' => 'TANETE',
-            ),
-            230 => 
-            array (
+            ],
+            230 => [
                 'id' => 632,
                 'alamat' => 'TANJONGE',
-            ),
-            231 => 
-            array (
+            ],
+            231 => [
                 'id' => 633,
                 'alamat' => 'LASUDU',
-            ),
-            232 => 
-            array (
+            ],
+            232 => [
                 'id' => 634,
                 'alamat' => 'ALLANGKARAKENGE',
-            ),
-            233 => 
-            array (
+            ],
+            233 => [
                 'id' => 635,
                 'alamat' => 'JEKKA\'E',
-            ),
-            234 => 
-            array (
+            ],
+            234 => [
                 'id' => 636,
                 'alamat' => 'SAREBATUE',
-            ),
-            235 => 
-            array (
+            ],
+            235 => [
                 'id' => 637,
                 'alamat' => 'PISING',
-            ),
-            236 => 
-            array (
+            ],
+            236 => [
                 'id' => 638,
                 'alamat' => 'AMESANGENG',
-            ),
-            237 => 
-            array (
+            ],
+            237 => [
                 'id' => 639,
                 'alamat' => 'ANAWANGENG',
-            ),
-            238 => 
-            array (
+            ],
+            238 => [
                 'id' => 640,
                 'alamat' => 'ATTALIANG',
-            ),
-            239 => 
-            array (
+            ],
+            239 => [
                 'id' => 641,
                 'alamat' => 'TOCAMPU',
-            ),
-            240 => 
-            array (
+            ],
+            240 => [
                 'id' => 642,
                 'alamat' => 'BTN BUMI RIO BATARA',
-            ),
-            241 => 
-            array (
+            ],
+            241 => [
                 'id' => 643,
                 'alamat' => 'JL.PETTA WANUA',
-            ),
-            242 => 
-            array (
+            ],
+            242 => [
                 'id' => 644,
                 'alamat' => 'BTN BAITI JANNATI',
-            ),
-            243 => 
-            array (
+            ],
+            243 => [
                 'id' => 645,
                 'alamat' => 'PERINTIS',
-            ),
-            244 => 
-            array (
+            ],
+            244 => [
                 'id' => 646,
                 'alamat' => 'VILLA MAKNUNAK',
-            ),
-            245 => 
-            array (
+            ],
+            245 => [
                 'id' => 647,
                 'alamat' => 'VILLA SANUBARI',
-            ),
-            246 => 
-            array (
+            ],
+            246 => [
                 'id' => 648,
                 'alamat' => 'BTN BUMI RIO BATARA',
-            ),
-            247 => 
-            array (
+            ],
+            247 => [
                 'id' => 649,
                 'alamat' => 'SEPPANG',
-            ),
-            248 => 
-            array (
+            ],
+            248 => [
                 'id' => 650,
                 'alamat' => 'LR.TEMMAPAFI',
-            ),
-            249 => 
-            array (
+            ],
+            249 => [
                 'id' => 651,
                 'alamat' => 'SEPPANG',
-            ),
-            250 => 
-            array (
+            ],
+            250 => [
                 'id' => 652,
                 'alamat' => 'GRIYA CITRA LAPAJUNG',
-            ),
-            251 => 
-            array (
+            ],
+            251 => [
                 'id' => 653,
                 'alamat' => 'SEDUTA RESIDEN MALAKA',
-            ),
-            252 => 
-            array (
+            ],
+            252 => [
                 'id' => 654,
                 'alamat' => 'JL.LAMAPPOLOWARE',
-            ),
-            253 => 
-            array (
+            ],
+            253 => [
                 'id' => 655,
                 'alamat' => 'ASMIL MALAKA',
-            ),
-            254 => 
-            array (
+            ],
+            254 => [
                 'id' => 656,
                 'alamat' => 'PESONA ALAM OMPO',
-            ),
-            255 => 
-            array (
+            ],
+            255 => [
                 'id' => 657,
                 'alamat' => 'GRIYA ALJIBATUN',
-            ),
-            256 => 
-            array (
+            ],
+            256 => [
                 'id' => 658,
                 'alamat' => 'VILLA RESIDENCE',
-            ),
-            257 => 
-            array (
+            ],
+            257 => [
                 'id' => 659,
                 'alamat' => 'LAKIBONG',
-            ),
-            258 => 
-            array (
+            ],
+            258 => [
                 'id' => 660,
                 'alamat' => 'MALAKA/LAPPAE',
-            ),
-            259 => 
-            array (
+            ],
+            259 => [
                 'id' => 661,
                 'alamat' => 'BTN LEMPA',
-            ),
-            260 => 
-            array (
+            ],
+            260 => [
                 'id' => 662,
                 'alamat' => 'BTN LEMPA',
-            ),
-            261 => 
-            array (
+            ],
+            261 => [
                 'id' => 663,
                 'alamat' => 'BTN ROYAL HARMONI',
-            ),
-            262 => 
-            array (
+            ],
+            262 => [
                 'id' => 664,
                 'alamat' => 'GAMALAKA RESIDENCE',
-            ),
-            263 => 
-            array (
+            ],
+            263 => [
                 'id' => 665,
                 'alamat' => 'CITTA',
-            ),
-            264 => 
-            array (
+            ],
+            264 => [
                 'id' => 666,
                 'alamat' => 'SEDUTA LAND LAPPAE',
-            ),
-            265 => 
-            array (
+            ],
+            265 => [
                 'id' => 667,
                 'alamat' => 'PAKANREBETE/GAPIS',
-            ),
-        ));
-        
-        
+            ],
+        ]);
     }
 }

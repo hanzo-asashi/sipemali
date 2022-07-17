@@ -20,21 +20,35 @@ class UserTable extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public $users;
+
     public $roles;
+
     public $userRoles;
 
     public bool $filter = false;
+
     public bool $sort = false;
+
     public string $defaultSort = 'id';
+
     public int $perPage = 10;
+
     public bool $filterByStatus = false;
+
     public string $selectedRole = '';
+
     public string $search = '';
+
     public $selectedStatus = '';
+
     public array $checked = [];
+
     public bool $isChecked = false;
+
     public string $cardTitle = 'Data Pengguna';
+
     public bool $selectAll = false;
+
     public bool $bulkDisabled = true;
 
 //    public $listeners = [];
@@ -65,7 +79,7 @@ class UserTable extends Component
 
 //            $user = $this->users->findOrFail($id)->where('id', '!=', 1)->delete();
         $user = $this->users->findOrFail($id);
-        if ($user->is_admin !== 1 && !$user->hasRole('superadmin')) {
+        if ($user->is_admin !== 1 && ! $user->hasRole('superadmin')) {
             $user->delete();
             $user->syncRoles();
         }
@@ -103,7 +117,6 @@ class UserTable extends Component
         return in_array($userid, $this->checked, true);
     }
 
-
     public function render(): Factory|View|Application
     {
         $listUsers = $this->users->with(['roles'])
@@ -117,7 +130,7 @@ class UserTable extends Component
             ->orderBy($this->defaultSort)
             ->paginate($this->perPage);
 
-        $roles = Role::pluck('name','id');
+        $roles = Role::pluck('name', 'id');
         $listStatus = config('custom.status_aktif');
 
         return view('livewire.pengguna.user-table', [
@@ -125,7 +138,7 @@ class UserTable extends Component
             'listRoles' => $roles,
             'listStatus' => $listStatus,
             'page' => $this->page,
-            'pageCount' => $this->perPage
+            'pageCount' => $this->perPage,
         ]);
     }
 }

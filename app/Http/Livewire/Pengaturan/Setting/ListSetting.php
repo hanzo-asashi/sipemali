@@ -13,12 +13,19 @@ class ListSetting extends Component
     use LivewireAlert;
 
     public string $title = 'Pengaturan';
+
     public array $state = [];
+
     public array $listBulan = [];
+
     public array $listMenuNavbarType = [];
+
     public array $listNavbarColor = [];
+
     public array $listFooterType = [];
+
     public array $listTheme = [];
+
     public array $listLanguage = [];
 //    public bool $saved = false;
 

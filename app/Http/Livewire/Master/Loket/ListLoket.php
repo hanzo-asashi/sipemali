@@ -3,16 +3,11 @@
 namespace App\Http\Livewire\Master\Loket;
 
 use App\Models\BranchCounter;
-use App\Models\Status;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Services\LoketService;
-use App\Services\DataService;
 
 class ListLoket extends Component
 {
@@ -24,19 +19,29 @@ class ListLoket extends Component
     public BranchCounter $branchCounter;
 
     public int $perPage = 15;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public bool $selectAllCheckbox = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllLoket = false;
 
     public int $loketId;
+
     public string $deleteTipe = 'single';
 
     public string $title = 'List Loket';
@@ -75,8 +80,7 @@ class ListLoket extends Component
             $this->checked = $this->branchCounter->query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
-                ->toArray()
-            ;
+                ->toArray();
         } else {
             $this->checked = [];
             $this->selectAllLoket = false;
@@ -151,7 +155,7 @@ class ListLoket extends Component
         $this->resetField();
     }
 
-    public function confirmedDelete() : void
+    public function confirmedDelete(): void
     {
         $this->delete($this->loketId, $this->deleteTipe);
     }
@@ -190,8 +194,7 @@ class ListLoket extends Component
         $listLoket = $this->branchCounter
 //            ->search($this->search)
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage)
-        ;
+            ->paginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,
@@ -199,6 +202,6 @@ class ListLoket extends Component
             'totalData' => $listLoket->total(),
         ];
 
-        return view('livewire.master.loket.list-loket',compact('listLoket'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.loket.list-loket', compact('listLoket'))->extends('layouts.contentLayoutMaster');
     }
 }

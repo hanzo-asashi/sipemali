@@ -16,15 +16,16 @@ class Status extends Model
     use LogsActivity;
 
     public $timestamps = false;
+
     protected $fillable = ['nama_status', 'shortcode'];
+
     protected $casts = [];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->useLogName('Status Pelanggan')
-            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} status pelanggan {$this->name}");
+            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} status pelanggan {$this->name}");
         // Chain fluent methods for configuration options
     }
-
 }

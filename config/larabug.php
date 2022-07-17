@@ -36,7 +36,7 @@ return [
     */
 
     'environments' => [
-        'production','local'
+        'production', 'local',
     ],
 
     /*
@@ -48,7 +48,7 @@ return [
     | For git repository: shell_exec("git log -1 --pretty=format:'%h' --abbrev-commit")
     |
     */
-//    'project_version' => shell_exec("git log -1 --pretty=format:'%h' --abbrev-commint"),
+    //    'project_version' => shell_exec("git log -1 --pretty=format:'%h' --abbrev-commint"),
     'project_version' => null,
 
     /*
@@ -108,7 +108,7 @@ return [
         '*cvv*',
         '*iban*',
         '*name*',
-        '*email*'
+        '*email*',
     ],
 
     /*

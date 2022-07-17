@@ -16,14 +16,16 @@ class BankAccount extends Model
     use LogsActivity;
 
     public $timestamps = false;
-    protected $fillable = ['name', 'account_number','bank_name'];
+
+    protected $fillable = ['name', 'account_number', 'bank_name'];
+
     protected $casts = [];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->useLogName('Bank')
-            ->setDescriptionForEvent(fn($eventName) => "{$eventName} akun {$this->bank_name}");
+            ->setDescriptionForEvent(fn ($eventName) => "{$eventName} akun {$this->bank_name}");
         // Chain fluent methods for configuration options
     }
 }

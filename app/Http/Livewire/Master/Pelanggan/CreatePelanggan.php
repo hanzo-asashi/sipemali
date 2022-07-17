@@ -17,9 +17,13 @@ use Livewire\Component;
 class CreatePelanggan extends Component
 {
     use LivewireAlert;
+
     public string $title = 'Buat Pelanggan';
+
     public Customers $customers;
+
     public array $pelanggan = [];
+
     public array $breadcrumbs = [];
 
     public function mount(Customers $customers): void
@@ -60,8 +64,8 @@ class CreatePelanggan extends Component
     public function storePelanggan(): void
     {
         $validated = Validator::make($this->pelanggan, [
-//            'no_sambungan' => 'required|max:30|unique:pelanggan,no_sambungan',
-//            'no_pelanggan' => 'required|max:15|unique:pelanggan,no_pelanggan',
+            //            'no_sambungan' => 'required|max:30|unique:pelanggan,no_sambungan',
+            //            'no_pelanggan' => 'required|max:15|unique:pelanggan,no_pelanggan',
             'nama_pelanggan' => 'required|max:150',
             'alamat_pelanggan' => 'required|max:255',
             'zona_id' => 'required',

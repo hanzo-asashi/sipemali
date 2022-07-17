@@ -21,27 +21,45 @@ class RoleTable extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public string $defaultSort = 'id';
+
     public int $perPage = 10;
+
     public string $selectedRole = '';
+
     public string $search = '';
+
     public string $sortColumn = 'created_at';
+
     public string $sortDirection = 'asc';
 
     public array $selectedPermission = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public string $cardTitle = 'Data Hak Akses';
+
     public bool $selectAll = false;
+
     public bool $bulkDisabled = true;
+
     public array $listPermission = ['create', 'read', 'update', 'delete'];
+
     public bool $showEditModal = false;
+
     public bool $disableButton = false;
+
     public bool $showPermission = false;
 
     public $roles;
+
     public $permissions;
+
     public $name;
+
     public $role;
 
     protected $listeners = [
@@ -58,7 +76,6 @@ class RoleTable extends Component
     {
         $this->perPage = $perPage;
     }
-
 
     public function mount(Role $roles, Permission $permission): void
     {
@@ -194,7 +211,7 @@ class RoleTable extends Component
             'listPermissions' => $listPermissions,
             'page' => $this->page,
             'pageCount' => $this->perPage,
-            'totaldata' => $listPermissions->count()
+            'totaldata' => $listPermissions->count(),
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Concerns;
 trait WithTitle
 {
     public string $title = '';
+
     public array $breadcrumbs = [];
 
     public function getTitle(): string

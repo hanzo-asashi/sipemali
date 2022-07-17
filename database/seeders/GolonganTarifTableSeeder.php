@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 
 class GolonganTarifTableSeeder extends Seeder
 {
-
     /**
      * Auto generated seed file
      *
@@ -14,13 +13,10 @@ class GolonganTarifTableSeeder extends Seeder
      */
     public function run()
     {
-        
-
         \DB::table('golongan_tarif')->delete();
-        
-        \DB::table('golongan_tarif')->insert(array (
-            0 => 
-            array (
+
+        \DB::table('golongan_tarif')->insert([
+            0 => [
                 'id' => 1,
                 'kode_golongan' => '111',
                 'nama_golongan' => 'SU',
@@ -40,11 +36,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            1 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            1 => [
                 'id' => 2,
                 'kode_golongan' => '121',
                 'nama_golongan' => 'SK',
@@ -64,11 +59,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            2 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            2 => [
                 'id' => 3,
                 'kode_golongan' => '211',
                 'nama_golongan' => 'RT-A',
@@ -88,11 +82,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            3 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            3 => [
                 'id' => 4,
                 'kode_golongan' => '221',
                 'nama_golongan' => 'RT-B',
@@ -112,11 +105,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            4 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            4 => [
                 'id' => 5,
                 'kode_golongan' => '231',
                 'nama_golongan' => 'IP-A',
@@ -136,11 +128,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            5 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            5 => [
                 'id' => 6,
                 'kode_golongan' => '232',
                 'nama_golongan' => 'IP-B',
@@ -160,11 +151,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            6 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            6 => [
                 'id' => 7,
                 'kode_golongan' => '311',
                 'nama_golongan' => 'NK',
@@ -184,11 +174,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            7 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            7 => [
                 'id' => 8,
                 'kode_golongan' => '321',
                 'nama_golongan' => 'NB-A',
@@ -208,11 +197,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 5000.0,
                 'denda_bln_2' => 5000.0,
                 'denda_lebih_2_bln' => 5000.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            8 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            8 => [
                 'id' => 9,
                 'kode_golongan' => '322',
                 'nama_golongan' => 'NB-B',
@@ -232,11 +220,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 0.0,
                 'denda_bln_2' => 0.0,
                 'denda_lebih_2_bln' => 0.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            9 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            9 => [
                 'id' => 10,
                 'kode_golongan' => '411',
                 'nama_golongan' => 'IK',
@@ -256,11 +243,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 0.0,
                 'denda_bln_2' => 0.0,
                 'denda_lebih_2_bln' => 0.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            10 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            10 => [
                 'id' => 11,
                 'kode_golongan' => '421',
                 'nama_golongan' => 'IB',
@@ -280,11 +266,10 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 0.0,
                 'denda_bln_2' => 0.0,
                 'denda_lebih_2_bln' => 0.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            11 => 
-            array (
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+            11 => [
                 'id' => 12,
                 'kode_golongan' => '511',
                 'nama_golongan' => 'K',
@@ -304,11 +289,9 @@ class GolonganTarifTableSeeder extends Seeder
                 'denda_bln_1' => 0.0,
                 'denda_bln_2' => 0.0,
                 'denda_lebih_2_bln' => 0.0,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-        ));
-        
-        
+                'created_at' => null,
+                'updated_at' => null,
+            ],
+        ]);
     }
 }

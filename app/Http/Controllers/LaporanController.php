@@ -82,6 +82,7 @@ class LaporanController extends Controller
             'listZona' => $listZona,
             'listGolongan' => $listGolongan,
         ];
+
         return view('laporan.daftar-rekening-ditagih', $this->pageData);
     }
 
@@ -93,12 +94,13 @@ class LaporanController extends Controller
     {
         $filter = $request->has('filter') ? $request->get('filter') : [];
         $periode_range = $filter['periode_range'] ?? null;
-        $range = !is_null($periode_range) ? explode(' - ', $periode_range) : null;
-        $start = !is_null($range) ? $range[0] : null;
-        $end = !is_null($range) ? $range[1] : null;
+        $range = ! is_null($periode_range) ? explode(' - ', $periode_range) : null;
+        $start = ! is_null($range) ? $range[0] : null;
+        $end = ! is_null($range) ? $range[1] : null;
         $zona = $filter['z'] ?? null;
         $tipe = $request->has('t') ? $request->get('t') : null;
         $golongan = $filter['golongan'] ?? null;
+
         return [
             'range' => $range,
             'periode_range' => $periode_range,
@@ -118,9 +120,9 @@ class LaporanController extends Controller
     {
         $filter = $request->all();
         $range = $request->has('periode_range') ? $filter['periode_range'] : null;
-        $range = !is_null($range) ? explode(' - ', $range) : null;
-        $start = !is_null($range) ? $range[0] : null;
-        $end = !is_null($range) ? $range[1] : null;
+        $range = ! is_null($range) ? explode(' - ', $range) : null;
+        $start = ! is_null($range) ? $range[0] : null;
+        $end = ! is_null($range) ? $range[1] : null;
 
         return [
             'range' => $range,
@@ -147,6 +149,7 @@ class LaporanController extends Controller
                 });
             })
             ->get();
+
         return view('laporan.piutang-pelanggan', compact('customer', 'filter'));
     }
 
@@ -186,26 +189,27 @@ class LaporanController extends Controller
             'totalData' => $customer->total(),
             'pageCount' => $customer->perPage(),
             'page' => $customer->currentPage(),
-            'pageName' => $pageName
+            'pageName' => $pageName,
         ];
 //        dd($customer->links());
         return view('laporan.opname-fisik', $this->pageData);
     }
 
-    #[ArrayShape(['filter' => '', 'range' => 'null|string[]', 'start' => 'null|string', 'end' => 'null|string'])] private function filterCustomer($filter): array
-    {
-        $range = $filter->has('periode_range') ? $filter['periode_range'] : null;
-        $range = !is_null($range) ? \explode(' - ', $range) : null;
-        $start = !is_null($range) ? $range[0] : null;
-        $end = !is_null($range) ? $range[1] : null;
+    #[ArrayShape(['filter' => '', 'range' => 'null|string[]', 'start' => 'null|string', 'end' => 'null|string'])]
+ private function filterCustomer($filter): array
+ {
+     $range = $filter->has('periode_range') ? $filter['periode_range'] : null;
+     $range = ! is_null($range) ? \explode(' - ', $range) : null;
+     $start = ! is_null($range) ? $range[0] : null;
+     $end = ! is_null($range) ? $range[1] : null;
 
-        return [
-            'filter' => $filter,
-            'range' => $range,
-            'start' => $start,
-            'end' => $end,
-        ];
-    }
+     return [
+         'filter' => $filter,
+         'range' => $range,
+         'start' => $start,
+         'end' => $end,
+     ];
+ }
 
     private function customerQuery($filter, $tipe = 'pelanggan'): LengthAwarePaginator
     {
@@ -324,6 +328,7 @@ class LaporanController extends Controller
     {
         $start = $start ?? now()->firstOfMonth()->toDateString();
         $end = $end ?? now()->endOfMonth();
+
         return Customers::query()
             ->with(['payment', 'golonganTarif', 'zona'])
             ->withSum('payment', 'total_tagihan')
@@ -366,8 +371,8 @@ class LaporanController extends Controller
     {
         $filter = $this->getFilterArray($request);
         $range = $filter['range'];
-        $start = !is_null($filter['start']) ? $filter['start'] : now()->firstOfMonth()->toDateString();
-        $end = !is_null($filter['end']) ? $filter['end'] : now()->endOfMonth()->toDateString();
+        $start = ! is_null($filter['start']) ? $filter['start'] : now()->firstOfMonth()->toDateString();
+        $end = ! is_null($filter['end']) ? $filter['end'] : now()->endOfMonth()->toDateString();
         $filterZona = $filter['zona'];
 
         $periode_range = $filter['periode_range'];
@@ -381,11 +386,11 @@ class LaporanController extends Controller
         $end = Helpers::tanggal($end);
 //        $page = $tipe === 'ikh' ? 'ikhtisar-lpp' : 'penerimaan-penagihan';
 
-        if($tipe === 'ikh'){
+        if ($tipe === 'ikh') {
             $page = 'ikhtisar-lpp';
-        }elseif($tipe === 'lpp'){
+        } elseif ($tipe === 'lpp') {
             $page = 'penerimaan-penagihan';
-        }else{
+        } else {
             $page = 'custom';
         }
 
@@ -409,7 +414,7 @@ class LaporanController extends Controller
             return view('laporan.ikhtisar-lpp', $this->pageData);
         }
 
-        if($tipe === 'custom'){
+        if ($tipe === 'custom') {
             return view('laporan.custom', $this->pageData);
         }
 

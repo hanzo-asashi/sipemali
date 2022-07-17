@@ -21,17 +21,17 @@ trait HasFilter
     public function filter(\Request $request, $field)
     {
         $filter = $this->getFilter($request, $field);
-        if($filter === 'range'){
+        if ($filter === 'range') {
             $range = explode(' - ', $filter);
-            $start = !is_null($range) ? $range[0] : null;
-            $end = !is_null($range) ? $range[1] : null;
+            $start = ! is_null($range) ? $range[0] : null;
+            $end = ! is_null($range) ? $range[1] : null;
             $range = $this->setFilter($field, $filter);
         }
     }
 
     /**
-     * @param Builder $query
-     * @param array $filters
+     * @param  Builder  $query
+     * @param  array  $filters
      * @return Builder
      */
     public function scopeFilter(Builder $query, array $filters = [])

@@ -15,29 +15,42 @@ class ListPermissions extends Component
     protected $paginationTheme = 'bootstrap';
 
     public Permission $permission;
+
     public Role $role;
 
     public User $user;
 
     public array $state = [];
+
     public $permissionId;
 
     public string $search = '';
+
     public int $perPage = 15;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
-    public bool $isChecked = FALSE;
-    public bool $selectAll = FALSE;
-    public bool $updateMode = FALSE;
-    public bool $selectAllPermission = FALSE;
+
+    public bool $isChecked = false;
+
+    public bool $selectAll = false;
+
+    public bool $updateMode = false;
+
+    public bool $selectAllPermission = false;
+
     public string $title = 'List Permissions';
 
     public string $modalId = 'modal-permission';
-    public bool $show = FALSE;
+
+    public bool $show = false;
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -66,7 +79,7 @@ class ListPermissions extends Component
 
     public function selectAllData()
     {
-        $this->selectAllPermission = TRUE;
+        $this->selectAllPermission = true;
         $this->checked = $this->permission->pluck('id')->toArray();
     }
 
@@ -79,7 +92,7 @@ class ListPermissions extends Component
                 ->toArray();
         } else {
             $this->checked = [];
-            $this->selectAllPermission = FALSE;
+            $this->selectAllPermission = false;
         }
     }
 
@@ -92,15 +105,15 @@ class ListPermissions extends Component
                 ->toArray();
         } else {
             $this->checked = [];
-            $this->selectAllPermission = FALSE;
+            $this->selectAllPermission = false;
         }
     }
 
     public function resetCheckbox()
     {
         $this->checked = [];
-        $this->selectAllPermission = FALSE;
-        $this->selectAll = FALSE;
+        $this->selectAllPermission = false;
+        $this->selectAll = false;
     }
 
     public function resetField()
@@ -127,7 +140,7 @@ class ListPermissions extends Component
 
     public function editPermission($id)
     {
-        $this->updateMode = TRUE;
+        $this->updateMode = true;
         $permission = $this->permission->find($id);
         $this->permissionId = $id ?? $permission->id;
 //        $this->state['kode'] = $permission->kode;
@@ -139,7 +152,7 @@ class ListPermissions extends Component
 
     public function addPermission()
     {
-        $this->updateMode = FALSE;
+        $this->updateMode = false;
 //        $this->show = TRUE;
 //        $this->state['name'] = '';
         $this->resetField();
@@ -187,19 +200,19 @@ class ListPermissions extends Component
         $this->sendNotifikasi($delete, 'sendNotif');
     }
 
-    private function alert($options = FALSE, $event = 'notifikasi')
+    private function alert($options = false, $event = 'notifikasi')
     {
         $options = ($options && is_array($options)) ? $options : [];
         $this->dispatchBrowserEvent($event, $options);
     }
 
-    private function closeModal($options = FALSE)
+    private function closeModal($options = false)
     {
         $options = ($options && is_array($options)) ? $options : [];
         $this->dispatchBrowserEvent('closeModal', $options);
     }
 
-    private function openModal($options = FALSE)
+    private function openModal($options = false)
     {
         $options = ($options && is_array($options)) ? $options : [];
         $this->dispatchBrowserEvent('openModal', $options);
@@ -230,6 +243,7 @@ class ListPermissions extends Component
             'pageCount' => $this->perPage,
             'totalData' => $listPermissions->total(),
         ];
+
         return view('livewire.pengaturan.permissions.list-permissions', compact('listPermissions'))
             ->extends('layouts.contentLayoutMaster');
     }

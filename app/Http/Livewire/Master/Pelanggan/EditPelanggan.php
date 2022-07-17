@@ -13,7 +13,9 @@ use Livewire\Component;
 class EditPelanggan extends Component
 {
     use LivewireAlert;
+
     public Customers $customer;
+
     public array $pelanggan = [];
 
     public string $title = 'Ubah Pelanggan';
@@ -45,7 +47,7 @@ class EditPelanggan extends Component
 
     public function resetForms()
     {
-        $this->reset( 'pelanggan');
+        $this->reset('pelanggan');
     }
 
     public function buatDanKembali()
@@ -58,9 +60,9 @@ class EditPelanggan extends Component
     {
         $update = $this->customer->update($this->pelanggan);
 
-        if($update){
+        if ($update) {
             $this->alert('success', 'Berhasil mengubah pelanggan');
-        }else{
+        } else {
             $this->alert('error', 'Gagal mengubah pelanggan');
         }
     }

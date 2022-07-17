@@ -2,13 +2,7 @@
 
 namespace App\Events\Pembayaran;
 
-use App\Events\PaymentCreated;
 use App\Events\PaymentUpdated;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -28,8 +22,8 @@ class CreatePaymentHistory
         $createHistory = PaymentHistory::create([
             'payment_id' => $event->id,
             'customer_id' => $event->customer_id,
-            'description' => 'PembayaranPajak dengan no. transaksi #'.$event->no_transaksi . ' sebesar Rp. '.
-                number_format($event->total_tagihan,0,',','.').' telah dibuat',
+            'description' => 'PembayaranPajak dengan no. transaksi #'.$event->no_transaksi.' sebesar Rp. '.
+                number_format($event->total_tagihan, 0, ',', '.').' telah dibuat',
             'event' => 'PembayaranPajak',
             'meter_awal' => $event->stand_awal,
             'meter_akhir' => $event->stand_akhir,

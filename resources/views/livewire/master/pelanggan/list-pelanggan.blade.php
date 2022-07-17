@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-sm-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
                     <div class="d-flex align-items-center justify-content-center justify-content-lg-end">
-                        @if($checked)
+                        @if($selectedRows)
                             <div wire:ignore.self>
                                 <x-dropdown>
                                     <x-button class="btn btn-outline-secondary waves-effect waves-float waves-light me-1"
@@ -90,7 +90,7 @@
                     <tr class="text-center">
                         <th style="width: 5%;">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="selectAllPelanggan" wire:model="selectAll"/>
+                                <input class="form-check-input" type="checkbox" id="selectAllPelanggan" wire:model="selectAllRows" @selected($selectAllRows)/>
                                 <label class="form-check-label" for="selectAllPelanggan"></label>
                             </div>
                         </th>
@@ -105,19 +105,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @php $i = 1 @endphp
-                    @if($checked)
+                    {{--                    @php $i = 1 @endphp--}}
+                    @if($selectedRows)
                         <tr class="mb-2 mt-2 mx-2">
                             <td colspan="9">
                                     <span class="text-dark font-medium-1">Terpilih
-                                        <span class="font-semibold text-danger">{{ count($checked) }}</span>
+                                        <span class="font-semibold text-danger">{{ count($selectedRows) }}</span>
                                         dari {{ $pageData['totalData'] }} data.
-                                        @if (!$selectAllPelanggan)
+                                        @if (!$selectAllRows)
                                             <a href="#" wire:click.prevent="selectAllData">Pilih Semua data</a>
                                         @else
 
                                             <button type="button" class="btn btn-sm btn-danger waves-float waves-effect waves-light"
-                                                    wire:click.prevent="resetCheckbox">
+                                                    wire:click.prevent="resetSelectedRows">
                                                 Batalkan Terpilih
                                             </button>
                                             @can('delete_customer')
@@ -136,7 +136,7 @@
                             <td>
                                 <div class="form-check">
                                     <input id="list-pelanggan-{{ $cust->id }}" value="{{ $cust->id }}" class="form-check-input" type="checkbox"
-                                           wire:model="checked" wire:key="{{ $cust->id }}">
+                                           wire:model="selectedRows" wire:key="{{ $cust->id }}">
                                     <label class="form-check-label" for="list-pelanggan-{{ $cust->id }}"></label>
                                 </div>
                             </td>
@@ -161,8 +161,8 @@
                                     </span>
                             </td>
                             <td>
-                                     <span class="badge rounded-pill bg-{{ $cust->is_valid === 1 ? 'success' : 'danger' }} me-1">
-                                        {!! $cust->is_valid === 1 ? '<i class="bx bx-user-check font-size-13"></i>' : '<i class="bx bx-x font-size-13"></i>'  !!}
+                                     <span class="badge rounded-pill bg-{{ $cust->is_valid ? 'success' : 'danger' }} me-1">
+                                        {!! $cust->is_valid ? '<i class="bx bx-user-check font-size-13"></i>' : '<i class="bx bx-x font-size-13"></i>'  !!}
                                     </span>
                             </td>
                             <td class="text-center">

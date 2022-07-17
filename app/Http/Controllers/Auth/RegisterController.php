@@ -59,21 +59,20 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'jenis_wp'           => ['required'],
-            'nik'                => ['required', 'max:16', 'unique:users'],
-            'npwp'               => ['required', 'max:20', 'unique:users'],
-            'name'               => ['required', 'string', 'max:255'],
-            'no_telp'            => ['required', 'max:15'],
-            'no_hp'              => ['required', 'max:15'],
-            'email'              => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password'           => ['required', 'string', 'min:8', 'confirmed'],
+            'jenis_wp' => ['required'],
+            'nik' => ['required', 'max:16', 'unique:users'],
+            'npwp' => ['required', 'max:20', 'unique:users'],
+            'name' => ['required', 'string', 'max:255'],
+            'no_telp' => ['required', 'max:15'],
+            'no_hp' => ['required', 'max:15'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             recaptchaFieldName() => recaptchaRuleName(),
         ]);
     }
@@ -81,24 +80,23 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param array $data
-     *
+     * @param  array  $data
      * @return User
      */
     protected function create(array $data)
     {
         $user = User::create([
-            'jenis_wp'         => (int) $data['jenis_wp'],
-            'nik'              => $data['nik'],
-            'npwp'             => $data['npwp'],
-            'name'             => $data['name'],
-            'no_telp'          => $data['no_telp'],
-            'no_hp'            => $data['no_hp'],
-            'email'            => $data['email'],
-            'password'         => Hash::make($data['password']),
-            'status'           => 1,
-            'is_admin'         => 0,
-            'is_perusahaan'    => (int) $data['jenis_wp'] === 2 ? 1 : 0,
+            'jenis_wp' => (int) $data['jenis_wp'],
+            'nik' => $data['nik'],
+            'npwp' => $data['npwp'],
+            'name' => $data['name'],
+            'no_telp' => $data['no_telp'],
+            'no_hp' => $data['no_hp'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'status' => 1,
+            'is_admin' => 0,
+            'is_perusahaan' => (int) $data['jenis_wp'] === 2 ? 1 : 0,
         ]);
 
         $user->assignRole('user');

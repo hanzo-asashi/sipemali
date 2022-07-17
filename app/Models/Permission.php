@@ -17,7 +17,7 @@ class Permission extends SpatiePermission
 
     public static function defaultCrud(): array
     {
-        return  ['create', 'update', 'delete','manage','detail','show','eksport','import'];
+        return  ['create', 'update', 'delete', 'manage', 'detail', 'show', 'eksport', 'import'];
     }
 
     public static function defaultModel(): array
@@ -46,25 +46,25 @@ class Permission extends SpatiePermission
         return $data;
     }
 
-    #[Pure] public function crudActions($name): array
-    {
-        $actions = [];
-        // list of permission actions
-        $crud = self::defaultCrud();
+    #[Pure]
+ public function crudActions($name): array
+ {
+     $actions = [];
+     // list of permission actions
+     $crud = self::defaultCrud();
 
-        foreach ($crud as $value) {
-            $actions[] = $value.'_'.$name;
-        }
+     foreach ($crud as $value) {
+         $actions[] = $value.'_'.$name;
+     }
 
-        return $actions;
-    }
+     return $actions;
+ }
 
     public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
         $query->where('name', 'like', $term);
     }
-
 
 //    public static function defaultPermissions(): array
 //    {

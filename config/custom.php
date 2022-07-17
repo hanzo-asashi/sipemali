@@ -25,25 +25,25 @@ return [
         '2022' => '2022',
         '2023' => '2023',
         '2024' => '2024',
-        '2025' => '2025'
+        '2025' => '2025',
     ],
-    'bulan'                   => [
-        '1'  => 'Januari',
-        '2'  => 'Februari',
-        '3'  => 'Maret',
-        '4'  => 'April',
-        '5'  => 'Mei',
-        '6'  => 'Juni',
-        '7'  => 'Juli',
-        '8'  => 'Agustus',
-        '9'  => 'September',
+    'bulan' => [
+        '1' => 'Januari',
+        '2' => 'Februari',
+        '3' => 'Maret',
+        '4' => 'April',
+        '5' => 'Mei',
+        '6' => 'Juni',
+        '7' => 'Juli',
+        '8' => 'Agustus',
+        '9' => 'September',
         '10' => 'Oktober',
         '11' => 'November',
         '12' => 'Desember',
     ],
-    'alpinejs-version2'       => false,
-    'array-data'              => [
-        'jenis_wajib_pajak'  => ['Perorangan', 'Perusahaan'],
+    'alpinejs-version2' => false,
+    'array-data' => [
+        'jenis_wajib_pajak' => ['Perorangan', 'Perusahaan'],
         'periode_pembayaran' => [1 => 'Hari', 2 => 'Minggu', 3 => 'Tahun'],
     ],
     'page_count' => 15,
@@ -94,5 +94,5 @@ return [
                         nuCtWsKTfbhI5sK14A6pfnilDkAFjuhkw+pONonUTN4Y08V6ZGrsTzCE/po6Su9y
                         uSHCR4fZBg58rVKLkrn+JddW4/juBdL54AmMxwu0Pdqm0KuiKEFL
                         ---- END SSH2 PUBLIC KEY ----
-                        '
+                        ',
 ];

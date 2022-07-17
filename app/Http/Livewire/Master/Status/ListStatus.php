@@ -19,23 +19,35 @@ class ListStatus extends Component
     public Status $status;
 
     public int $perPage;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public bool $selectAllCheckbox = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllStatus = false;
 
     public $statusId;
+
     public $deleteTipe;
 
     public string $title = 'List Status';
+
     public bool $show = true;
+
     public string $modalId = 'modal-status';
 
     protected string $paginationTheme = 'bootstrap';
@@ -43,7 +55,7 @@ class ListStatus extends Component
     protected $listeners = [
         'delete',
         'resetField',
-        'confirmedDelete'
+        'confirmedDelete',
     ];
 
     public function hydrate(): void
@@ -54,7 +66,7 @@ class ListStatus extends Component
 
     public function mount(Status $status): void
     {
-        $this->perPage = config('custom.page_count',15);
+        $this->perPage = config('custom.page_count', 15);
         $this->status = $status;
     }
 
@@ -75,8 +87,7 @@ class ListStatus extends Component
             $this->checked = $this->status->query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
-                ->toArray()
-            ;
+                ->toArray();
         } else {
             $this->checked = [];
             $this->selectAllStatus = false;
@@ -181,8 +192,7 @@ class ListStatus extends Component
         $listStatus = $this->status
 //            ->search($this->search)
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage)
-        ;
+            ->paginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,

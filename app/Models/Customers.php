@@ -30,20 +30,18 @@ class Customers extends Model
     use HasApiTokens;
 
     protected $table = 'pelanggan';
-//    protected $primaryKey = 'id';
-//    public $incrementing = true;
 //    protected $with = ['statusPelanggan','zona','golonganTarif','payment'];
 
     protected $fillable = [
         'no_sambungan', 'no_pelanggan', 'nama_pelanggan', 'alamat_pelanggan', 'zona_id', 'golongan_id', 'bulan_langganan', 'tahun_langganan',
-        'status_pelanggan', 'penagihan_pelanggan', 'is_valid', 'keterangan'
+        'status_pelanggan', 'penagihan_pelanggan', 'is_valid', 'keterangan',
     ];
 
     protected $casts = [
-//        'is_valid' => 'boolean',
+        'is_valid' => 'boolean',
     ];
 
-    protected $appends = ['angka_meter_lama','angka_meter_baru'];
+    protected $appends = ['angka_meter_lama', 'angka_meter_baru'];
 
 //    protected function jumlahKuitansi(): Attribute
 //    {
@@ -56,8 +54,9 @@ class Customers extends Model
     protected function angkaMeterBaru(): Attribute
     {
         $meter = CatatMeter::where('customer_id', $this->id)->first();
+
         return new Attribute(
-            get: fn () => !is_null($meter) ? $meter->angka_meter_baru : 0,
+            get: fn () => ! is_null($meter) ? $meter->angka_meter_baru : 0,
             set: fn ($value) => $this->attributes['angka_meter_baru'] = $value,
         );
     }
@@ -65,8 +64,9 @@ class Customers extends Model
     protected function angkaMeterLama(): Attribute
     {
         $meter = CatatMeter::where('customer_id', $this->id)->first();
+
         return new Attribute(
-            get: fn () => !is_null($meter) ? $meter->angka_meter_lama : 0,
+            get: fn () => ! is_null($meter) ? $meter->angka_meter_lama : 0,
             set: fn ($value) => $this->attributes['angka_meter_lama'] = $value,
         );
     }
@@ -75,7 +75,7 @@ class Customers extends Model
     {
         return LogOptions::defaults()
             ->useLogName('customers')
-            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} data pelanggan {$this->nama_pelanggan}")
+            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} data pelanggan {$this->nama_pelanggan}")
             ->logFillable()
             ->logOnlyDirty();
 
@@ -104,12 +104,12 @@ class Customers extends Model
 
     public function payment(): HasMany
     {
-        return $this->hasMany(Payment::class, 'customer_id','id');
+        return $this->hasMany(Payment::class, 'customer_id', 'id');
     }
 
     public function paymentHistory(): HasManyThrough
     {
-        return $this->hasManyThrough(PaymentHistory::class,Payment::class,'customer_id','customer_id');
+        return $this->hasManyThrough(PaymentHistory::class, Payment::class, 'customer_id', 'customer_id');
     }
 
     public function metodeBayar(): HasOneThrough
@@ -120,21 +120,8 @@ class Customers extends Model
     public static function checkValidPelanggan($id): bool|int
     {
         $pelanggan = self::find($id);
+
         return $pelanggan->is_valid === 1 || $pelanggan->is_valid === true;
-    }
-
-    public function scopePelangganDitangguhkan($query)
-    {
-        return $query->where('status_pelanggan', 2);
-    }
-    public function scopePelangganDidop($query)
-    {
-        return $query->where('status_pelanggan', 3);
-    }
-
-    public function scopePelangganAktif($query)
-    {
-        return $query->where('status_pelanggan', 1);
     }
 
     public function scopeStatusPelanggan($query, $term)
@@ -149,23 +136,46 @@ class Customers extends Model
 
     public function scopeSearch($query, $term): void
     {
-        $term = "%{$term}%";
+        $term = "{$term}%";
         $query->where('no_sambungan', 'like', $term)
-            ->orWhere('no_pelanggan', 'like', $term)
             ->orWhere('nama_pelanggan', 'like', $term)
-            ->orWhere('alamat_pelanggan', 'like', $term)
-            ->orWhere('is_valid', 'like', $term)
-            ->orWhereHas('statusPelanggan', function ($query) use ($term) {
-                $query->where('nama_status', 'like', $term);
+            ->orWhere('alamat_pelanggan', 'like', $term);
+//            ->orWhereHas('statusPelanggan', function ($query) use ($term) {
+//                $query->select('nama_status')->where('nama_status', 'like', $term);
+//            })
+//            ->orWhereHas('zona', function ($query) use ($term) {
+//                $query->select('wilayah')->where('wilayah', 'like', $term);
+//            })
+//            ->orWhereHas('golonganTarif', function ($query) use ($term) {
+//                $query->select('nama_golongan')->where('nama_golongan', 'like', $term);
+//            });
+    }
+
+    public function getCountValidPelanggan($term = true)
+    {
+        return $this->query()
+            ->select('is_valid')
+            ->when($this->search, function ($query) {
+                return $query->search($this->search);
             })
-            ->orWhereHas('zona', function ($query) use ($term) {
-                $query->where('id', 'like', $term)
-                    ->orWhere('kode', 'like', $term)
-                    ->orWhere('wilayah', 'like', $term);
+            ->when($this->zona, function ($q) {
+                $q->whereHas('zona', function ($q) {
+                    return $q->where('id', $this->zona);
+                });
             })
-            ->orWhereHas('golonganTarif', function ($query) use ($term) {
-                $query->where('nama_golongan', 'like', $term)
-                    ->orWhere('kode_golongan', 'like', $term);
-            });
+            ->when($this->status, function ($q) {
+                $q->whereHas('statusPelanggan', function ($q) {
+                    return $q->where('id', $this->status);
+                });
+            })
+            ->when($this->golongan, function ($q) {
+                $q->whereHas('golonganTarif', function ($q) {
+                    return $q->where('id', $this->golongan);
+                });
+            })
+            ->when($this->valid, function ($q) {
+                return $q->where('is_valid', (int) $this->valid);
+            })
+            ->where('is_valid', $term)->get()->count();
     }
 }

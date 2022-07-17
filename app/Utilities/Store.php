@@ -5,15 +5,23 @@ namespace App\Utilities;
 class Store
 {
     private $mid = '';
+
     private $name = '';
+
     private $address = '';
+
     private $phone = '';
+
     private $email = '';
+
     private $website = '';
+
     private $kodePengunjung = '';
+
     private $kodeKendaraan = '';
 
-    function __construct($mid, $name, $address, $phone, $email, $website,$kodePengunjung,$kodeKendaraan) {
+    public function __construct($mid, $name, $address, $phone, $email, $website, $kodePengunjung, $kodeKendaraan)
+    {
         $this->mid = $mid;
         $this->name = $name;
         $this->address = $address;
@@ -24,28 +32,33 @@ class Store
         $this->kodeKendaraan = $kodeKendaraan;
     }
 
-
-    public function getMID() {
+    public function getMID()
+    {
         return $this->mid;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getAddress() {
+    public function getAddress()
+    {
         return $this->address;
     }
 
-    public function getPhone() {
+    public function getPhone()
+    {
         return $this->phone;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getWebsite() {
+    public function getWebsite()
+    {
         return $this->website;
     }
 

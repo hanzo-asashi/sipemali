@@ -22,7 +22,9 @@ class Payment extends Model
     use HasFactory, LogsActivity, SoftDeletes, HasHashId;
 
     protected $table = 'pembayaran';
+
     protected $with = ['customer', 'customer.golonganTarif', 'customer.zona', 'statusPembayaran', 'metodeBayar'];
+
 //    protected $with = ['customer', 'golonganTarif', 'zona', 'statusPembayaran', 'metodeBayar', 'history'];
     protected $dispatchesEvents = [
         'created' => PaymentCreated::class,
@@ -32,7 +34,7 @@ class Payment extends Model
     protected $fillable = [
         'no_transaksi', 'customer_id', 'user_id', 'periode', 'bulan_berjalan', 'tahun_berjalan', 'tgl_jatuh_tempo', 'tgl_bayar',
         'pemakaian_air_saat_ini', 'pemakaian_air_sebelumnya', 'harga_air', 'dana_meter', 'biaya_layanan', 'total_bayar', 'total_tagihan',
-        'denda', 'sisa', 'status_pembayaran', 'metode_bayar', 'keterangan', 'stand_awal', 'stand_akhir'
+        'denda', 'sisa', 'status_pembayaran', 'metode_bayar', 'keterangan', 'stand_awal', 'stand_akhir',
     ];
 
     protected $casts = [
@@ -57,10 +59,11 @@ class Payment extends Model
     public function getActivitylogOptions(): LogOptions
     {
         $formatNumber = number_format($this->total_tagihan, 0, ',', '.');
+
         return LogOptions::defaults()
             ->useLogName('pembayaran')
             ->logFillable()
-            ->setDescriptionForEvent(fn($eventName) => ucfirst($eventName) . " pembayaran #{$this->no_transaksi} sebesar Rp. {$formatNumber}")
+            ->setDescriptionForEvent(fn ($eventName) => ucfirst($eventName)." pembayaran #{$this->no_transaksi} sebesar Rp. {$formatNumber}")
             ->logOnlyDirty();
     }
 
@@ -86,17 +89,17 @@ class Payment extends Model
 
     public function golonganTarif(): HasOneThrough
     {
-        return $this->hasOneThrough( Customers::class, GolonganTarif::class,'id','golongan_id');
+        return $this->hasOneThrough(Customers::class, GolonganTarif::class, 'id', 'golongan_id');
     }
 
     public function golongan(): HasOneThrough
     {
-        return $this->hasOneThrough(  GolonganTarif::class,Customers::class,'golongan_id','id');
+        return $this->hasOneThrough(GolonganTarif::class, Customers::class, 'golongan_id', 'id');
     }
 
     public function zona(): HasOneThrough
     {
-        return $this->hasOneThrough(Zone::class,Customers::class, 'zona_id', 'id');
+        return $this->hasOneThrough(Zone::class, Customers::class, 'zona_id', 'id');
     }
 
     public function user(): BelongsTo
@@ -108,7 +111,7 @@ class Payment extends Model
     {
         return $query->when($zona, function ($q) use ($zona) {
             $q->whereHas('zona', function ($q) use ($zona) {
-                return $q->where('id', (int)$zona);
+                return $q->where('id', (int) $zona);
             });
         });
     }
@@ -117,7 +120,7 @@ class Payment extends Model
     {
         return $query->when($status, function ($q) use ($status) {
             $q->whereHas('statusPembayaran', function ($q) use ($status) {
-                return $q->where('id', (int)$status);
+                return $q->where('id', (int) $status);
             });
         });
     }
@@ -126,7 +129,7 @@ class Payment extends Model
     {
         return $query->when($gol, function ($q) use ($gol) {
             $q->whereHas('golonganTarif', function ($q) use ($gol) {
-                return $q->where('id', (int)$gol);
+                return $q->where('id', (int) $gol);
             });
         });
     }
@@ -146,7 +149,7 @@ class Payment extends Model
             ->where('penagihan_pelanggan', '!=', 'Lunas')
             ->first();
 
-        return (bool)$pembayaran;
+        return (bool) $pembayaran;
     }
 
     public function scopeSearch($query, $term): void

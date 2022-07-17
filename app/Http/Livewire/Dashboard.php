@@ -39,11 +39,13 @@ class Dashboard extends Component
     ];
 
     public $filterTahun = 'all';
+
     public $tahun;
 
     public array $statistik = [];
+
     public $breadcrumbs = [
-        ['name' => 'Home']
+        ['name' => 'Home'],
     ];
 
     public string $title = 'Dashboard';
@@ -82,7 +84,6 @@ class Dashboard extends Component
         $this->statistik['pelanggan'] = Customers::all()->count();
     }
 
-
     public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $columnChartModel = LivewireCharts::columnChartModel();
@@ -93,6 +94,7 @@ class Dashboard extends Component
             foreach ($listBulan as $k => $bulan) {
                 $carry[$key][$bulan] = $item->where('bulan_berjalan', $k)->sum('total_tagihan');
             }
+
             return $carry;
         }, []);
 
@@ -104,6 +106,7 @@ class Dashboard extends Component
 
         $pembayaranByCustomer = $pembayaran->groupBy('customer_id')->reduce(function (&$carry, $item, $key) {
             $carry[$key] = $item->sum('total_tagihan');
+
             return $carry;
         }, []);
 
@@ -123,7 +126,6 @@ class Dashboard extends Component
 //            ->setOpacity(0.25)
             ->setColumnWidth(70)
             ->withDataLabels();
-
 
         return view('livewire.dashboard', compact('columnChartModel'));
     }

@@ -17,10 +17,11 @@ class Zone extends Model
     use LogsActivity;
 
     protected $fillable = [
-        'wilayah','kode',
+        'wilayah', 'kode',
     ];
 
     protected $table = 'zona';
+
     public $timestamps = false;
 
     public function customer(): BelongsTo
@@ -32,7 +33,7 @@ class Zone extends Model
     {
         return LogOptions::defaults()
             ->useLogName('Zona')
-            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} zona {$this->name}");
+            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} zona {$this->name}");
         // Chain fluent methods for configuration options
     }
 }

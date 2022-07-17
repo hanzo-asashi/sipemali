@@ -2,9 +2,6 @@
 
 namespace App\Listeners\CatatMeter;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-
 class CreateAngkaMeter
 {
     /**

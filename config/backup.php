@@ -162,12 +162,12 @@ return [
     'notifications' => [
 
         'notifications' => [
-            BackupHasFailedNotification::class         => ['mail'],
+            BackupHasFailedNotification::class => ['mail'],
             UnhealthyBackupWasFoundNotification::class => ['mail'],
-            CleanupHasFailedNotification::class        => ['mail'],
-            BackupWasSuccessfulNotification::class     => ['mail'],
-            HealthyBackupWasFoundNotification::class   => ['mail'],
-            CleanupWasSuccessfulNotification::class    => ['mail'],
+            CleanupHasFailedNotification::class => ['mail'],
+            BackupWasSuccessfulNotification::class => ['mail'],
+            HealthyBackupWasFoundNotification::class => ['mail'],
+            CleanupWasSuccessfulNotification::class => ['mail'],
         ],
 
         /*
@@ -181,7 +181,7 @@ return [
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name'    => env('MAIL_FROM_NAME', 'Example'),
+                'name' => env('MAIL_FROM_NAME', 'Example'),
             ],
         ],
 
@@ -215,10 +215,10 @@ return [
      */
     'monitor_backups' => [
         [
-            'name'          => env('APP_NAME', 'laravel-backup'),
-            'disks'         => ['local'],
+            'name' => env('APP_NAME', 'laravel-backup'),
+            'disks' => ['local'],
             'health_checks' => [
-                MaximumAgeInDays::class          => 1,
+                MaximumAgeInDays::class => 1,
                 MaximumStorageInMegabytes::class => 5000,
             ],
         ],

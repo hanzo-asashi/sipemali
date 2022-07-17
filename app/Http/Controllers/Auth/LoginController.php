@@ -47,15 +47,14 @@ class LoginController extends Controller
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            recaptchaFieldName() => recaptchaRuleName()
+            recaptchaFieldName() => recaptchaRuleName(),
         ]);
     }
 
     /**
      * The user has logged out of the application.
      *
-     * @param Request $request
-     *
+     * @param  Request  $request
      * @return Application|Factory|View
      */
 //    protected function loggedOut(Request $request)

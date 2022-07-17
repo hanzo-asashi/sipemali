@@ -5,11 +5,8 @@ namespace App\Providers;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Debugbar;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Livewire\LivewireBladeDirectives;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,9 +15,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
-        if ($this->app->isLocal()) {
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
             $this->app->register(IdeHelperServiceProvider::class);
         }
     }
@@ -30,20 +29,21 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Paginator::useBootstrapFive();
 
-        Model::handleLazyLoadingViolationUsing(function ($model, $relation) {
+        Model::handleLazyLoadingViolationUsing(static function ($model, $relation) {
             $class = get_class($model);
 
             info("Attempted to lazy load [{$relation}] on model [{$class}].");
             Debugbar::info("Attempted to lazy load [{$relation}] on model [{$class}].");
+//            clock()->info("Attempted to lazy load [{$relation}] on model [{$class}].");
         });
 
         /* Seacrh on every model macro */
-        Builder::macro('whereLike', function (string $attribute, string $searchTerm) {
-            return $this->orWhere($attribute,'LIKE',"%{$searchTerm}%");
-        });
+//        Builder::macro('whereLike', function (string $attribute, string $searchTerm) {
+//            return $this->orWhere($attribute,'LIKE',"%{$searchTerm}%");
+//        });
     }
 }

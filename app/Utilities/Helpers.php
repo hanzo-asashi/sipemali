@@ -1,11 +1,12 @@
-<?php // Code within app\Helpers\Helper.php
+<?php
+
+// Code within app\Helpers\Helper.php
 
 namespace App\Utilities;
 
 use App\Models\Customers;
 use App\Models\GolonganTarif;
 use App\Models\MetodeBayar;
-use App\Models\MetodeBayarPajak;
 use App\Models\Payment;
 use App\Models\PaymentStatus;
 use App\Models\Wilayah;
@@ -24,13 +25,13 @@ use Storage;
 
 class Helpers
 {
-
     public static function simplify(int|float $value): string
     {
         $regex = '/^-?\d+(?:\.\d{0,1})?/';
 
         $format = function (string $value) use ($regex) {
             preg_match($regex, $value, $matches, PREG_OFFSET_CAPTURE);
+
             return str_replace('.0', '', $matches[0][0]);
         };
 
@@ -51,7 +52,6 @@ class Helpers
 
         // Billion
         return $format($value / 1000000000).'B';
-
     }
 
     public static function showQrCode($text, $size = 100, $format = 'png'): string
@@ -111,7 +111,7 @@ class Helpers
 //        };
 
 //        return $kode === 0 ? 'Belum Lunas' : 'Lunas';
-//}
+    //}
 
     public static function getNamaStatusTransaksi(
         $kode
@@ -126,12 +126,10 @@ class Helpers
     /**
      * Convert Number to Roman
      *
-     * @param  integer  $integer
-     *
+     * @param  int  $integer
      * @return string
      */
-    public
-    static function convertToRoman(
+    public static function convertToRoman(
         int $integer
     ): string {
         // Convert the integer into an integer (just to make sure)
@@ -170,8 +168,7 @@ class Helpers
         return $result;
     }
 
-    public
-    static function getRomawi(
+    public static function getRomawi(
         $bln
     ) {
         switch ($bln) {
@@ -214,30 +211,30 @@ class Helpers
         }
     }
 
-    public
-    static function convertTitle(
+    public static function convertTitle(
         string $title
     ): array|string|null {
         return preg_replace('/[\s-]+/', '-', strtolower($title));
     }
 
     #[
-        ArrayShape(['zonaKode' => 'int', 'kodeGol' => 'int', 'padNum' => 'string'])] private static function getMaxNumber($golid, $zonaid, $length, $pad): array
-    {
-        $maxNumber = Customers::max('id');
-        $maxNumber = is_null($maxNumber) ? 1 : $maxNumber;
-        $padNum = Str::padLeft($maxNumber, $length, $pad);
-        $golongan = GolonganTarif::find($golid);
-        $kodeGol = !is_null($golongan) ? (int) $golongan->kode_golongan : 111;
-        $zona = Zone::find($zonaid);
-        $zonaKode = !is_null($zona) ? (int) $zona->kode : 10;
+        ArrayShape(['zonaKode' => 'int', 'kodeGol' => 'int', 'padNum' => 'string'])]
+ private static function getMaxNumber($golid, $zonaid, $length, $pad): array
+ {
+     $maxNumber = Customers::max('id');
+     $maxNumber = is_null($maxNumber) ? 1 : $maxNumber;
+     $padNum = Str::padLeft($maxNumber, $length, $pad);
+     $golongan = GolonganTarif::find($golid);
+     $kodeGol = ! is_null($golongan) ? (int) $golongan->kode_golongan : 111;
+     $zona = Zone::find($zonaid);
+     $zonaKode = ! is_null($zona) ? (int) $zona->kode : 10;
 
-        return [
-            'zonaKode' => $zonaKode,
-            'kodeGol' => $kodeGol,
-            'padNum' => $padNum,
-        ];
-    }
+     return [
+         'zonaKode' => $zonaKode,
+         'kodeGol' => $kodeGol,
+         'padNum' => $padNum,
+     ];
+ }
 
     public static function generateKode($golid, $zonaid, $delimiter = '', $useKodeKab = false, $length = 5, $pad = '00000'): string
     {
@@ -298,10 +295,11 @@ class Helpers
         $maxNumber = Payment::max('id');
         $maxNumber = is_null($maxNumber) ? 1 : $maxNumber;
         $padNum = Str::padLeft($maxNumber, $length, $pad);
-        $tahun = setting('tahun_periode',now()->year);
-        $bulan = setting('bulan',now()->month);
+        $tahun = setting('tahun_periode', now()->year);
+        $bulan = setting('bulan', now()->month);
         $prefix = setting('format_no_transaksi', 'PDM');
         $delimiter = setting('pemisah', $delimiter);
+
         return $prefix.$delimiter.$tahun.$bulan.$padNum;
     }
 
@@ -310,6 +308,7 @@ class Helpers
         $kwh = $meter_akhir - $meter_awal;
         $pembayaran_air = $kwh * $tarif_per_kwh;
         $pembayaran_meter = $tarif_per_meter * $meter_akhir;
+
         return $pembayaran_air + $pembayaran_meter;
     }
 
@@ -414,7 +413,7 @@ class Helpers
 //            ->style($style)
 //            ->eye($eyeStyle)
 //            ->margin($margin)
-////            ->merge('../public/storage/uploads/20211009202835.png')
+    ////            ->merge('../public/storage/uploads/20211009202835.png')
 //            ->generate($text);
 //    }
 
@@ -425,30 +424,32 @@ class Helpers
      */
     public static function getAvailableModels(): array
     {
-
         $models = [];
         $modelsPath = app_path('Models');
         $modelFiles = File::allFiles($modelsPath);
         foreach ($modelFiles as $modelFile) {
-            $models[] = '\App\\' . $modelFile->getFilenameWithoutExtension();
+            $models[] = '\App\\'.$modelFile->getFilenameWithoutExtension();
         }
 
         return $models;
     }
 
-    public static function recursive_change_key($arr, $set) {
+    public static function recursive_change_key($arr, $set)
+    {
         if (is_array($arr) && is_array($set)) {
-            $newArr = array();
+            $newArr = [];
             foreach ($arr as $k => $v) {
-                $key = array_key_exists( $k, $set) ? $set[$k] : $k;
+                $key = array_key_exists($k, $set) ? $set[$k] : $k;
                 $newArr[$key] = is_array($v) ? self::recursive_change_key($v, $set) : $v;
             }
+
             return $newArr;
         }
+
         return $arr;
     }
 
-    public static function showAlert ($tipe, $message): string
+    public static function showAlert($tipe, $message): string
     {
         return '<div class="alert alert-'.$tipe.' alert-dismissible fade show" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -462,7 +463,7 @@ class Helpers
     {
         // this assumes you're following PSR-4 standards, although you may
         // still need to modify based on how you're structuring your app/namespaces
-        return (string)Str::of($filepath)
+        return (string) Str::of($filepath)
             ->replace(app_path(), '\App')
             ->replaceFirst('app', 'App')
             ->replaceLast('.php', '')
@@ -482,7 +483,7 @@ class Helpers
             ->filter(function ($class) use ($base_model, $with_abstract) {
                 $ref = new ReflectionClass($class);
 
-                if (!$with_abstract && $ref->isAbstract()) {
+                if (! $with_abstract && $ref->isAbstract()) {
                     return false;
                 }
 
@@ -494,7 +495,6 @@ class Helpers
                 return (new ReflectionClass($class))->getShortName();
             });
     }
-
 
     public static function getModels($path): array
     {
@@ -508,82 +508,69 @@ class Helpers
             if (is_dir($filename)) {
 //                $out = array_merge($out, self::getModels($filename));
                 $out = \Arr::add($out, $filename, self::getModels($filename));
-            }else{
-                $out[] = substr($filename,0,-4);
+            } else {
+                $out[] = substr($filename, 0, -4);
             }
         }
+
         return $out;
     }
 
     public static function getNamaStatusBayar($kode): string
     {
         $statusBayar = PaymentStatus::find($kode);
-        return !is_null($statusBayar) ? $statusBayar->name : '';
+
+        return ! is_null($statusBayar) ? $statusBayar->name : '';
     }
 
     public static function getNamaMetodeBayar($id): string
     {
         $metode = MetodeBayar::find($id);
-        return !is_null($metode) ? $metode->nama : '';
+
+        return ! is_null($metode) ? $metode->nama : '';
     }
 
     public static function getEventColor($event): string
     {
 //        $event = Str::lower($event);
-        if($event === 'created' || $event === 'creating') {
+        if ($event === 'created' || $event === 'creating') {
             $color = 'success';
-        }
-        elseif($event === 'updated' || $event === 'updating') {
+        } elseif ($event === 'updated' || $event === 'updating') {
             $color = 'info';
-        }
-        elseif($event === 'deleted' || $event === 'deleting') {
+        } elseif ($event === 'deleted' || $event === 'deleting') {
             $color = 'danger';
-        }
-        elseif($event === 'restored' || $event === 'restoring') {
+        } elseif ($event === 'restored' || $event === 'restoring') {
             $color = 'info';
-        }
-        elseif($event === 'forceDeleted' || $event === 'forceDeleting') {
+        } elseif ($event === 'forceDeleted' || $event === 'forceDeleting') {
             $color = 'danger';
-        }
-        elseif($event === 'saved' || $event === 'saving') {
+        } elseif ($event === 'saved' || $event === 'saving') {
             $color = 'success';
-        }
-        elseif($event === 'failed' || $event === 'failing') {
+        } elseif ($event === 'failed' || $event === 'failing') {
             $color = 'danger';
-        }
-        elseif($event === 'expired' || $event === 'expiring') {
+        } elseif ($event === 'expired' || $event === 'expiring') {
             $color = 'danger';
-        }
-        elseif($event === 'completed' || $event === 'completing') {
+        } elseif ($event === 'completed' || $event === 'completing') {
             $color = 'success';
-        }
-        elseif($event === 'cancelled' || $event === 'cancelling') {
+        } elseif ($event === 'cancelled' || $event === 'cancelling') {
             $color = 'danger';
-        }
-        elseif($event === 'paid' || $event === 'paying') {
+        } elseif ($event === 'paid' || $event === 'paying') {
             $color = 'success';
-        }
-        elseif($event === 'unpaid' || $event === 'unpaying') {
+        } elseif ($event === 'unpaid' || $event === 'unpaying') {
             $color = 'danger';
-        }
-        elseif($event ==='retrieved' || $event === 'retrieving') {
+        } elseif ($event === 'retrieved' || $event === 'retrieving') {
             $color = 'primary';
-        }
-        elseif($event === 'sent' || $event === 'sending') {
+        } elseif ($event === 'sent' || $event === 'sending') {
             $color = 'info';
-        }
-        elseif($event === 'received' || $event === 'receiving') {
+        } elseif ($event === 'received' || $event === 'receiving') {
             $color = 'info';
-        }
-        elseif($event === 'approved' || $event === 'approving') {
+        } elseif ($event === 'approved' || $event === 'approving') {
             $color = 'success';
-        }
-        elseif($event === 'rejected' || $event === 'rejecting') {
+        } elseif ($event === 'rejected' || $event === 'rejecting') {
             $color = 'danger';
-        }
-        else {
+        } else {
             $color = 'warning';
         }
+
         return $color;
     }
 
@@ -632,7 +619,7 @@ class Helpers
 
     public static function selisihHari($date): string
     {
-        $date = !is_null($date) ? $date : null;
+        $date = ! is_null($date) ? $date : null;
         if ($date) {
             $hari = \Carbon\Carbon::parse($date)->diffInDays(setting('tanggal_periode_pajak'));
         } else {
@@ -676,7 +663,7 @@ class Helpers
 
     public static function xtime($ymdhis = ''): string
     {
-        if (!$ymdhis || $ymdhis === '0000-00-00 00:00:00') {
+        if (! $ymdhis || $ymdhis === '0000-00-00 00:00:00') {
             return '';
         }
         $ago = strtotime($ymdhis);
@@ -738,8 +725,8 @@ class Helpers
     public static function hitungDenda($jumlah, $denda): float|int
     {
         $denda = setting('tarif_denda', $denda);
-        return $jumlah * $denda;
 
+        return $jumlah * $denda;
     }
 
     // Converts a number into a short version, eg: 1000 -> 1k
@@ -773,6 +760,7 @@ class Helpers
             $dotzero = '.'.str_repeat('0', $precision);
             $n_format = str_replace($dotzero, '', $n_format);
         }
+
         return $n_format.$suffix;
     }
 
@@ -781,7 +769,7 @@ class Helpers
     {
 
         // Setup default $divisors if not provided
-        if (!isset($divisors)) {
+        if (! isset($divisors)) {
             $divisors = [
                 1000 ** 0 => '', // 1000^0 == 1
                 1000 ** 1 => 'K', // Thousand
@@ -955,7 +943,7 @@ class Helpers
         } else {
             $ind = date('m', strtotime($tanggal));
         }
-        --$ind;
+        $ind--;
         if ($short) {
             $arr_bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         } else {
@@ -967,12 +955,13 @@ class Helpers
         return $arr_bulan[$ind];
     }
 
-    #[Pure] public static function index_nama_bulan($nama_bulan = '', $short = false)
-    {
-        $list_bulan = self::list_bulan($short);
+    #[Pure]
+ public static function index_nama_bulan($nama_bulan = '', $short = false)
+ {
+     $list_bulan = self::list_bulan($short);
 
-        return array_search($nama_bulan, $list_bulan, null);
-    }
+     return array_search($nama_bulan, $list_bulan, null);
+ }
 
     public static function getNamaBulan($date, $backMonth = false): string
     {
@@ -1005,6 +994,7 @@ class Helpers
     public static function setJatuhTempoByDate($date): \Carbon\Carbon
     {
         $date = $date ?: now();
+
         return \Carbon\Carbon::parse($date)->addDays(static::jumlah_hari(now()));
     }
 
@@ -1156,7 +1146,6 @@ class Helpers
 
     /**
      * @param  mixed  $start
-     *
      * @return mixed
      */
     private static function getYear(mixed $start): mixed
@@ -1182,10 +1171,10 @@ class Helpers
             return false;
         }
 
-        $is_unix = !(!$is_unix or $is_unix === 'days');
+        $is_unix = ! (! $is_unix or $is_unix === 'days');
 
-        if ((!ctype_digit((string) $unix_start) && ($unix_start = @strtotime($unix_start)) === false)
-            || (!ctype_digit((string) $mixed) && ($is_unix === false || ($mixed = @strtotime($mixed)) === false))
+        if ((! ctype_digit((string) $unix_start) && ($unix_start = @strtotime($unix_start)) === false)
+            || (! ctype_digit((string) $mixed) && ($is_unix === false || ($mixed = @strtotime($mixed)) === false))
             || ($is_unix === true && $mixed < $unix_start)
         ) {
             return false;
@@ -1212,7 +1201,7 @@ class Helpers
                 $range[] = $date->format($format);
             }
 
-            if (!is_int($arg) && $range[count($range) - 1] !== $arg->format($format)) {
+            if (! is_int($arg) && $range[count($range) - 1] !== $arg->format($format)) {
                 $range[] = $arg->format($format);
             }
 
@@ -1230,14 +1219,12 @@ class Helpers
         }
         $range[] = $from->format($format);
 
-        if (is_int($arg)) // Day intervals
-        {
+        if (is_int($arg)) { // Day intervals
             do {
                 $from->modify('+1 day');
                 $range[] = $from->format($format);
             } while (--$arg > 0);
-        } else // end date UNIX timestamp
-        {
+        } else { // end date UNIX timestamp
             for ($from->modify('+1 day'), $end_check = $arg->format('Ymd'); $from->format('Ymd') < $end_check; $from->modify('+1 day')) {
                 $range[] = $from->format($format);
             }
@@ -1272,7 +1259,7 @@ class Helpers
 
     public static function getModelInstance($model)
     {
-        $modelNamespace = "App\\Models\\";
+        $modelNamespace = 'App\\Models\\';
 
         return app($modelNamespace.$model);
     }
@@ -1314,12 +1301,11 @@ class Helpers
     {
         $date ??= '';
         Date::setLocale('id');
-        if (!$toDate) {
+        if (! $toDate) {
             return Date::parse($date)->timezone(config('app.timezone'))->locale('id')->toDateTime();
         }
 
         return Date::parse($date)->timezone(config('app.timezone'))->locale('id')->toDate();
-
     }
 
     public static function convertTglFromString($date)
@@ -1330,7 +1316,6 @@ class Helpers
         $tgl = $date[0];
 
         return Carbon::parse($tgl)->timezone(config('app.timezone'))->locale('id')->format('d/m/Y');
-
     }
 
     public static function format_indonesia($nilai, $koma = false): string
@@ -1363,17 +1348,20 @@ class Helpers
         if ($auto) {
             $num = str_replace(',00', '', $num);
         }
+
         return $num;
     }
 
-    public static function swap($locale){
+    public static function swap($locale)
+    {
         // available language in template array
 //        $availLocale=['en'=>'en','id'=>'id'];
-        $availLocale=['en'=>'en','id'=>'id'];
+        $availLocale = ['en' => 'en', 'id' => 'id'];
         // check for existing language
-        if(array_key_exists($locale, $availLocale)){
+        if (array_key_exists($locale, $availLocale)) {
             session()->put('locale', $locale);
         }
+
         return redirect()->back();
     }
 
@@ -1439,7 +1427,7 @@ class Helpers
                         // data key should not be empty
                         if (isset($data[$key]) && $data[$key] !== null) {
                             // data key should not be exist inside allOptions array's sub array
-                            if (!array_key_exists($data[$key], $value)) {
+                            if (! array_key_exists($data[$key], $value)) {
                                 // ensure that passed value should be match with any of allOptions array value
                                 $result = array_search($data[$key], $value, 'strict');
                                 if (empty($result) && $result !== 0) {
@@ -1484,18 +1472,18 @@ class Helpers
             'direction' => $data['direction'],
         ];
         // set default language if session hasn't locale value the set default language
-        if (!session()->has('locale')) {
+        if (! session()->has('locale')) {
             app()->setLocale($layoutClasses['defaultLanguage']);
         }
 
         // sidebar Collapsed
         if ($layoutClasses['sidebarCollapsed'] == 'true') {
-            $layoutClasses['sidebarClass'] = "menu-collapsed";
+            $layoutClasses['sidebarClass'] = 'menu-collapsed';
         }
 
         // blank page class
         if ($layoutClasses['blankPage'] == 'true') {
-            $layoutClasses['blankPageClass'] = "blank-page";
+            $layoutClasses['blankPageClass'] = 'blank-page';
         }
 
         return $layoutClasses;

@@ -33,7 +33,6 @@ class CetakController extends Controller
 
         $pageData['page'] = $page;
 
-
         return view($view, compact($pageData));
     }
 
@@ -47,7 +46,7 @@ class CetakController extends Controller
         $start = $data['start'] ?? '';
         $end = $data['end'] ?? '';
         $filterZona = $data['filterZona'] ?? '';
-        $pageArray = ['transaksi', 'ikhtisar-lpp', 'penerimaan-penagihan', 'rekening-air', 'pembayaran', 'opname-fisik','catat-meter'];
+        $pageArray = ['transaksi', 'ikhtisar-lpp', 'penerimaan-penagihan', 'rekening-air', 'pembayaran', 'opname-fisik', 'catat-meter'];
         $tipe = '';
         $view = 'laporan.preview.'.$page;
         if (in_array($page, $pageArray, true)) {
@@ -79,7 +78,6 @@ class CetakController extends Controller
 
                 $pageData['range'] = $data['range'];
                 $pageData['customer'] = $customer;
-
             }
 
             if ($page === 'ikhtisar-lpp' || $page === 'penerimaan-penagihan') {
@@ -122,7 +120,7 @@ class CetakController extends Controller
                 $tipe = 'stream';
             }
 
-            if($page === 'rekening-air') {
+            if ($page === 'rekening-air') {
                 $view = 'laporan.partials.rekening-air';
                 $pelanggan = Customers::with(['payment', 'golonganTarif', 'statusPelanggan', 'zona', 'metodeBayar'])->find($data['id']);
                 $pembayaran = $pelanggan->payment()->with('metodeBayar')->latest()->find($data['pembayaran_id']);
@@ -132,10 +130,9 @@ class CetakController extends Controller
                 $tipe = 'stream';
             }
 
-            if($page === 'catat-meter')
-            {
-               $catatMeter = App\Models\CatatMeter::with(['customer','customer.golonganTarif','petugas'])->get();
-               $pageData['catatMeter'] = $catatMeter;
+            if ($page === 'catat-meter') {
+                $catatMeter = App\Models\CatatMeter::with(['customer', 'customer.golonganTarif', 'petugas'])->get();
+                $pageData['catatMeter'] = $catatMeter;
             }
         }
 
@@ -154,6 +151,7 @@ class CetakController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('laporan.bukti-bayar.'.$page, $pageData);
         $pdf->setPaper('a4', setting('print_layout', 'portrait'))->setWarnings(false);
+
         return $pdf->stream($filename);
     }
 
@@ -172,7 +170,8 @@ class CetakController extends Controller
         $pdf->setPaper('a4', $paper)->setWarnings(false);
 
         if ($tipe === 'download') {
-            $pdf->save($savePath . $filename);
+            $pdf->save($savePath.$filename);
+
             return $pdf->download($filename);
         }
 

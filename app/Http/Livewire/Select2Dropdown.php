@@ -13,11 +13,13 @@ class Select2Dropdown extends Component
         'Wanda Vision',
         'Money Heist',
         'Lucifer',
-        'Stranger Things'
+        'Stranger Things',
     ];
 
     public string $model = '';
+
     public $customers;
+
     public string $selected = '';
 
     public function mount(Customers $customers)
@@ -30,6 +32,7 @@ class Select2Dropdown extends Component
     public function render()
     {
         $listPelanggan = Customers::pluck('nama_pelanggan', 'id');
+
         return view('livewire.select2-dropdown')->extends('layouts.contentLayoutMaster', compact('listPelanggan'));
     }
 }

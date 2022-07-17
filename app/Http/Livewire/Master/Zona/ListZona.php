@@ -21,20 +21,31 @@ class ListZona extends Component
     public Zone $zone;
 
     public int $perPage;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllCheckbox = false;
+
     public bool $selectAllZona = false;
 
     public int $zonaId;
+
     public string $deleteTipe = 'single';
+
     public string $title = 'List Zona Wilayah';
 
     protected $listeners = [
@@ -72,8 +83,7 @@ class ListZona extends Component
             $this->checked = $this->zone->query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
-                ->toArray()
-            ;
+                ->toArray();
         } else {
             $this->checked = [];
             $this->selectAllZona = false;
@@ -183,8 +193,7 @@ class ListZona extends Component
     {
         $listZona = $this->zone->query()
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage)
-        ;
+            ->paginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,

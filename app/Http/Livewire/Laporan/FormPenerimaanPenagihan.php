@@ -9,7 +9,9 @@ use Livewire\Component;
 class FormPenerimaanPenagihan extends Component
 {
     public bool $isChecked = false;
+
     public string $periodeCetak = '';
+
     public string $zonaWilayah = '';
 
     public function updatedZonaWilayah($value)

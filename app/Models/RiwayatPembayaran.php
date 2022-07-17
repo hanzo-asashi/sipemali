@@ -20,7 +20,7 @@ class RiwayatPembayaran extends Model
     ];
 
     protected $fillable = [
-        'pembayaran_id', 'pembayaran_ke', 'tanggal_cetak', 'jumlah_bayar','pembayaran_bulan'
+        'pembayaran_id', 'pembayaran_ke', 'tanggal_cetak', 'jumlah_bayar', 'pembayaran_bulan',
     ];
 
     public function pembayaran(): BelongsTo

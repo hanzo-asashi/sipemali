@@ -16,14 +16,16 @@ class BranchCounter extends Model
     use LogsActivity;
 
     public $timestamps = false;
-    protected $fillable = ['branch_code', 'name','description'];
+
+    protected $fillable = ['branch_code', 'name', 'description'];
+
     protected $casts = [];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->useLogName('Loket')
-            ->setDescriptionForEvent(fn($eventName) => "{$eventName} loket {$this->name}");
+            ->setDescriptionForEvent(fn ($eventName) => "{$eventName} loket {$this->name}");
         // Chain fluent methods for configuration options
     }
 }

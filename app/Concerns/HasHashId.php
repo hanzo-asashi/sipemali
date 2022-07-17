@@ -2,9 +2,8 @@
 
 namespace App\Concerns;
 
-
-use Illuminate\Database\Query\Builder;
 use Hashids;
+use Illuminate\Database\Query\Builder;
 
 trait HasHashId
 {

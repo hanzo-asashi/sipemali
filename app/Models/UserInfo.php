@@ -94,7 +94,6 @@ class UserInfo extends Model implements HasMedia
      * Unserialize values by default.
      *
      * @param $value
-     *
      * @return mixed|null
      */
     public function getCommunicationAttribute($value): mixed

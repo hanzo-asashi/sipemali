@@ -18,22 +18,35 @@ class ListMetodeBayar extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public MetodeBayar $metodeBayar;
+
     public array $state = [];
+
     public int $metodeId;
+
     public string $deleteTipe = 'single';
 
     public string $search = '';
+
     public int $perPage;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public bool $isChecked = false;
+
     public bool $selectAll = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllMetode = false;
+
     public string $title = 'List Metode Bayar';
 
     protected $queryString = [
@@ -42,8 +55,8 @@ class ListMetodeBayar extends Component
 
     protected $listeners = [
         'delete',
-//        'resetField' => 'resetField',
-        'confirmedDelete'
+        //        'resetField' => 'resetField',
+        'confirmedDelete',
     ];
 
     public function mount(MetodeBayar $metodeBayar): void
@@ -76,8 +89,7 @@ class ListMetodeBayar extends Component
             $this->checked = $this->metodeBayar->query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
-                ->toArray()
-            ;
+                ->toArray();
         } else {
             $this->checked = [];
             $this->selectAllMetode = false;
@@ -126,11 +138,11 @@ class ListMetodeBayar extends Component
 
     public function storeMetode(): void
     {
-        $validated = \Validator::make($this->state,[
+        $validated = \Validator::make($this->state, [
             'kode' => 'required|max:5|unique:metode_bayar,kode',
             'nama' => 'required|max:50',
             'deskripsi' => 'nullable|max:100',
-        ] )->validate();
+        ])->validate();
 
         $create = $this->metodeBayar->create($validated);
         $this->sendNotifikasi($create);
@@ -139,11 +151,11 @@ class ListMetodeBayar extends Component
 
     public function updateMetode(): void
     {
-        $validated = \Validator::make($this->state,[
+        $validated = \Validator::make($this->state, [
             'kode' => 'required|max:5',
             'nama' => 'required|max:50',
             'deskripsi' => 'nullable|max:100',
-        ] )->validate();
+        ])->validate();
 
         $update = $this->metodeBayar->find($this->metodeId);
         $update->update($validated);
@@ -191,8 +203,7 @@ class ListMetodeBayar extends Component
         $listMetode = $this->metodeBayar
 //            ->search($this->search)
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage)
-        ;
+            ->paginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,

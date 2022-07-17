@@ -16,10 +16,15 @@ class Permissions extends Component
 //    protected string $paginationTheme = 'bootstrap';
 
     public $role;
+
     public $permission;
-    public string $search = "";
+
+    public string $search = '';
+
     protected array $updatesQueryString = ['search'];
+
     public bool $showPermission = false;
+
     public int $perPage = 8;
 
     protected $listeners = [
@@ -27,7 +32,7 @@ class Permissions extends Component
         'confirmedDeletePermission',
         'cancelledDeletePermission',
         'deleteSelectedQuery',
-        'updatePermissionList' => 'render'
+        'updatePermissionList' => 'render',
     ];
 
     public function updatingSearch()
@@ -39,7 +44,7 @@ class Permissions extends Component
     {
         $this->showPermission = $param['showPermission'];
         $this->role = Role::with('permissions')->find($param['role']['id']);
-        $this->openModal(['role' => $this->role,'permissions' => $this->role->permissions]);
+        $this->openModal(['role' => $this->role, 'permissions' => $this->role->permissions]);
     }
 
     private function closeModal($options = false)
@@ -56,7 +61,7 @@ class Permissions extends Component
 
     public function deletePermission(Permission $permission)
     {
-        if(!auth()->user()->can('manage permissions')) {
+        if (! auth()->user()->can('manage permissions')) {
             return abort(403);
         }
 
@@ -66,7 +71,7 @@ class Permissions extends Component
             'showConfirmButton' => true,
             'cancelButtonText' => 'Batal',
             'onConfirmed' => 'confirmedDeletePermission',
-            'onCancelled' => 'cancelledDeletePermission'
+            'onCancelled' => 'cancelledDeletePermission',
         ]);
 
         $this->permission = $permission;
@@ -74,7 +79,7 @@ class Permissions extends Component
 
     public function mount(Role $role)
     {
-        if(!auth()->user()->can('manage permissions')) {
+        if (! auth()->user()->can('manage permissions')) {
             return abort(403);
         }
 
@@ -83,19 +88,19 @@ class Permissions extends Component
 
     public function assign(Permission $permission)
     {
-        if(!auth()->user()->can('manage permissions')) {
+        if (! auth()->user()->can('manage permissions')) {
             return abort(403);
         }
 
         $this->role->givePermissionTo($permission->name);
         $this->emit('updatePermissionList');
-        $this->alert('success','Berhasil menambahkan permission');
+        $this->alert('success', 'Berhasil menambahkan permission');
         $this->closeModal();
     }
 
     public function confirmedDeletePermission()
     {
-        if(!auth()->user()->can('manage permissions')) {
+        if (! auth()->user()->can('manage permissions')) {
             return abort(403);
         }
 
@@ -110,12 +115,12 @@ class Permissions extends Component
 
     public function cancelledDeletePermission()
     {
-        $this->alert('success','Batal menghapus');
+        $this->alert('success', 'Batal menghapus');
     }
 
     public function render()
     {
-        if (!auth()->user()->can('manage permissions')) {
+        if (! auth()->user()->can('manage permissions')) {
             return abort(403);
         }
 

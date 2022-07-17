@@ -8,7 +8,6 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -22,15 +21,22 @@ class ListUsers extends Component
 {
     use WithPagination;
     use LivewireAlert;
+
 //    use PasswordValidationRules;
     use WithFileUploads;
 
     public User $users;
+
     public $roles;
+
     public string $search = '';
+
     public int $perPage = 15;
+
     public string $status = '';
+
     public string $filterRole = '';
+
     public string $permission = '';
 
     protected $queryString = [
@@ -41,16 +47,23 @@ class ListUsers extends Component
     ];
 
     public array $checked = [];
+
     public array $pengguna = [];
+
     public bool $isChecked = false;
+
     public bool $selectAll = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllUsers = false;
 
     public int $userId = 0;
+
     public string $deleteTipe = 'single';
 
     public string $title = 'Pengguna';
+
     public string $modalId = 'modal-users';
 
     protected $listeners = [
@@ -181,7 +194,6 @@ class ListUsers extends Component
         return in_array($id, $this->checked, true);
     }
 
-
     public function selectAllData(): void
     {
         $this->selectAllUsers = true;
@@ -225,7 +237,6 @@ class ListUsers extends Component
 
     public function denied()
     {
-
     }
 
     public function cancelled()
@@ -267,7 +278,7 @@ class ListUsers extends Component
 
         $this->confirm('Anda yakin ingin menghapus ??', [
             'onConfirmed' => 'confirmed',
-//            'onDismissed' => 'cancelled',
+            //            'onDismissed' => 'cancelled',
         ]);
     }
 
@@ -301,8 +312,8 @@ class ListUsers extends Component
     {
         $user = $this->users->find($id);
 
-        if (!is_null($user)) {
-            $status = !$user->status ? 1 : 0;
+        if (! is_null($user)) {
+            $status = ! $user->status ? 1 : 0;
             $update = $user->update(['status' => $status]);
             if ($update) {
                 $this->alert('success', 'Status pelanggan berhasil diubah');
@@ -352,17 +363,16 @@ class ListUsers extends Component
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'akses' => 'required',
-//            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+            //            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         $create = $this->users->create($validated);
         if ($create) {
             $this->users->syncRoles($this->pengguna['akses']);
             $this->alert('success', 'Pengguna berhasil ditambahkan');
-        }else{
+        } else {
             $this->alert('danger', 'Pengguna gagal ditambahkan');
         }
-
     }
 
     public function updatePengguna()

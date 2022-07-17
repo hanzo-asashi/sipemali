@@ -32,7 +32,7 @@ class PenggunaController extends Controller
     {
         return view('account.pengguna.create', [
             'updateMode' => false,
-            'id'         => null,
+            'id' => null,
         ]);
     }
 
@@ -40,7 +40,6 @@ class PenggunaController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     *
      * @return Response
      */
     public function show(int $id): ?Response
@@ -52,7 +51,6 @@ class PenggunaController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     *
      * @return Application|Factory|View
      */
     public function edit(int $id)

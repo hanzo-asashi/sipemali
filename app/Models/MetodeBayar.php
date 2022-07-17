@@ -23,7 +23,9 @@ class MetodeBayar extends Model
     use HasHashId;
 
     protected $fillable = ['kode', 'nama', 'no_rekening', 'deskripsi'];
+
     public $timestamps = false;
+
     protected $table = 'metode_bayar';
 
     /**
@@ -31,7 +33,7 @@ class MetodeBayar extends Model
      *
      * @return array
      */
-    #[ArrayShape(['id' => "int", 'kode' => "mixed|null|string", 'nama' => "mixed|string", 'no_rekening' => "mixed|null|string", 'deskripsi' => "mixed|null|string"])]
+    #[ArrayShape(['id' => 'int', 'kode' => 'mixed|null|string', 'nama' => 'mixed|string', 'no_rekening' => 'mixed|null|string', 'deskripsi' => 'mixed|null|string'])]
     #[SearchUsingPrefix(['id', 'kode'])]
     #[SearchUsingFullText(['nama', 'deskripsi'])]
     public function toSearchableArray(): array
@@ -49,7 +51,7 @@ class MetodeBayar extends Model
     {
         return LogOptions::defaults()
             ->useLogName('metode-bayar')
-            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} data metode bayar {$this->nama}");
+            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} data metode bayar {$this->nama}");
         // Chain fluent methods for configuration options
     }
 }

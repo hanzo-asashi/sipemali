@@ -12,6 +12,7 @@ use LaravelIdea\Helper\App\Models\_IH_Wilayah_C;
 class Wilayah extends Model
 {
     protected $table = 'wilayah_2020';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,7 +22,6 @@ class Wilayah extends Model
         'kode',
         'nama',
     ];
-
 
     public static function getWilayah($kode): _IH_Wilayah_C|Collection|array
     {
@@ -34,7 +34,7 @@ class Wilayah extends Model
         $n = strlen($kode) ?: 2;
         $length = in_array($n, $wil, true) ?: $wil[$n][0];
 
-        return self::query()->with(['wajibpajak','objekpajak','objekpajak.jenisObjekPajak','objekpajak.pembayaran'])
+        return self::query()->with(['wajibpajak', 'objekpajak', 'objekpajak.jenisObjekPajak', 'objekpajak.pembayaran'])
             ->whereRaw('LEFT(kode,'.$n.")='{$kode}'")
             ->whereRaw('CHAR_LENGTH(kode)='.$length)
             ->orderBy('nama')

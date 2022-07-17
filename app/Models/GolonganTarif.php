@@ -23,12 +23,12 @@ class GolonganTarif extends Model
     use Searchable;
 
     protected $table = 'golongan_tarif';
+
     public $timestamps = false;
 
-
     protected $fillable = [
-        'kode_golongan','nama_golongan','deskripsi','blok_1','blok_2','blok_3','blok_4','tarif_blok_1','tarif_blok_2','tarif_blok_3','tarif_blok_4',
-        'biaya_administrasi','dana_meter','tarif_pasang_baru','tgl_bayar_akhir','denda_bln_1','denda_bln_2','denda_lebih_2_bln'
+        'kode_golongan', 'nama_golongan', 'deskripsi', 'blok_1', 'blok_2', 'blok_3', 'blok_4', 'tarif_blok_1', 'tarif_blok_2', 'tarif_blok_3', 'tarif_blok_4',
+        'biaya_administrasi', 'dana_meter', 'tarif_pasang_baru', 'tgl_bayar_akhir', 'denda_bln_1', 'denda_bln_2', 'denda_lebih_2_bln',
     ];
 
     /**
@@ -36,13 +36,13 @@ class GolonganTarif extends Model
      *
      * @return array
      */
-    #[ArrayShape(['kode_golongan' => "string", 'nama_golongan' => "null|string", 'deskripsi' => "null|string"])]
+    #[ArrayShape(['kode_golongan' => 'string', 'nama_golongan' => 'null|string', 'deskripsi' => 'null|string'])]
     #[SearchUsingPrefix(['kode_golongan'])]
     #[SearchUsingFullText(['nama_golongan', 'deskripsi'])]
     public function toSearchableArray(): array
     {
         return [
-//            'id' => $this->id,
+            //            'id' => $this->id,
             'kode_golongan' => $this->kode_golongan,
             'nama_golongan' => $this->nama_golongan,
             'deskripsi' => $this->deskripsi,
@@ -53,18 +53,17 @@ class GolonganTarif extends Model
     {
         return LogOptions::defaults()
             ->useLogName('golongan_tarif')
-            ->setDescriptionForEvent(fn($eventName) => "{$eventName} golongan tarif {$this->nama_golongan}");
+            ->setDescriptionForEvent(fn ($eventName) => "{$eventName} golongan tarif {$this->nama_golongan}");
         // Chain fluent methods for configuration options
     }
 
-    public function customer() : HasOne
+    public function customer(): HasOne
     {
         return $this->hasOne(Customers::class, 'golongan_id', 'id');
     }
 
-    public function pelanggan() : BelongsTo
+    public function pelanggan(): BelongsTo
     {
         return $this->belongsTo(Customers::class, 'id', 'golongan_id');
     }
-
 }

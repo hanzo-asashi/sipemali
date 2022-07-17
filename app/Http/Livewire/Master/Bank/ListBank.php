@@ -3,9 +3,7 @@
 namespace App\Http\Livewire\Master\Bank;
 
 use App\Models\BankAccount;
-use App\Models\BranchCounter;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\View\View;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,34 +12,47 @@ class ListBank extends Component
 {
     use WithPagination;
     use LivewireAlert;
+
     protected string $paginationTheme = 'bootstrap';
 
     public BankAccount $bankAccount;
 
     public int $perPage = 15;
+
     public string $orderBy = 'id';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     public array $pageData = [];
+
     public array $checked = [];
+
     public array $state = [];
+
     public bool $isChecked = false;
+
     public bool $selectAllCheckbox = false;
+
     public bool $updateMode = false;
+
     public bool $selectAllBank = false;
 
     public int $bankId;
+
     public string $deleteTipe = 'single';
 
     public string $title = 'List Bank';
+
     public bool $show = true;
+
     public string $modalId = 'modal-bank';
 
     protected $listeners = [
         'delete',
         'resetField',
-        'confirmedDelete'
+        'confirmedDelete',
     ];
 
     public function hydrate(): void
@@ -72,8 +83,7 @@ class ListBank extends Component
             $this->checked = $this->bankAccount->query()
                 ->pluck('id')
                 ->forPage($this->page, $this->perPage)
-                ->toArray()
-            ;
+                ->toArray();
         } else {
             $this->checked = [];
             $this->selectAllBank = false;
@@ -182,13 +192,12 @@ class ListBank extends Component
         }
     }
 
-    public function render() : \Illuminate\Contracts\View\View
+    public function render(): \Illuminate\Contracts\View\View
     {
         $listBank = $this->bankAccount->query()
 //            ->search($this->search)
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage)
-        ;
+            ->paginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,
@@ -196,6 +205,6 @@ class ListBank extends Component
             'totalData' => $listBank->total(),
         ];
 
-        return view('livewire.master.bank.list-bank',compact('listBank'))->extends('layouts.contentLayoutMaster');
+        return view('livewire.master.bank.list-bank', compact('listBank'))->extends('layouts.contentLayoutMaster');
     }
 }

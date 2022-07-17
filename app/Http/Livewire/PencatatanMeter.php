@@ -25,14 +25,21 @@ class PencatatanMeter extends Component
     protected string $paginationTheme = 'bootstrap';
 
     public CatatMeter $catatMeter;
+
     public $catatMeterId;
 
     public int $perPage = 15;
+
     public string $orderBy = 'id';
+
     public string $search = '';
+
     public string $golongan = '';
+
     public string $bulan = '';
+
     public string $direction = 'asc';
+
     public string $defaultSortBy = 'id';
 
     protected $queryString = [
@@ -42,8 +49,11 @@ class PencatatanMeter extends Component
     ];
 
     public array $pageData = [];
+
     public array $state = [];
+
     public bool $updateMode = false;
+
     public string $deleteTipe = 'single';
 
     protected $listeners = [
@@ -69,6 +79,7 @@ class PencatatanMeter extends Component
     {
         $this->setTitle('List Pencatatan Meter');
         $this->breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->getTitle()]];
+        $this->setModalId('modal-catatmeter');
         $this->catatMeter = $catatMeter;
         $this->model = $catatMeter;
     }
@@ -141,7 +152,7 @@ class PencatatanMeter extends Component
 
         $angkaMeterLama = 0;
 
-        if (!is_null($check)) {
+        if (! is_null($check)) {
             $angkaMeterLama = $check->angka_meter_lama;
             if ($angkaMeterLama === 0) {
                 $angkaMeterLama = $validated['angka_meter_baru'];
@@ -156,7 +167,6 @@ class PencatatanMeter extends Component
                 'angka_meter_lama' => $angkaMeterLama,
                 'angka_meter_baru' => $create->angka_meter_baru,
             ]);
-
         }
         $this->sendNotifikasi($create, 'Catat Meter');
         $this->resetField();
@@ -168,8 +178,8 @@ class PencatatanMeter extends Component
     {
         $validated = Validator::make($this->state, [
             'customer_id' => 'required|integer',
-//            'user_id' => 'required|integer',
-//            'angka_meter_lama' => 'nullable|integer',
+            //            'user_id' => 'required|integer',
+            //            'angka_meter_lama' => 'nullable|integer',
             'angka_meter_baru' => 'require|integer',
             'keterangan' => 'nullable|max:255',
         ])->validate();
@@ -197,7 +207,7 @@ class PencatatanMeter extends Component
         $this->deleteTipe = $tipe;
 
         $this->confirm('Anda yakin ingin menghapus ??', [
-            'onConfirmed' => 'confirmed'
+            'onConfirmed' => 'confirmed',
         ]);
     }
 
@@ -217,14 +227,12 @@ class PencatatanMeter extends Component
         }
     }
 
-
     public function resetFilter(): void
     {
         $this->search = '';
         $this->bulan = '';
         $this->golongan = '';
     }
-
 
     public function render(): Factory|View|Application
     {
@@ -233,7 +241,7 @@ class PencatatanMeter extends Component
                 'customer' => static function ($query) {
                     return $query->select('id', 'no_sambungan', 'nama_pelanggan', 'alamat_pelanggan', 'golongan_id');
                 },
-                'customer.golonganTarif', 'petugas'
+                'customer.golonganTarif', 'petugas',
             ])
             ->search($this->search)
             ->when($this->bulan, function ($query) {

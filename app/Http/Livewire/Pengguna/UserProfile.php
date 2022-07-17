@@ -31,6 +31,7 @@ class UserProfile extends Component
 //        $this->name = '';
 //        $this->clearMedia();
     }
+
     public function render()
     {
         return view('livewire.pengguna.user-profile');
