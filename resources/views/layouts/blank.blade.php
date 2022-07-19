@@ -57,7 +57,8 @@
             }
         }
     </style>
-    {!! ReCaptcha::htmlScriptTagJsApi() !!}
+    {{--    {!! ReCaptcha::htmlScriptTagJsApi() !!}--}}
+    {!! htmlScriptTagJsApi() !!}
 </head>
 
 <body @if(request()->is('confirm')) class="auth-body-bg" @endif>

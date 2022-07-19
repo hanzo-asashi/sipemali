@@ -25,7 +25,7 @@ return [
      * get secret key @ www.google.com/recaptcha/admin.
      */
     //    'api_secret_key'               => env('RECAPTCHA_SECRET_KEY', ''),
-    'api_secret_key' => env('RECAPTCHA_SECRET_KEY_v3', ''),
+    'api_secret_key' => env('RECAPTCHA_SECRET_KEY_V3', ''),
 
     /**
      * ReCATCHA version
@@ -45,7 +45,7 @@ return [
     /**
      * IP addresses for which validation will be skipped.
      */
-    'skip_ip' => env('RECAPTCHA_SKIP_IP', []),
+    'skip_ip' => env('RECAPTCHA_SKIP_IP', ['127.0.0.1', '::1']),
 
     /**
      * Default route called to check the Google reCAPTCHA token.
@@ -96,6 +96,10 @@ return [
      * Default 'www.google.com' (ReCaptchaBuilder::DEFAULT_RECAPTCHA_API_DOMAIN)
      */
     'api_domain' => 'www.google.com',
+
+    'empty_message' => false,
+
+    'error_message_key' => 'validation.recaptcha',
 
     /**
      * g-recaptcha tag attributes and grecaptcha.render parameters (v2 only).
