@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Master\Golongan;
 
+use App\Concerns\WithTitle;
 use App\Models\GolonganTarif;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -13,8 +16,7 @@ use Livewire\WithPagination;
 
 class ListGolongan extends Component
 {
-    use WithPagination;
-    use LivewireAlert;
+    use WithPagination, LivewireAlert, WithTitle, AuthorizesRequests;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -35,6 +37,7 @@ class ListGolongan extends Component
     public array $checked = [];
 
     public array $golongan = [];
+    public array $breadcrumbs = [];
 
     public bool $show = true;
 
@@ -45,8 +48,6 @@ class ListGolongan extends Component
     public bool $updateMode = false;
 
     public bool $selectAllGolongan = false;
-
-    public string $title = 'List Golongan Tarif';
 
     public string $modalId = 'modal-golongan';
 
@@ -91,8 +92,18 @@ class ListGolongan extends Component
         ]);
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function mount(GolonganTarif $golonganTarif): void
     {
+        if (!$this->authorize('view', $golonganTarif)) {
+            abort(403);
+        }
+
+        $this->setTitle('List Golongan Tarif');
+        $this->breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->getTitle()]];
+
         $this->perPage = config('custom.page_count', 15);
         $this->golonganTarif = $golonganTarif;
     }

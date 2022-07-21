@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-8">
             <div class="card">
-                <div class="card-body p-2">
+                <div class="card-body bg-soft-light p-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-sm-8 col-lg-8 d-flex align-items-center justify-content-center justify-content-lg-start">
                             <div class="me-1">

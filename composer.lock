@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02b30ac4dfcb5595f24a880a28a606f0",
+    "content-hash": "3b82df1026f3349a4ea2feff676e58a3",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -628,6 +628,77 @@
                 "source": "https://github.com/DASPRiD/Enum/tree/1.0.3"
             },
             "time": "2020-10-02T16:03:48+00:00"
+        },
+        {
+            "name": "deligoez/laravel-model-hashid",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deligoez/laravel-model-hashid.git",
+                "reference": "a8ea6575311ea12144debba7620a14c4f71a776e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deligoez/laravel-model-hashid/zipball/a8ea6575311ea12144debba7620a14c4f71a776e",
+                "reference": "a8ea6575311ea12144debba7620a14c4f71a776e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "hashids/hashids": "^4.1",
+                "illuminate/contracts": "^8.0 || ^9.0",
+                "php": "^8.0 || ^8.1"
+            },
+            "require-dev": {
+                "brianium/paratest": "^6.4",
+                "friendsofphp/php-cs-fixer": "^3.6",
+                "nunomaduro/collision": "^6.1",
+                "nunomaduro/larastan": "^2.0",
+                "orchestra/testbench": "^7.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Deligoez\\LaravelModelHashId\\LaravelModelHashIdServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Deligoez\\LaravelModelHashId\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Yunus Emre Deligöz",
+                    "email": "ye@deligoz.me",
+                    "homepage": "https://www.deligoz.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generate, Save, and Route Stripe/Youtube-like Hash IDs for Laravel Eloquent Models",
+            "homepage": "https://github.com/deligoez/laravel-model-hashid",
+            "keywords": [
+                "deligoez",
+                "hashids",
+                "laravel",
+                "laravel-model-hashid",
+                "laravel-package"
+            ],
+            "support": {
+                "issues": "https://github.com/deligoez/laravel-model-hashid/issues",
+                "source": "https://github.com/deligoez/laravel-model-hashid"
+            },
+            "time": "2022-05-11T21:54:04+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

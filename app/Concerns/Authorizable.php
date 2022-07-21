@@ -20,6 +20,8 @@ trait Authorizable
         'detail' => 'detail',
         'restore' => 'restore',
         'backup' => 'backup',
+        'manage' => 'manage',
+        'forceDelete' => 'force-delete',
         'bulkActions' => 'bulk-actions',
     ];
 
@@ -38,7 +40,7 @@ trait Authorizable
             $this->authorize($ability);
         }
 
-        return parent::callAction($method, $parameters);
+        return $this->callAction($method, $parameters);
     }
 
     public function getAbility($method): ?string

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Master\Pelanggan;
 
+use App\Concerns\HasBayarTagihan;
 use App\Concerns\HasBulkAction;
 use App\Concerns\HasStat;
 use App\Concerns\WithModal;
@@ -13,13 +14,12 @@ use App\Models\Payment;
 use App\Models\PaymentStatus;
 use App\Models\Zone;
 use App\Utilities\Helpers;
-use Carbon\Carbon;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -27,7 +27,7 @@ use Validator;
 
 class ListPelanggan extends Component
 {
-    use WithPagination, HasStat, LivewireAlert, WithTitle, WithModal, HasBulkAction, AuthorizesRequests;
+    use WithPagination, HasStat, LivewireAlert, WithTitle, WithModal, HasBulkAction, AuthorizesRequests, HasBayarTagihan;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -61,10 +61,6 @@ class ListPelanggan extends Component
 
     public array $pelanggan = [];
 
-    public array $pembayaran = [];
-
-    public int $pelangganId = 0;
-
     public int $golonganId = 0;
 
     public string $deleteTipe = 'single';
@@ -82,7 +78,7 @@ class ListPelanggan extends Component
         'dismissedDeleteAll',
     ];
 
-    public int $pembayaranId;
+//    public int $pembayaranId;
 
     public bool $validPelanggan;
 
@@ -91,7 +87,7 @@ class ListPelanggan extends Component
      */
     public function mount(Customers $customers): void
     {
-        if (! $this->authorize('view', $customers)) {
+        if (!$this->authorize('show pelanggan', $customers)) {
             abort(403);
         }
 
@@ -102,9 +98,14 @@ class ListPelanggan extends Component
         $this->model = $customers;
     }
 
-    public function isChecked($id): bool
+    public function updateStatus($id): void
     {
-        return in_array($id, $this->selectedRows, true);
+        $this->pelangganId = $id;
+
+        $this->confirm('Anda yakin pelanggan ini valid ??', [
+            'onConfirmed' => 'updateStatusConfirmed',
+            'confirmButtonText' => 'Ya, Ubah',
+        ]);
     }
 
     public function deleteAllPelanggan(): void
@@ -121,8 +122,7 @@ class ListPelanggan extends Component
     public function confirmedDeleteAll(): void
     {
         $this->authorize('delete_customer', $this->customers);
-        $deleteAll = $this->customers->delete();
-        if ($deleteAll) {
+        if ($this->customers->delete()) {
             $this->alert('success', 'Semua pelanggan berhasil dihapus');
         } else {
             $this->alert('error', 'Semua Pelanggan gagal dihapus');
@@ -152,14 +152,6 @@ class ListPelanggan extends Component
         $this->updateStatusValid($this->pelangganId);
     }
 
-    public function denied(): void
-    {
-    }
-
-    public function cancelled(): void
-    {
-        // Do something when cancel button is clicked
-    }
 
     public function hydrate(): void
     {
@@ -169,16 +161,8 @@ class ListPelanggan extends Component
 
     public function renderPelangganCount(): void
     {
-        if (Cache::has('count_pelanggan_valid')) {
-            $this->totalPelangganValid = Cache::get('count_pelanggan_valid');
-        }
-        if (Cache::has('count_pelanggan_invalid')) {
-            $this->totalPelangganTidakValid = Cache::get('count_pelanggan_invalid');
-        }
-        Cache::add('count_pelanggan_valid', $this->customers->getCountValidPelanggan());
-        Cache::add('count_pelanggan_invalid', $this->customers->getCountValidPelanggan(false));
-//        $this->totalPelangganValid = $this->customers->getCountValidPelanggan();
-//        $this->totalPelangganTidakValid = $this->customers->getCountValidPelanggan(false);
+        $this->customers->getCountValidPelanggan();
+        $this->customers->getCountValidPelanggan(false);
     }
 
     public function updating(): void
@@ -206,7 +190,7 @@ class ListPelanggan extends Component
      */
     public function delete($id, $tipe): void
     {
-        $this->authorize('delete_customer', $this->customers);
+        $this->authorize('delete pelanggan', $this->customers);
         if ('bulk' === $tipe) {
             $delete = $this->customers->whereKey($this->selectedRows)->delete();
             $this->selectedRows = [];
@@ -221,23 +205,13 @@ class ListPelanggan extends Component
         }
     }
 
-    public function updateStatus($id): void
-    {
-        $this->pelangganId = $id;
-
-        $this->confirm('Anda yakin pelanggan ini valid ??', [
-            'onConfirmed' => 'updateStatusConfirmed',
-            'confirmButtonText' => 'Ya, Ubah',
-        ]);
-    }
-
     public function updateStatusValid($id): void
     {
         $customer = $this->customers->find($id);
 
-        if (! is_null($customer)) {
-            $valid = $customer->is_valid === 1 ? 1 : 0;
-            if ($customer->update(['is_valid' => $valid])) {
+        if (!is_null($customer)) {
+            $isValid = $customer->is_valid === 1 ? 1 : 0;
+            if ($customer->update(['is_valid' => $isValid])) {
                 $this->alert('success', 'Status pelanggan berhasil diubah');
             } else {
                 $this->alert('danger', 'Status pelanggan gagal diubah');
@@ -252,9 +226,10 @@ class ListPelanggan extends Component
      */
     public function bayarTagihan($id): void
     {
-        $this->authorize('create_pembayaran', $this->customers);
+        $this->authorize('create pembayaran', $this->customers);
         $this->pelangganId = $id;
         $customer = $this->customers->with(['golonganTarif', 'zona', 'payment', 'catatmeter'])->find($this->pelangganId);
+        $jumlahPemakaianAir = (int) $customer->catatmeter?->angka_meter_baru - (int) $customer->catatmeter?->angka_meter_lama;
         $this->golonganId = $customer->golongan_id;
         $this->pembayaran['no_transaksi'] = Helpers::generateNoTransaksi();
         $this->pembayaran['customer_id'] = $this->pelangganId;
@@ -263,77 +238,25 @@ class ListPelanggan extends Component
         $this->pembayaran['periode'] = now()->format('Y-m-d');
         $this->pembayaran['stand_awal'] = $customer->catatmeter?->angka_meter_lama;
         $this->pembayaran['stand_akhir'] = $customer->catatmeter?->angka_meter_baru;
-        $this->pembayaran['pemakaian_air_saat_ini'] = (int) $customer->catatmeter?->angka_meter_lama - (int) $customer->catatmeter?->angka_meter_baru;
-//        $this->validPelanggan = $customer->is_valid;
-
-        if (! $customer->is_valid) {
-            $this->alert('error', 'Pelanggan tidak valid. Harap validasi pelanggan terlebih dahulu');
-
-            return;
-        }
+        $this->pembayaran['pemakaian_air_saat_ini'] = $jumlahPemakaianAir;
+        $hargaAir = $this->hitungHargaAir($this->pembayaran['pemakaian_air_saat_ini'], $customer->golonganTarif);
+        $totalTagihan = ($hargaAir['hargaAir'] * $this->pembayaran['pemakaian_air_saat_ini']) + $hargaAir['danaMeter'] + $hargaAir['biayaLayanan'];
+        $this->pembayaran['harga_air'] = $hargaAir['hargaAir'];
+        $this->pembayaran['dana_meter'] = $hargaAir['danaMeter'];
+        $this->pembayaran['biaya_layanan'] = $hargaAir['biayaLayanan'];
+        $this->pembayaran['total_tagihan'] = $totalTagihan;
 
         if ($customer->status_pelanggan !== 1) {
             $this->statusPelanggan = $customer->status_pelanggan;
             $this->alert('error', 'Status Pelanggan tidak aktif. Harap lunasi pembayaran tertunggak dan aktifkan status pelanggan');
-
+            if (!$customer->is_valid) {
+                $this->alert('error', 'Pelanggan tidak valid. Harap validasi pelanggan terlebih dahulu');
+            }
             return;
         }
 
-//        if($customer->status_pelanggan === 3){
-//            $this->statusPelanggan = 3;
-//            $this->alert('error', 'Status Pelanggan Didop. Harap hubungi admin untuk mengaktifkan pelanggan');
-//            return;
-//        }
-
-        $this->openModal(['pembayaran' => $this->pembayaran]);
-    }
-
-    public function updatedPembayaranStandAkhir($value): void
-    {
-        $pemakaianAir = (int) $this->pembayaran['stand_awal'] - (int) $value;
-        $this->pembayaran['pemakaian_air_saat_ini'] = $pemakaianAir;
-
-        $hitung = $this->hitungHargaAir($pemakaianAir, Helpers::getModelInstance('GolonganTarif'));
-        $this->pembayaran['harga_air'] = $hitung['hargaAir'];
-        $this->pembayaran['dana_meter'] = $hitung['danaMeter'];
-        $this->pembayaran['biaya_layanan'] = $hitung['biayaLayanan'];
-        $this->pembayaran['total_tagihan'] = ($hitung['hargaAir'] * $pemakaianAir) + $hitung['biayaLayanan'];
-    }
-
-    private function hitungHargaAir($value, $model)
-    {
-        $golongan = $model::find($this->golonganId);
-
-        if ($value >= 0 && $value <= 10) {
-            $hargaAir = $golongan->tarif_blok_1;
-        } elseif ($value >= 11 && $value <= 20) {
-            $hargaAir = $golongan->tarif_blok_2;
-        } elseif ($value >= 21 && $value <= 30) {
-            $hargaAir = $golongan->tarif_blok_3;
-        } elseif ($value >= 31) {
-            $hargaAir = $golongan->tarif_blok_4;
-        } else {
-            $hargaAir = $golongan->tarif_blok_1;
-        }
-
-        $danaMeter = $golongan->dana_meter;
-        $biayaLayanan = $golongan->biaya_administrasi;
-        $this->pembayaran['dana_meter'] = $golongan->dana_meter;
-        $this->pembayaran['biaya_layanan'] = $golongan->biaya_administrasi;
-
-        return [
-            'hargaAir' => $hargaAir,
-            'danaMeter' => $danaMeter,
-            'biayaLayanan' => $biayaLayanan,
-        ];
-    }
-
-    public function updatedPembayaranPemakaianAirSaatIni($value): void
-    {
-        $hitung = $this->hitungHargaAir($value, Helpers::getModelInstance('GolonganTarif'));
-        $this->pembayaran['harga_air'] = $hitung['hargaAir'];
-        $this->pembayaran['dana_meter'] = $hitung['danaMeter'];
-        $this->pembayaran['total_tagihan'] = ($hitung['hargaAir'] * $value) + $hitung['biayaLayanan'];
+        $this->openModal();
+        $this->dispatchBrowserEvent('loading', ['show' => true]);
     }
 
     /**
@@ -341,7 +264,7 @@ class ListPelanggan extends Component
      */
     public function prosesPembayaran(): void
     {
-        $this->authorize('create_pembayaran', auth()->user());
+        $this->authorize('create pembayaran', auth()->user());
         $validated = Validator::make($this->pembayaran, [
             'bulan_berjalan' => 'required',
             'tahun_berjalan' => 'required',
@@ -360,8 +283,8 @@ class ListPelanggan extends Component
         $customer = $this->customers->find($this->pelangganId);
 
         if (! is_null($customer)) {
-            $golongan = $customer->golonganTarif->first();
-            $tglPembayaran = setting('tgl_pembayaran', $golongan->tgl_bayar_akhir);
+            $golonganTarif = $customer->golonganTarif->first();
+            $tglPembayaran = setting('tgl_pembayaran', $golonganTarif->tgl_bayar_akhir);
             $validated['customer_id'] = $customer->id ?? $this->pelangganId;
             $validated['no_transaksi'] = $this->pembayaran['no_transaksi'];
             $validated['user_id'] = auth()->user()->id;
@@ -377,15 +300,15 @@ class ListPelanggan extends Component
                 return;
             }
 
-            $pembayaran = Payment::updateOrCreate([
+            $createPembayaran = Payment::updateOrCreate([
                 'customer_id' => $customer->id,
                 'bulan_berjalan' => $validated['bulan_berjalan'],
                 'tahun_berjalan' => $validated['tahun_berjalan'],
             ], $validated);
 
-            if ($pembayaran) {
-                PaymentCreated::dispatch($pembayaran);
-                $this->pembayaranId = $pembayaran->id;
+            if ($createPembayaran) {
+                PaymentCreated::dispatch($createPembayaran);
+                $this->pembayaranId = $createPembayaran->id;
                 $this->reset('pembayaran');
                 $this->closeModal();
                 $this->alert('success', 'Pembayaran berhasil ditambahkan');
@@ -403,20 +326,14 @@ class ListPelanggan extends Component
     {
         if (! $this->validPelanggan) {
             $this->alert('error', 'Pelanggan tidak valid. Harap validasi pelanggan terlebih dahulu');
-
-            return;
         }
 
         if ($this->statusPelanggan === 2) {
             $this->alert('error', 'Status Pelanggan Ditangguhkan. Tidak dapat melakukan pembayaran');
-
-            return;
         }
 
         if ($this->statusPelanggan === 3) {
             $this->alert('error', 'Status Pelanggan Didop. Harap hubungi admin untuk mengaktifkan pelanggan');
-
-            return;
         }
     }
 
@@ -458,7 +375,7 @@ class ListPelanggan extends Component
             ->when($this->search, function ($query) {
                 return $query->search($this->search);
             })
-            ->select('id', 'no_sambungan', 'nama_pelanggan', 'is_valid', 'golongan_id', 'zona_id', 'status_pelanggan')
+            ->select('id', 'no_sambungan', 'alamat_pelanggan', 'nama_pelanggan', 'is_valid', 'golongan_id', 'zona_id', 'status_pelanggan')
             ->with(['statusPelanggan', 'golonganTarif', 'zona'])
             ->when($this->zona, function ($q) {
                 $q->select('id')->whereHas('zona', function ($q) {
@@ -484,12 +401,8 @@ class ListPelanggan extends Component
 
     public function render(): Factory|View|Application
     {
-        if (Cache::has('list_pelanggan_cached')) {
-            $listCustomers = Cache::get('list_pelanggan_cached');
-        } else {
-            $listCustomers = Cache::add('list_pelanggan_cached', $this->renderCustomers());
-        }
-
+        $listCustomers = $this->renderCustomers();
+        
         $this->renderPelangganCount();
 
         $listZona = Zone::pluck('wilayah', 'id');

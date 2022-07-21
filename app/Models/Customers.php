@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Concerns\HasHashId;
+//use App\Concerns\HasHashId;
+use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,8 @@ class Customers extends Model
     use CausesActivity;
     use HasApiTokens;
 
+//    use HasHashIdRouting;
+
     protected $table = 'pelanggan';
 //    protected $with = ['statusPelanggan','zona','golonganTarif','payment'];
 
@@ -39,6 +42,8 @@ class Customers extends Model
 
     protected $casts = [
         'is_valid' => 'boolean',
+        'tahun_langganan' => 'integer',
+        'bulan_langganan' => 'integer',
     ];
 
     protected $appends = ['angka_meter_lama', 'angka_meter_baru'];

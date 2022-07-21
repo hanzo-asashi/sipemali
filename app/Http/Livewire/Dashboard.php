@@ -99,7 +99,7 @@ class Dashboard extends Component
         }, []);
 
         foreach ($listBulan as $key => $item) {
-            $bayar = Payment::query()->ray()->where('bulan_berjalan', $key)->sum('total_tagihan');
+            $bayar = Payment::query()->where('bulan_berjalan', $key)->sum('total_tagihan');
             $bayar = number_format($bayar, 0, ',', '.');
             $columnChartModel->addColumn($item, $bayar, $this->colors[$key]);
         }

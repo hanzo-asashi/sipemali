@@ -25,6 +25,7 @@ use Storage;
 
 class Helpers
 {
+    
     public static function simplify(int|float $value): string
     {
         $regex = '/^-?\d+(?:\.\d{0,1})?/';

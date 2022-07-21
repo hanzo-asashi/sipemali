@@ -3,7 +3,6 @@
 use App\Http\Controllers\CetakController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Livewire\Dashboard;
 use App\Http\Livewire\Master\Alamat\ListAlamat;
 use App\Http\Livewire\Master\Bank\ListBank;
 use App\Http\Livewire\Master\Golongan\ListGolongan;
@@ -22,13 +21,11 @@ use App\Http\Livewire\Pengaturan\Permissions\ListPermissions;
 use App\Http\Livewire\Pengaturan\Roles\ListRoles;
 use App\Http\Livewire\Pengaturan\Setting\ListSetting;
 use App\Http\Livewire\Pengaturan\Users\ListUsers;
-use App\Http\Livewire\Select2Dropdown;
 use App\Http\Livewire\Transaksi\Pembayaran\CreatePembayaran;
 use App\Http\Livewire\Transaksi\Pembayaran\DetailPembayaran;
 use App\Http\Livewire\Transaksi\Pembayaran\EditPembayaran;
 use App\Http\Livewire\Transaksi\Pembayaran\ListPembayaran;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,9 +99,9 @@ Route::group(['middleware' => 'auth:web','verified', \Spatie\Honeypot\ProtectAga
     Route::prefix('master')->name('master.')->group(function (){
         Route::name('pelanggan.')->prefix('pelanggan')->group(function () {
             Route::get('/', ListPelanggan::class)->name('list');
-            Route::get('/create', CreatePelanggan::class)->name('create');
-            Route::get('/{id}/edit', EditPelanggan::class)->name('edit');
-            Route::get('/{id}/show', ShowPelanggan::class)->name('show');
+            Route::get('/buat', CreatePelanggan::class)->name('create');
+            Route::get('/{id}/ubah', EditPelanggan::class)->name('edit');
+            Route::get('/{id}/detail', ShowPelanggan::class)->name('show');
 //            Route::get('/show', ShowPelanggan::class)->name('show');
         });
         Route::name('alamat.')->prefix('alamat')->group(function () {

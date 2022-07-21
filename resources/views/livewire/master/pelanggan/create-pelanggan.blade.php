@@ -15,15 +15,6 @@
     </div>
     <!-- vertical tab pill -->
     <div class="row">
-        {{--            <div class="col-lg-4 col-md-6 col-sm-12">--}}
-        {{--                <div class="faq-navigation d-flex justify-content-between flex-column mb-2 mb-md-0">--}}
-        {{--                    <img style="width: 700px; height: 700px;"--}}
-        {{--                         src="{{asset('images/illustration/create-account.svg')}}"--}}
-        {{--                         class="img-fluid d-none d-md-block"--}}
-        {{--                         alt="demand img"--}}
-        {{--                    />--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
         <div class="col-12">
             <div class="col-lg-12 col-md-8 col-sm-12">
                 <!-- pill tabs tab content -->

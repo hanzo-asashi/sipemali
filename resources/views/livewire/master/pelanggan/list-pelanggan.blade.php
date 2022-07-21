@@ -81,7 +81,11 @@
         </div>
     </div>
     <!-- Hoverable rows end -->
-
+    <div class="justify-content-lg-center align-items-lg-center" wire:loading.flex>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
@@ -120,7 +124,7 @@
                                                     wire:click.prevent="resetSelectedRows">
                                                 Batalkan Terpilih
                                             </button>
-                                            @can('delete_customer')
+                                            @can('delete pelanggan')
                                                 <button type="button" class="btn btn-sm btn-success waves-float waves-effect waves-light"
                                                         wire:click.prevent="deleteAllPelanggan">
                                                 Hapus Terpilih
@@ -170,10 +174,10 @@
                                     <i class="fas fa-ellipsis-v font-medium-3 cursor-pointer" data-bs-toggle="dropdown"></i>
                                     <div class="dropdown-menu dropdown-menu-end">
                                         @can('show pelanggan')
-                                            <a href="{{ route('master.pelanggan.show', ['id' => Hashids::encode($cust->id)]) }}" class="dropdown-item">Detail Pelanggan</a>
+                                            <a href="{{ route('master.pelanggan.show', ['id' => $cust->hashId]) }}" class="dropdown-item">Detail Pelanggan</a>
                                         @endcan
                                         @can('update pelanggan')
-                                            <a href="{{ route('master.pelanggan.edit', ['id' => Hashids::encode($cust->id)]) }}" class="dropdown-item">Ubah Pelanggan</a>
+                                            <a href="{{ route('master.pelanggan.edit', ['id' => $cust->hashId]) }}" class="dropdown-item">Ubah Pelanggan</a>
                                         @endcan
                                         @can('update status')
                                             <a href="#" wire:click.prevent="updateStatus({{ $cust->id }})" class="dropdown-item">
@@ -181,10 +185,10 @@
                                             </a>
                                         @endcan
                                         @can('create pembayaran')
-                                            <a href="#" wire:click="bayarTagihan({{ $cust->id }})" class="dropdown-item">Bayar Tagihan</a>
+                                            <a href="#" wire:click.prevent="bayarTagihan({{ $cust->id }})" class="dropdown-item bayartagihan">Bayar Tagihan</a>
                                         @endcan
                                         @can('delete pelanggan')
-                                            <a href="#" wire:click="destroy({{ $cust->id }},'single')" class="dropdown-item">Hapus Pelanggan</a>
+                                            <a href="#" wire:click.prevent="destroy({{ $cust->id }},'single')" class="dropdown-item">Hapus Pelanggan</a>
                                         @endcan
                                     </div>
                                 </div>
@@ -219,13 +223,24 @@
     @include('widgets.modal-bayar')
     @push('script')
         <script>
-            window.addEventListener('openModalBayar', event => {
+            $(".bayartagihan").on('click', function () {
+                Pace.start();
+            });
+
+            window.addEventListener('loading', event => {
+                console.log(event.detail);
+                if (event.details.show) {
+                    Pace.stop();
+                    // Pace.restart();
+                }
+            });
+            window.addEventListener('openModal', event => {
                 $('#modal-bayar').modal('show');
             });
             $("#modal-bayar").on('shown.bs.modal', function () {
-                $(this).find('#bulan_berjalan').focus();
+                $(this).find('#total_bayar').focus();
             });
-            window.addEventListener('closeModalBayar', event => {
+            window.addEventListener('closeModal', event => {
                 $('#modal-bayar').modal('hide');
             });
         </script>

@@ -14,23 +14,23 @@ class UserPolicy
      * Determine whether the user can view any models.
      *
      * @param  User  $user
-     * @return Response|bool
+     * @return void
      */
-    public function viewAny(User $user): Response|bool
+    public function viewAny(User $user): void
     {
-        return $user->isSuperadmin();
+        //return $user->isSuperadmin() || ($user->isAdmin() && $user->can('view any users'));
+        return;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  User  $user
-     * @param  User  $model
      * @return Response|bool
      */
-    public function view(User $user, User $model): Response|bool
+    public function view(User $user): Response|bool
     {
-        return $user->isSuperadmin();
+        return $user->can('view user');
     }
 
     /**
@@ -41,66 +41,61 @@ class UserPolicy
      */
     public function create(User $user): Response|bool
     {
-        return $user->isSuperadmin() || $user->isAdmin();
+        return $user->can('create users');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  User  $user
-     * @param  User  $model
      * @return Response|bool
      */
-    public function update(User $user, User $model): Response|bool
+    public function update(User $user): Response|bool
     {
-        return $user->isSuperadmin() || $user->isAdmin();
+        return $user->can('update user');
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User  $user
-     * @param  User  $model
      * @return Response|bool
      */
-    public function delete(User $user, User $model): Response|bool
+    public function delete(User $user): Response|bool
     {
-        return $user->isSuperadmin() || $user->isAdmin();
+        return $user->can('delete user');
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  User  $user
-     * @param  User  $model
-     * @return Response|bool
+     * @return void
      */
-    public function restore(User $user, User $model): Response|bool
+    public function restore(User $user): void
     {
-        return $user->isSuperadmin() || $user->isAdmin();
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  User  $user
-     * @param  User  $model
-     * @return Response|bool
+     * @return void
      */
-    public function forceDelete(User $user, User $model): Response|bool
+    public function forceDelete(User $user): void
     {
-        return $user->isSuperadmin() || $user->isAdmin();
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  User  $user
-     * @param  User  $model
      * @return Response|bool
      */
-    public function manage(User $user, User $model): Response|bool
+    public function manage(User $user): Response|bool
     {
-        return $user->isSuperadmin() || $user->isAdmin();
+        return $user->can('manage user');
     }
 }
