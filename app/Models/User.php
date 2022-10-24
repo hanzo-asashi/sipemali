@@ -94,29 +94,29 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return HasOne
      */
-    public function info(): HasOne
-    {
-        return $this->hasOne(UserInfo::class, 'user_id', 'id');
-    }
+//    public function info(): HasOne
+//    {
+//        return $this->hasOne(UserInfo::class, 'user_id', 'id');
+//    }
 
     public function isSuperadmin(): bool
     {
-        return auth()->user()?->getRoleNames() === 'superadmin';
+        return $this->hasRole('superadmin') && $this->is_admin && $this->id === 1;
     }
 
     public function isAdmin(): bool
     {
-        return auth()->user()?->getRoleNames() === 'admin';
+        return $this->hasRole('admin') && !$this->is_admin;
     }
 
     public function isOperator(): bool
     {
-        return auth()->user()?->getRoleNames() === 'operator';
+        return $this->hasRole('operator');
     }
 
     public function isPencatat(): bool
     {
-        return auth()->user()?->getRoleNames() === 'pencatat';
+        return $this->hasRole('pencatat');
     }
 
     public function scopeNotSuperadmin($query)
@@ -139,20 +139,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('status', '!=', 1);
     }
 
-//    public function scopeSearch($query, $term)
-//    {
-//        $term = "%{$term}%";
-//        $query->where(function ($q) use ($term) {
-//            $q->where('nik', 'like', $term)
-//                ->orWhere('name', 'like', $term)
-//                ->orWhere('email', 'like', $term)
-//                ->orWhere('status', 'like', $term)
-//                ->orWhereHas('roles', function ($query) use ($term) {
-//                    $query->where('name', 'like', $term);
-//                });
-//        });
-//    }
-
     public function scopeSearch($query, $term): void
     {
         $term = "%{$term}%";
@@ -162,9 +148,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->orWhereHas('roles', function ($query) use ($term) {
                 $query->where('name', 'like', $term);
             })
-//            ->orWhereHas('loket', function ($query) use ($term) {
-//                $query->where('name', 'like', $term);
-//            })
 ;
     }
 }

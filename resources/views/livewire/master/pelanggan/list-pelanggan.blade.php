@@ -51,6 +51,13 @@
                             <option value="0" class="text-capitalize">Tidak Valid</option>
                         </select>
                     </div>
+                    <div class="me-1">
+                        <div id="loadingdiv" class="justify-content-lg-center align-items-lg-center" wire:loading.flex>
+                            <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-sm-4 col-lg-4 d-flex justify-content-center justify-content-lg-end">
                     <div class="d-flex align-items-center justify-content-center justify-content-lg-end">
@@ -81,11 +88,7 @@
         </div>
     </div>
     <!-- Hoverable rows end -->
-    <div class="justify-content-lg-center align-items-lg-center" wire:loading.flex>
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
+
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
@@ -145,7 +148,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ route('master.pelanggan.show',  ['id' => Hashids::encode($cust->id)]) }}">
+                                <a href="{{ route('master.pelanggan.show',  ['id' => $cust->hashId]) }}">
                                     <span class="fw-bold">{{ $cust->no_sambungan }}</span>
                                 </a>
                             </td>
@@ -223,17 +226,18 @@
     @include('widgets.modal-bayar')
     @push('script')
         <script>
-            $(".bayartagihan").on('click', function () {
-                Pace.start();
-            });
+            // document.addEventListener("DOMContentLoaded", () => {
+            //     Pace.track(function () {
+            //         Livewire.hook('message.sent', (message, component) => {
+            //             Pace.start();
+            //         });
+            //     });
+            //
+            //     Livewire.hook('message.processed', (message, component) => {
+            //         Pace.stop();
+            //     });
+            // });
 
-            window.addEventListener('loading', event => {
-                console.log(event.detail);
-                if (event.details.show) {
-                    Pace.stop();
-                    // Pace.restart();
-                }
-            });
             window.addEventListener('openModal', event => {
                 $('#modal-bayar').modal('show');
             });

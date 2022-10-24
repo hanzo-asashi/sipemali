@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Concerns\HasHashId;
+use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use JetBrains\PhpStorm\ArrayShape;

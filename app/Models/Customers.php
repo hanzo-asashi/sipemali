@@ -4,7 +4,6 @@ namespace App\Models;
 
 //use App\Concerns\HasHashId;
 use Deligoez\LaravelModelHashId\Traits\HasHashId;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,41 +45,49 @@ class Customers extends Model
         'bulan_langganan' => 'integer',
     ];
 
-    protected $appends = ['angka_meter_lama', 'angka_meter_baru'];
+//    protected $appends = ['angka_meter_lama', 'angka_meter_baru', 'jumlah_kuitansi'];
 
 //    protected function jumlahKuitansi(): Attribute
 //    {
 //        $kuitansi = Payment::where('customer_id', $this->id)->count();
 //        return new Attribute(
-//            get: fn () => !is_null($kuitansi) ? $kuitansi : 0,
+//            get: fn() => !is_null($kuitansi) ? $kuitansi : 0,
+//        );
+//    }
+//
+//    protected function angkaMeterBaru(): Attribute
+//    {
+//        $meter = CatatMeter::select('customer_id', 'angka_meter_baru')->where('customer_id', $this->id)->first();
+//
+//        return new Attribute(
+//            get: fn() => !is_null($meter) ? $meter->angka_meter_baru : 0,
+//            set: fn($value) => $this->attributes['angka_meter_baru'] = $value,
+//        );
+//    }
+//
+//    protected function angkaMeterLama(): Attribute
+//    {
+//        $meter = CatatMeter::select('customer_id', 'angka_meter_lama')->where('customer_id', $this->id)->first();
+//
+//        return new Attribute(
+//            get: fn() => !is_null($meter) ? $meter->angka_meter_lama : 0,
+//            set: fn($value) => $this->attributes['angka_meter_lama'] = $value,
 //        );
 //    }
 
-    protected function angkaMeterBaru(): Attribute
+    public static function getAngkaMeterPelanggan(int $customer_id, $tipe = 'awal'): int
     {
-        $meter = CatatMeter::where('customer_id', $this->id)->first();
-
-        return new Attribute(
-            get: fn () => ! is_null($meter) ? $meter->angka_meter_baru : 0,
-            set: fn ($value) => $this->attributes['angka_meter_baru'] = $value,
-        );
-    }
-
-    protected function angkaMeterLama(): Attribute
-    {
-        $meter = CatatMeter::where('customer_id', $this->id)->first();
-
-        return new Attribute(
-            get: fn () => ! is_null($meter) ? $meter->angka_meter_lama : 0,
-            set: fn ($value) => $this->attributes['angka_meter_lama'] = $value,
-        );
+        $tipe = ($tipe === 'awal') ? 'angka_meter_baru' : 'angka_meter_lama';
+        $meter = CatatMeter::select($tipe)->where('customer_id', $customer_id)->first();
+//        $meter = self::catatmeter()->select($tipe)->where('customer_id', $customer_id)->first();
+        return !is_null($meter) ? $meter->$tipe : 0;
     }
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->useLogName('customers')
-            ->setDescriptionForEvent(fn ($eventName) => "Aktifitas {$eventName} data pelanggan {$this->nama_pelanggan}")
+            ->setDescriptionForEvent(fn($eventName) => "Aktifitas {$eventName} data pelanggan {$this->nama_pelanggan}")
             ->logFillable()
             ->logOnlyDirty();
 

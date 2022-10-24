@@ -31,7 +31,7 @@ class ShowPelanggan extends Component
             abort(403);
         }
 
-        $this->customer = Customers::findByHashId($id);
+        $this->customer = Customers::findOrFailByHashId($id);
     }
 
     public function render(): Factory|View|Application

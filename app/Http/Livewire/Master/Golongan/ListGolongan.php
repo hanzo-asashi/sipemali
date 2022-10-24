@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Master\Golongan;
 
+use App\Concerns\HasBulkAction;
+use App\Concerns\WithModal;
 use App\Concerns\WithTitle;
 use App\Models\GolonganTarif;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -13,10 +15,11 @@ use Illuminate\Support\Facades\Validator;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Str;
 
 class ListGolongan extends Component
 {
-    use WithPagination, LivewireAlert, WithTitle, AuthorizesRequests;
+    use WithPagination, LivewireAlert, WithTitle, AuthorizesRequests, HasBulkAction, WithModal;
 
     protected string $paginationTheme = 'bootstrap';
 
@@ -37,19 +40,8 @@ class ListGolongan extends Component
     public array $checked = [];
 
     public array $golongan = [];
-    public array $breadcrumbs = [];
-
-    public bool $show = true;
-
-    public bool $isChecked = false;
-
-    public bool $selectAll = false;
 
     public bool $updateMode = false;
-
-    public bool $selectAllGolongan = false;
-
-    public string $modalId = 'modal-golongan';
 
     public string $deleteTipe = 'single';
 
@@ -67,18 +59,27 @@ class ListGolongan extends Component
         'updateGolongan' => 'render',
     ];
 
+    /**
+     * @throws AuthorizationException
+     */
+    public function mount(GolonganTarif $golonganTarif): void
+    {
+        if (!auth()->user()->can('view golongan')) {
+            abort(403);
+        }
+
+        $this->golonganTarif = $golonganTarif;
+
+        $this->model = $this->golonganTarif;
+        $this->setTitle('List Golongan Tarif');
+        $this->breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->getTitle()]];
+        $this->perPage = config('custom.page_count', 15);
+        $this->modalId = 'modal-golongan';
+    }
+
     public function confirmedDelete(): void
     {
         $this->delete($this->golonganId, $this->deleteTipe);
-    }
-
-    public function denied(): void
-    {
-    }
-
-    public function cancelDelete(): void
-    {
-        // Do something when cancel button is clicked
     }
 
     public function destroy($id, $tipe): void
@@ -88,41 +89,7 @@ class ListGolongan extends Component
 
         $this->confirm('Anda yakin ingin menghapus ??', [
             'onConfirmed' => 'confirmedDelete',
-            //            'onDismissed' => 'cancelled',
         ]);
-    }
-
-    /**
-     * @throws AuthorizationException
-     */
-    public function mount(GolonganTarif $golonganTarif): void
-    {
-        if (!$this->authorize('view', $golonganTarif)) {
-            abort(403);
-        }
-
-        $this->setTitle('List Golongan Tarif');
-        $this->breadcrumbs = [['link' => 'home', 'name' => 'Dashboard'], ['name' => $this->getTitle()]];
-
-        $this->perPage = config('custom.page_count', 15);
-        $this->golonganTarif = $golonganTarif;
-    }
-
-    public function isChecked($id): bool
-    {
-        return in_array($id, $this->checked, true);
-    }
-
-    private function closeModal($options = false): void
-    {
-        $options = ($options && is_array($options)) ? $options : [];
-        $this->dispatchBrowserEvent('closeModal', $options);
-    }
-
-    private function openModal($options = false): void
-    {
-        $options = ($options && is_array($options)) ? $options : [];
-        $this->dispatchBrowserEvent('openModal', $options);
     }
 
     public function addGolongan(): void
@@ -159,33 +126,13 @@ class ListGolongan extends Component
         $this->golongan['biaya_administrasi'] = number_format(2000, 0, ',', '.');
         $this->golongan['dana_meter'] = number_format(2500, 0, ',', '.');
 
-        $this->openModal(['golongan' => $this->golongan]);
-    }
-
-    public function selectAllData(): void
-    {
-        $this->selectAllGolongan = true;
-        $this->checked = $this->golonganTarif->pluck('id')->toArray();
-    }
-
-    public function updatedSelectAll($value): void
-    {
-        if ($value) {
-            $this->checked = $this->golonganTarif->query()
-                ->pluck('id')
-                ->forPage($this->page, $this->perPage)
-                ->toArray();
-        } else {
-            $this->checked = [];
-            $this->selectAllGolongan = false;
-        }
+        $this->openModal();
     }
 
     public function resetCheckbox(): void
     {
-        $this->checked = [];
-        $this->selectAllGolongan = false;
-        $this->selectAll = false;
+        $this->selectedRows = [];
+        $this->selectAllRows = false;
     }
 
     public function resetField(): void
@@ -246,7 +193,15 @@ class ListGolongan extends Component
             'dana_meter' => 'required',
         ])->validate();
 
+        $validated['tarif_blok_1'] = Str::replace('.', '', trim($validated['tarif_blok_1']));
+        $validated['tarif_blok_2'] = Str::replace('.', '', trim($validated['tarif_blok_2']));
+        $validated['tarif_blok_3'] = Str::replace('.', '', trim($validated['tarif_blok_3']));
+        $validated['tarif_blok_4'] = Str::replace('.', '', trim($validated['tarif_blok_4']));
+        $validated['biaya_administrasi'] = Str::replace('.', '', trim($validated['biaya_administrasi']));
+        $validated['dana_meter'] = Str::replace('.', '', trim($validated['dana_meter']));
+
         $golongan = $this->golonganTarif->find($this->golonganId);
+
         if ($golongan) {
             $golongan->update($validated);
             $this->showNotifikasi($golongan);
@@ -260,8 +215,8 @@ class ListGolongan extends Component
     public function delete($id, $tipe): void
     {
         if ($tipe === 'bulk') {
-            $delete = $this->golonganTarif->query()->whereKey($this->checked)->delete();
-            $this->checked = [];
+            $delete = $this->golonganTarif->query()->whereKey($this->selectedRows)->delete();
+            $this->selectedRows = [];
         } else {
             $delete = $this->golonganTarif->findOrFail($id)->delete();
         }
@@ -286,9 +241,9 @@ class ListGolongan extends Component
     public function render(): Factory|View|Application
     {
         $listGolongan = $this->golonganTarif->query()
-//            ->search($this->search)
+            ->search($this->search)
             ->orderBy($this->orderBy, $this->direction)
-            ->paginate($this->perPage);
+            ->fastPaginate($this->perPage);
 
         $this->pageData = [
             'page' => $this->page,

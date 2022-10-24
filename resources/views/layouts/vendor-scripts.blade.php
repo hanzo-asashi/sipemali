@@ -6,7 +6,7 @@
 <script src="{{ URL::asset('assets/libs/node-waves/node-waves.min.js') }}"></script>
 <script src="{{ URL::asset('assets/libs/feather-icons/feather-icons.min.js') }}"></script>
 <!-- pace js -->
-<script data-pace-options='{ "ajax": true, "elements": false, "restartOnPushState": true, "restartOnRequestAfter": false}'
+<script data-pace-options='{ "ajax": false, "elements": false, "restartOnPushState": false, "restartOnRequestAfter": false}'
         src="{{ URL::asset('/assets/libs/pace-js/pace-js.min.js') }}"></script>
 {{--<script data-pace-options='{--}}
 {{--        "ajax": false,--}}

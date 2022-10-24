@@ -6,6 +6,9 @@ use App\Models\Customers;
 use App\Models\Payment;
 use App\Utilities\Helpers;
 use Asantibanez\LivewireCharts\Facades\LivewireCharts;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -84,7 +87,7 @@ class Dashboard extends Component
         $this->statistik['pelanggan'] = Customers::all()->count();
     }
 
-    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function render(): Factory|View|Application
     {
         $columnChartModel = LivewireCharts::columnChartModel();
         $listBulan = Helpers::list_bulan(true);

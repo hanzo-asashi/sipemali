@@ -60,4 +60,9 @@ trait HasBulkAction
     {
         $this->modelId = $id;
     }
+//
+//    public function setModel($model): void
+//    {
+//        $this->model = Helpers::getModelInstance($model).'::';
+//    }
 }

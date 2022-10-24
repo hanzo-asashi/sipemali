@@ -142,7 +142,7 @@
                             </td>
                             <td class="text-center" style="width: 5%;">{{ $bayar->no_transaksi }}</td>
                             <td class="text-start">
-                                <a href="{{ route('transaksi.pembayaran.detail', ['id' => Hashids::encode($bayar->customer_id)]) }}">
+                                <a href="{{ route('transaksi.pembayaran.detail', ['id' => $bayar->hashId]) }}">
                                     {{ !is_null($bayar->customer) ?  $bayar->customer?->nama_pelanggan : 'N/A'  }}
                                     <span class="badge badge-soft-info">
                                             {{  !is_null($bayar->customer->zona) ?  $bayar->customer->zona->wilayah : '' }}

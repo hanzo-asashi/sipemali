@@ -66,4 +66,12 @@ class GolonganTarif extends Model
     {
         return $this->belongsTo(Customers::class, 'id', 'golongan_id');
     }
+
+    public function scopeSearch($query, $term)
+    {
+        $term = "{$term}%";
+        $query->where('kode_golongan', 'like', $term)
+            ->orWhere('nama_golongan', 'like', $term)
+            ->orWhere('deskripsi', 'like', $term);
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Concerns\HasHashId;
 use App\Events\PaymentCreated;
 use App\Events\PaymentUpdated;
+use Deligoez\LaravelModelHashId\Traits\HasHashId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
