@@ -2,11 +2,18 @@
     "name": "hanzo-asashi/sipemali",
     "type": "project",
     "description": "Sistem Pembayaran Air Online PDAM.",
-    "keywords": ["pdam", "online", "pembayaran", "air", "sipemali"],
+    "keywords": [
+        "pdam",
+        "online",
+        "pembayaran",
+        "air",
+        "sipemali"
+    ],
     "license": "MIT",
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0.2|^8.1",
         "ext-pdo": "*",
+        "ext-json": "*",
         "akaunting/laravel-money": "^2.0",
         "akaunting/laravel-setting": "^1.2",
         "asantibanez/livewire-charts": "^2.4",
@@ -47,7 +54,7 @@
         "laravel/telescope": "^4.9",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.3.3",
+        "phpunit/phpunit": "^10.0.0",
         "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {

@@ -134,6 +134,11 @@ class Payment extends Model
         });
     }
 
+    public function scopeStatusPembayaran($query, $status)
+    {
+        return $query->where('status_pembayaran', $status);
+    }
+
     public function scopeCheckExistPayment($query, $customerId, $bln, $thn)
     {
         return $query->where('customer_id', $customerId)

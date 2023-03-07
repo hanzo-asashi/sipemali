@@ -9,6 +9,8 @@ use Asantibanez\LivewireCharts\Facades\LivewireCharts;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Benchmark;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -45,6 +47,9 @@ class Dashboard extends Component
 
     public $tahun;
 
+    public $updatedTime = 0;
+    public int $chartView = 0;
+
     public array $statistik = [];
 
     public $breadcrumbs = [
@@ -76,42 +81,81 @@ class Dashboard extends Component
     public function mount(): void
     {
         $this->calculateStatistik();
+        $this->updatedTime = today()->diffForHumans();
 //        dd($this->title);
     }
 
+    public function setChartFilter(int $value)
+    {
+        $this->chartView = $value;
+    }
+
+
     private function calculateStatistik(): void
     {
-        $this->statistik['utang'] = Payment::where('status_pembayaran', '=', 3)->sum('total_tagihan');
-        $this->statistik['piutang'] = Payment::where('status_pembayaran', '=', 2)->sum('total_tagihan');
-        $this->statistik['pendapatan'] = Payment::where('status_pembayaran', '=', 1)->sum('total_tagihan');
-        $this->statistik['pelanggan'] = Customers::all()->count();
+        $this->statistik['utang'] = Cache::remember('total_tagihan_utang', 3600, function () {
+            return Payment::query()
+                ->when($this->chartView, fn ($query) => $query->where('created_at', '>=', today()->subDays($this->chartView)))
+                ->statusPembayaran(3)->sum('total_tagihan');
+        });
+
+        $this->statistik['piutang'] = Cache::remember('total_tagihan_piutang', 3600, function () {
+            return Payment::query()
+                ->when($this->chartView, fn ($query) => $query->where('created_at', '>=', today()->subDays($this->chartView)))
+                ->statusPembayaran(2)->sum('total_tagihan');
+        });
+
+        $this->statistik['pendapatan'] = Cache::remember('total_tagihan_pendapatan', 3600, function () {
+            return Payment::query()
+                ->when($this->chartView, fn ($query) => $query->where('created_at', '>=', today()->subDays($this->chartView)))
+                ->statusPembayaran(1)->sum('total_tagihan');
+        });
+
+        $this->statistik['pelanggan'] = Cache::remember('total_pelanggan', 3600, function () {
+            return Customers::get()->count();
+        });
+
+//        $this->statistik['utang'] = Payment::query()->statusPembayaran(3)->sum('total_tagihan');
+//        $this->statistik['piutang'] = Payment::query()->statusPembayaran(2)->sum('total_tagihan');
+//        $this->statistik['pendapatan'] = Payment::query()->statusPembayaran(1)->sum('total_tagihan');
+//        $this->statistik['pelanggan'] = Customers::get()->count();
     }
 
     public function render(): Factory|View|Application
     {
         $columnChartModel = LivewireCharts::columnChartModel();
         $listBulan = Helpers::list_bulan(true);
-        $pembayaran = Payment::all();
+        $pembayaran = Payment::select('customer_id', 'bulan_berjalan', 'total_tagihan')->get();
 
-        $pembayaranByCustomerPerMonth = $pembayaran->groupBy('customer_id')->reduce(function (&$carry, $item, $key) use ($listBulan) {
-            foreach ($listBulan as $k => $bulan) {
-                $carry[$key][$bulan] = $item->where('bulan_berjalan', $k)->sum('total_tagihan');
-            }
+//        $pembayaranByCustomerPerMonth = $pembayaran->groupBy('customer_id')->reduce(function (&$carry, $item, $key) use ($listBulan) {
+//            foreach ($listBulan as $k => $bulan) {
+//                $carry[$key][$bulan] = $item->where('bulan_berjalan', $k)->sum('total_tagihan');
+//            }
+//
+//            return $carry;
+//        }, []);
 
-            return $carry;
-        }, []);
+//        dd($pembayaranByCustomerPerMonth);
 
         foreach ($listBulan as $key => $item) {
-            $bayar = Payment::query()->where('bulan_berjalan', $key)->sum('total_tagihan');
+            $bayar = $pembayaran->where('bulan_berjalan', $key)
+//                ->when($this->chartView, fn ($query) => $query->whereBetween('created_at', '<=', today()->subDays($this->chartView)))
+                ->sum('total_tagihan');
             $bayar = number_format($bayar, 0, ',', '.');
             $columnChartModel->addColumn($item, $bayar, $this->colors[$key]);
         }
 
-        $pembayaranByCustomer = $pembayaran->groupBy('customer_id')->reduce(function (&$carry, $item, $key) {
-            $carry[$key] = $item->sum('total_tagihan');
-
-            return $carry;
-        }, []);
+//        $pembayaranByCustomer = $pembayaran->reduce(function (&$carry, $item, $key) use ($listBulan, $pembayaran, $columnChartModel) {
+//            foreach ($listBulan as $k => $bln) {
+//                $bayar = $pembayaran->where('bulan_berjalan', $k)->sum('total_tagihan');
+//                $carry[$k][$bln] = $bayar;
+////                $columnChartModel->addColumn($bln, $bayar, $this->colors[$key]);
+//            }
+//
+//            return $carry;
+//        }, []);
+//
+//        dd($pembayaranByCustomer);
 
 //        $pembayaranByBulan = $pembayaran->groupBy('bulan_berjalan')->map(function ($item, $key) use ($listBulan, $columnChartModel) {
 //            $columnChartModel->addColumn($listBulan[$key], $item->sum('total_tagihan'), $this->colors[$key]);
@@ -120,6 +164,7 @@ class Dashboard extends Component
 //                'total_tagihan' => $item->sum('total_tagihan'),
 //            ];
 //        });
+//        dd($pembayaranByBulan);
 
         $columnChartModel->setTitle('Total Tagihan Per Bulan')
             ->setAnimated($this->firstRun)
